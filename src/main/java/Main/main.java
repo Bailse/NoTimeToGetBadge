@@ -1,29 +1,54 @@
 package Main;
 
+import Screen.ScreenManager;
+import Screen.TitleScreen;
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.awt.*;
+import javafx.scene.control.Button;
 
-public class application extends Application{
+
+
+public class main extends Application{
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage TitleStage) throws Exception {
 
-        Button startButton = new Button("Start");
-        HBox order = new HBox();
+        Scene scene = new Scene(new VBox(), 1000, 1000);
+        TitleStage.setScene(scene);
 
-        order.getChildren().addAll(startButton);
+        ScreenManager manager = new ScreenManager(TitleStage);
+        manager.showTitle();
+        TitleStage.setWidth(1000);
+        TitleStage.setHeight(800);
 
-        Scene scene1 = new Scene(order, 300 , 250);
-        stage.setTitle("No time to get badge");
-        stage.setScene(scene1);
-        stage.show();
+        TitleStage.setTitle("No time to get badge");
+        TitleStage.setResizable(false);
+        TitleStage.show();
+
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public static void main(String[] args){
         launch(args);

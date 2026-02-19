@@ -34,7 +34,7 @@ javafx {
 }
 
 application {
-    mainClass = 'application.Main' // path to your main class
+    mainClass = 'Main.main' // path to your main class
 }
 
 run {
