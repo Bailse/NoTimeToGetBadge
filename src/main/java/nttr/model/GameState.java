@@ -22,6 +22,7 @@ public class GameState {
     public static final int TOTAL_DAYS = 14;
     private static final int TARGET_SCORE = 500;
     private final List<Consumer<GameOverResult>> gameOverListeners = new ArrayList<>();
+
     public static final int BASE_SECONDS_PER_DAY = 60;
     public static final int MIN_SECONDS_PER_DAY = 20;
 
