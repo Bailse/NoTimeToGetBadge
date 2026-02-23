@@ -26,29 +26,34 @@ public class GameScreen extends VBox {
         VBox.setVgrow(mainArea, Priority.ALWAYS);
         mainArea.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-        // กำหนด 70 / 30
+        // Columns
         ColumnConstraints col1 = new ColumnConstraints();
-        col1.setPercentWidth(70);
+        col1.setPercentWidth(55);
 
         ColumnConstraints col2 = new ColumnConstraints();
-        col2.setPercentWidth(30);
+        col2.setPercentWidth(45);
 
         mainArea.getColumnConstraints().addAll(col1, col2);
 
-        // ------------------ GAME AREA (70%) ------------------
+        // Row
+        RowConstraints row = new RowConstraints();
+        row.setVgrow(Priority.ALWAYS);
+        mainArea.getRowConstraints().add(row);
 
+// GamePane
         GamePane gamePane = new GamePane();
-        gamePane.setMaxSize(Double.MAX_VALUE , Double.MAX_VALUE);
+        GridPane.setHgrow(gamePane, Priority.ALWAYS);
+        GridPane.setVgrow(gamePane, Priority.ALWAYS);
+        mainArea.add(gamePane, 0, 0);
 
-        mainArea.add(gamePane,0,0);
-
-
-        // ------------------ STATUS AREA (30%) ------------------
+// Status
         VBox statusArea = new VBox();
         statusArea.setStyle("-fx-background-color: lightgray;");
-        statusArea.setPadding(new Insets(10));
-        statusArea.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        GridPane.setHgrow(statusArea, Priority.ALWAYS);
+        GridPane.setVgrow(statusArea, Priority.ALWAYS);
 
+        StatusTab s1 = new StatusTab();
+        statusArea.getChildren().add(s1);
 
         mainArea.add(statusArea, 1, 0);
 
