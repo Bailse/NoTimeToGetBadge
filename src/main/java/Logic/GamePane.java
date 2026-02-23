@@ -1,58 +1,78 @@
 package Logic;
 
+import Screen.Game.Gamebar;
 import javafx.animation.TranslateTransition;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-import javax.swing.text.html.ImageView;
+
+//import javax.swing.text.html.ImageView;
 import java.util.*;
 
 public class GamePane extends Pane {
 
     private final int TILE_SIZE = 40;
+    private boolean[][] clickable;
+    private Image wallImage = new Image(getClass().getResourceAsStream("/block.png"));
+    private Image floorImage = new Image(getClass().getResourceAsStream("/grass.png"));
+    private Image gym = new Image(getClass().getResourceAsStream("/store.png"));
+    private Image imgDown = new Image(getClass().getResourceAsStream("/Lily.jpg"));
+    private Image imgLeft = new Image(getClass().getResourceAsStream("/Huh.jpg"));
+    private Image imgRight = new Image(getClass().getResourceAsStream("/deku_nerd.jpg"));
+    private Image imgUp = new Image(getClass().getResourceAsStream("/Annie_Zheng.jpg"));
+
+    private Runnable onReachBuilding;
+    private Runnable onLeaveBuilding;
+
+
+
+
 
     private int[][] map = {
 
-//                    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-//                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//                    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+                    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+                    {1,0,0,0,0,0,0,0,2,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,2,0,0,0,0,0,0,0,0,0,0,0,0,2,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,2,0,0,0,0,0,0,1},
+                    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 
 
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-            {1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1},
-            {1,0,1,1,1,0,1,0,1,1,0,1,0,1,0,1},
-            {1,0,1,0,0,0,0,0,1,0,0,0,0,1,0,1},
-            {1,0,1,0,1,1,1,0,1,0,1,1,0,1,0,1},
-            {1,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1},
-            {1,1,1,0,1,0,1,1,1,0,1,0,1,1,0,1},
-            {1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1},
-            {1,0,1,1,1,0,1,0,1,1,1,0,1,0,1,1},
-            {1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,1},
-            {1,0,1,0,1,1,1,0,1,0,1,1,1,1,0,1},
-            {1,0,1,0,0,0,1,0,0,0,1,0,0,0,0,1},
-            {1,0,1,1,1,0,1,1,1,0,1,0,1,1,0,1},
-            {1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,1},
-            {1,1,1,0,1,1,1,0,1,1,1,0,1,1,0,1},
-            {1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1},
-            {1,0,1,1,1,1,1,1,1,0,1,1,1,1,0,1},
-            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+//            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+//            {1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1},
+//            {1,0,1,1,1,0,1,0,1,1,0,1,0,1,0,1},
+//            {1,0,1,0,0,0,0,0,1,0,0,0,0,1,0,1},
+//            {1,0,1,0,1,1,1,0,1,0,1,1,0,1,0,1},
+//            {1,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1},
+//            {1,1,1,0,1,0,1,1,1,0,1,0,1,1,0,1},
+//            {1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1},
+//            {1,0,1,1,1,0,1,0,1,1,1,0,1,0,1,1},
+//            {1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,1},
+//            {1,0,1,0,1,1,1,0,1,0,1,1,1,1,0,1},
+//            {1,0,1,0,0,0,1,0,0,0,1,0,0,0,0,1},
+//            {1,0,1,1,1,0,1,1,1,0,1,0,1,1,0,1},
+//            {1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,1},
+//            {1,1,1,0,1,1,1,0,1,1,1,0,1,1,0,1},
+//            {1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1},
+//            {1,0,1,1,1,1,1,1,1,0,1,1,1,1,0,1},
+//            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 
 
     };
@@ -60,10 +80,14 @@ public class GamePane extends Pane {
     private int playerRow = 1;
     private int playerCol = 1;
 
-    private Rectangle player;
+    private ImageView player;
     private boolean isMoving = false;
 
+
+
     public GamePane() {
+
+
 
         this.setPrefSize(
                 map[0].length * TILE_SIZE,
@@ -72,11 +96,16 @@ public class GamePane extends Pane {
 
         drawMap();
 
-        player = new Rectangle(TILE_SIZE - 10, TILE_SIZE - 10, Color.BLUE);
+        player = new ImageView(imgDown);
+        player.setFitWidth(TILE_SIZE - 10);
+        player.setFitHeight(TILE_SIZE - 10);
+
         player.setTranslateX(playerCol * TILE_SIZE + 5);
         player.setTranslateY(playerRow * TILE_SIZE + 5);
 
         this.getChildren().add(player);
+
+        clickablePath();
     }
 
     private void drawMap() {
@@ -84,23 +113,32 @@ public class GamePane extends Pane {
         for (int r = 0; r < map.length; r++) {
             for (int c = 0; c < map[0].length; c++) {
 
-                ImageView Fill;
+                ImageView tile;
 
-                Rectangle tile = new Rectangle(TILE_SIZE, TILE_SIZE);
+                if (map[r][c] == 1) {
+                    tile = new ImageView(wallImage);
+                } else if (map[r][c] == 2) {
+                    tile = new ImageView(gym);
+                } else {
+                    tile = new ImageView(floorImage);
+                }
+
+                tile.setFitWidth(TILE_SIZE);
+                tile.setFitHeight(TILE_SIZE);
+
                 tile.setTranslateX(c * TILE_SIZE);
                 tile.setTranslateY(r * TILE_SIZE);
-
-                tile.setFill(map[r][c] == 1 ? Color.DARKGRAY : Color.LIGHTGRAY);
 
                 int finalR = r;
                 int finalC = c;
 
                 tile.setOnMouseClicked(e -> {
-                    if (!isMoving && map[finalR][finalC] != 1) {
+                    if (!isMoving && clickable[finalR][finalC]) {
                         List<int[]> path = findPath(playerRow, playerCol, finalR, finalC);
                         walkPath(path);
                     }
                 });
+
 
                 this.getChildren().add(tile);
             }
@@ -159,6 +197,33 @@ public class GamePane extends Pane {
         return path;
     }
 
+    private void clickablePath(){
+
+        this.clickable = new boolean[map.length][map[0].length];
+
+
+        for (int r = 0; r < map.length; r++) {
+            for (int c = 0; c < map[0].length; c++) {
+
+
+                if(map[r][c] != 2){ // only buliding that can click
+                    this.clickable[r][c] = false;
+                }
+                else{
+                    this.clickable[r][c] = true;
+                }
+
+
+            }
+        }
+    }
+
+
+
+
+
+
+
     private void walkPath(List<int[]> path) {
 
         if (path.isEmpty()) return;
@@ -166,6 +231,17 @@ public class GamePane extends Pane {
         isMoving = true;
 
         int[] next = path.remove(0);
+
+        if (next[0] > playerRow) {
+            player.setImage(imgDown);
+        } else if (next[0] < playerRow) {
+            player.setImage(imgUp);
+        } else if (next[1] > playerCol) {
+            player.setImage(imgRight);
+        } else if (next[1] < playerCol) {
+            player.setImage(imgLeft);
+        }
+
 
         TranslateTransition move = new TranslateTransition();
         move.setNode(player);
@@ -177,13 +253,61 @@ public class GamePane extends Pane {
             playerRow = next[0];
             playerCol = next[1];
 
-            if (path.isEmpty()) {
-                isMoving = false;
+
+            if (CheckPlayer()) {
+                if (onReachBuilding != null) {
+                    onReachBuilding.run();
+                }
             } else {
+                if (onLeaveBuilding != null) {
+                    onLeaveBuilding.run();
+                }
+            }
+
+            if (!path.isEmpty()) {
                 walkPath(path);
+            } else {
+                isMoving = false;
             }
         });
 
         move.play();
+    }
+
+    public boolean CheckPlayer(){
+
+        if(this.map[playerRow][playerCol] == 2){
+            return true;
+        }
+        return false;
+    }
+
+    public void setOnReachBuilding(Runnable r) {
+        this.onReachBuilding = r;
+    }
+
+    public void setOnLeaveBuilding(Runnable r) {
+        this.onLeaveBuilding = r;
+    }
+
+
+    public int getPlayerRow() {
+        return playerRow;
+    }
+
+
+    public int getPlayerCol() {
+        return playerCol;
+    }
+
+
+
+    public void setPlayerRow(int playerRow) {
+        this.playerRow = playerRow;
+    }
+
+
+    public void setPlayerCol(int playerCol) {
+        this.playerCol = playerCol;
     }
 }

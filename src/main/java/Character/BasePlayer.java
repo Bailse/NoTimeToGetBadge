@@ -6,7 +6,6 @@ public abstract class BasePlayer {
     private int money;
     private int education;
     private int health;
-
     private double moneyDiscount;      // เช่น 0.80
     private double educationMultiply;  // เช่น 1.10
     private int healthDecrease;        // ลด health เวลากิจกรรม
