@@ -9,7 +9,12 @@ import javafx.scene.layout.*;
 public class GameScreen extends VBox {
 
 
+
+
     public GameScreen(ScreenManager game) {
+
+
+
 
         // ให้ VBox เต็มจอ
         this.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);

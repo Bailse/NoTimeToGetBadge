@@ -3,12 +3,6 @@ package Screen.Game;
 import Character.Player;
 import Logic.GameSession;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
-import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
-
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 
@@ -23,7 +17,6 @@ import javafx.scene.image.ImageView;
 
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
-import javafx.util.Duration;
 
 public class StatusTab extends VBox {
 
@@ -41,7 +34,7 @@ public class StatusTab extends VBox {
 
         Player player = GameSession.getPlayer();
 
-        setSpacing(25);
+        setSpacing(20);
         setPadding(new Insets(30));
         setAlignment(Pos.TOP_CENTER);
 
@@ -67,11 +60,11 @@ public class StatusTab extends VBox {
         Circle clip = new Circle(100,100,100);
         avatar.setClip(clip);
 
-        // ===== Bars =====
-        VBox staminaBox = createBar("Stamina", 100, "#f4b400");
-        VBox healthBox = createBar("Health", 100, "#e53935");
-        VBox educationBox = createBar("Education", 100, "#1e88e5");
-        VBox moneyBox = createBar("Money", 1000, "#43a047");
+        //Create Bars
+        VBox staminaBox = createBar("Stamina", 100);
+        VBox healthBox = createBar("Health", 100);
+        VBox educationBox = createBar("Education", 100);
+        VBox moneyBox = createBar("Money", 1000);
 
         updateStatus();
 
@@ -85,19 +78,13 @@ public class StatusTab extends VBox {
         );
     }
 
-    private VBox createBar(String name, int max, String color){
+    private VBox createBar(String name, int max){
 
         ProgressBar bar = new ProgressBar();
         bar.setPrefWidth(280);
-        bar.setPrefHeight(22);
-
-        bar.setStyle(
-                "-fx-accent: " + color + ";" +
-                        "-fx-control-inner-background: #eeeeee;"
-        );
+        bar.setPrefHeight(20);
 
         Label valueLabel = new Label();
-        valueLabel.setStyle("-fx-font-weight: bold;");
 
         StackPane stack = new StackPane(bar, valueLabel);
         stack.setAlignment(Pos.CENTER);
@@ -132,23 +119,14 @@ public class StatusTab extends VBox {
         Player player = GameSession.getPlayer();
         if(player == null) return;
 
-        animateBar(staminaBar, player.getStamina() / 200.0);
-        animateBar(healthBar, player.getHealth() / 200.0);
-        animateBar(educationBar, player.getEducation() / 200.0);
-        animateBar(moneyBar, player.getMoney() / 2000.0);
+        staminaBar.setProgress(player.getStamina() / 200.0);
+        healthBar.setProgress(player.getHealth() / 200.0);
+        educationBar.setProgress(player.getEducation() / 200.0);
+        moneyBar.setProgress(player.getMoney() / 1000.0);
 
         staminaLabel.setText(player.getStamina() + " / 200");
         healthLabel.setText(player.getHealth() + " / 200");
         educationLabel.setText(player.getEducation() + " / 200");
-        moneyLabel.setText(player.getMoney() + " / 2000");
+        moneyLabel.setText(player.getMoney() + " / 1000");
     }
-
-    private void animateBar(ProgressBar bar, double newValue){
-        Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(300),
-                        new KeyValue(bar.progressProperty(), newValue))
-        );
-        timeline.play();
-    }
-
 }

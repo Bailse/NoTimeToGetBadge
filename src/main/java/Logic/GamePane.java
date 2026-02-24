@@ -360,4 +360,27 @@ public class GamePane extends Pane {
     public void setOnStatusChange(Runnable r) {
         this.onStatusChange = r;
     }
+
+    /** Reset player position back to the starting tile (1,1). */
+    public void resetPlayerToStart() {
+        isMoving = false;
+
+        playerRow = 1;
+        playerCol = 1;
+
+        if (player != null) {
+            player.setTranslateX(playerCol * TILE_SIZE + 5);
+            player.setTranslateY(playerRow * TILE_SIZE + 5);
+        }
+
+        if (onLeaveBuilding != null) {
+            onLeaveBuilding.run();
+        }
+    }
+
+    /** Returns true if player is currently moving */
+    public boolean isPlayerMoving() {
+        return isMoving;
+    }
+
 }
