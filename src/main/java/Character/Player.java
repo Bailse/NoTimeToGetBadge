@@ -1,8 +1,10 @@
+
 package Character;
 
 public class Player extends BasePlayer {
 
     private CharacterType type;
+    private String imagePath;
 
     public Player(
             CharacterType type,
@@ -26,7 +28,7 @@ public class Player extends BasePlayer {
                 staminaDecrease
         );
 
-        setType(type);
+        this.type = type;
     }
 
     public CharacterType getType() {
@@ -36,4 +38,21 @@ public class Player extends BasePlayer {
     public void setType(CharacterType value) {
         type = value;
     }
+
+    public String getImagePath(){
+        return imagePath;
+    }
+
+    public void setImagePath(String path){
+        imagePath = path;
+    }
+
+
+public void clampAllStats(){
+    setStamina(getStamina());
+    setMoney(getMoney());
+    setEducation(getEducation());
+    setHealth(getHealth());
+}
+
 }

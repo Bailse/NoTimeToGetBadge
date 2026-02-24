@@ -49,7 +49,7 @@ public class GameScreen extends VBox {
 
 // GamePane
 
-        GamePane gamePane = new GamePane();
+        GamePane gamePane = new GamePane(Logic.GameSession.getPlayer()!=null ? Logic.GameSession.getPlayer().getImagePath() : null);
 
 // ผูก action
         topbar.setOnActionClick(() -> {

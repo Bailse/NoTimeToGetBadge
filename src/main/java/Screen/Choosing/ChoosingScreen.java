@@ -17,6 +17,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.io.InputStream;
+import Logic.GameSession;
+import Character.*;
 
 /**
  * Character selection screen (polished UI).
@@ -138,7 +140,18 @@ public class ChoosingScreen extends BorderPane {
 
         Button start = new Button("Start Game");
         start.setStyle("-fx-font-weight: 900;");
-        start.setOnAction(e -> manager.showGame());
+        start.setOnAction(e -> {
+        CharacterType type;
+        switch(selectedIndex){
+            case 0: type = CharacterType.HUSTLER; break;
+            case 1: type = CharacterType.GENIUS; break;
+            case 2: type = CharacterType.ATHLETE; break;
+            default: type = CharacterType.SOCIALITE;
+        }
+        Player p = PlayerFactory.create(type);
+        GameSession.setPlayer(p);
+        manager.showGame();
+    });
 
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
