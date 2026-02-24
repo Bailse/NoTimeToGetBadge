@@ -1,52 +1,39 @@
+
 package Character;
 
 public class PlayerFactory {
 
-    public static Player create(CharacterType type) {
+    public static Player create(CharacterType type){
 
-        int stamina = 100;
-        int money = 500;
-        int education = 0;
-        int health = 100;
+        Player p;
 
-        double moneyDiscount = 1.0;
-        double educationMultiply = 1.0;
-        int healthDecrease = 5;
-        int staminaDecrease = 5;
-
-        switch (type) {
+        switch(type){
 
             case HUSTLER:
-                money = 700;
-                staminaDecrease = 4;
+                p = new Player(type,120,300,0,100,0.8,1.0,2,1);
+                p.setImagePath("/Annie_Zheng.jpg");
                 break;
 
             case GENIUS:
-                educationMultiply = 1.25;
-                money = 400;
+                p = new Player(type,100,200,20,100,1.0,1.25,2,1);
+                p.setImagePath("/Huh.jpg");
                 break;
 
             case ATHLETE:
-                health = 130;
-                healthDecrease = 3;
+                p = new Player(type,140,100,0,130,1.0,1.0,1,1);
+                p.setImagePath("/Lily.jpg");
                 break;
 
             case SOCIALITE:
-                moneyDiscount = 0.8;
-                stamina = 110;
+                p = new Player(type,100,500,0,100,1.0,1.0,2,1);
+                p.setImagePath("/deku_nerd.jpg");
                 break;
+
+            default:
+                p = new Player(type,100,500,0,100,1.0,1.0,2,1);
+                p.setImagePath("/player.png");
         }
 
-        return new Player(
-                type,
-                stamina,
-                money,
-                education,
-                health,
-                moneyDiscount,
-                educationMultiply,
-                healthDecrease,
-                staminaDecrease
-        );
+        return p;
     }
 }
