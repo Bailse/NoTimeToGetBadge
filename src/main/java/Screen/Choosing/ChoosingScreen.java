@@ -11,8 +11,6 @@ import javafx.scene.layout.*;
 
 public class ChoosingScreen extends VBox {
 
-
-
     public ChoosingScreen(ScreenManager manager) {
 
         this.setPrefSize(1200, 1200);

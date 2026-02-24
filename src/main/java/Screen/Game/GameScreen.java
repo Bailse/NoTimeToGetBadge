@@ -5,15 +5,11 @@ import Screen.ScreenManager;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.*;
+import Character.BasePlayer;
 
 public class GameScreen extends VBox {
 
-
-
-
-    public GameScreen(ScreenManager game) {
-
-
+    public GameScreen(ScreenManager game, BasePlayer player) {
 
 
         // ให้ VBox เต็มจอ
@@ -23,7 +19,7 @@ public class GameScreen extends VBox {
         Gamebar topbar = new Gamebar();
 
         topbar.getGo_back().setOnAction(e -> game.showTitle());
-        topbar.getEnd_round().setOnAction(e->game.showTitle());
+        topbar.getEnd_round().setOnAction(e->game.showResult());
 
 
         this.getChildren().add(topbar);
@@ -85,7 +81,7 @@ public class GameScreen extends VBox {
         GridPane.setHgrow(statusArea, Priority.ALWAYS);
         GridPane.setVgrow(statusArea, Priority.ALWAYS);
 
-        StatusTab s1 = new StatusTab();
+        StatusTab s1 = new StatusTab(player);
         statusArea.getChildren().add(s1);
 
         mainArea.add(statusArea, 1, 0);

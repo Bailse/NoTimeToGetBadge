@@ -1,77 +1,46 @@
 package Screen.Game;
 
-import javafx.geometry.Pos;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
+import Character.BasePlayer;
 
 public class StatusTab extends VBox {
 
-    private Text Status;
-    private Text Round;
-    private Text Equipment;
+    private ProgressBar staminaBar;
+    private ProgressBar healthBar;
+    private ProgressBar educationBar;
+    private ProgressBar moneyBar;
 
-    private String picture;
-    private Circle circle;
-    private ImageView imageView;
+    public StatusTab(BasePlayer player) {
 
-    private Text Stamina;
-    private Text Health;
-    private Text money;
-    private Text Education;
+        setSpacing(20);
+        setPadding(new Insets(40));
 
+        Label title = new Label("Status");
+        title.setStyle("-fx-font-size: 40;");
 
+        staminaBar = createBar("Stamina", player.getStamina(), 100);
+        healthBar = createBar("Health", player.getHealth(), 100);
+        educationBar = createBar("Education", player.getEducation(), 100);
+        moneyBar = createBar("Money", player.getMoney(), 1000);
 
-    public StatusTab(){
-
-        this.setSpacing(40);
-        this.setAlignment(Pos.TOP_CENTER);
-        this.setMaxWidth(Double.MAX_VALUE);
-        Text status = new Text("Status");
-        status.setFont(Font.font(50));
-
-
-/// ///////////////////////////////////////////////////////
-
-
-        ImageView imageView = new ImageView(
-                new Image(getClass().getResourceAsStream("/Lily.jpg"))
-        );
-        imageView.setFitWidth(200);
-        imageView.setFitHeight(200);
-        imageView.setPreserveRatio(false);
-
-        Circle clip = new Circle(100,100,100);
-        imageView.setClip(clip);
-
-
-/// ///////////////////////////////////////////////////////
-
-
-        HBox Health = new HBox();
-
-
-
-
-
-
-
-        this.getChildren().addAll(status, imageView);
+        getChildren().addAll(title, staminaBar, healthBar, educationBar, moneyBar);
     }
 
+    private ProgressBar createBar(String name, int value, int max) {
+        Label label = new Label(name + ": " + value);
+        ProgressBar bar = new ProgressBar((double)value / max);
+        bar.setPrefWidth(300);
+        getChildren().add(label);
+        return bar;
+    }
 
-
-
-
-
-
-
-
-
+    public void update(BasePlayer player) {
+        staminaBar.setProgress(player.getStamina() / 100.0);
+        healthBar.setProgress(player.getHealth() / 100.0);
+        educationBar.setProgress(player.getEducation() / 100.0);
+        moneyBar.setProgress(player.getMoney() / 1000.0);
+    }
 }

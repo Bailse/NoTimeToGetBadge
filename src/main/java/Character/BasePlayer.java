@@ -25,6 +25,9 @@ public abstract class BasePlayer {
         setStaminaDecrease(staminaDecrease);
     }
 
+    public BasePlayer() {
+    }
+
     // ===== Actions =====
 
     public void walk() {

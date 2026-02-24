@@ -57,17 +57,8 @@ public class TitleScreen extends VBox {
             }
         });
 
-
-
-
-
         this.getChildren().addAll(title, start, how_to_play, exit);
 
 
     }
-
-
-
-
-
 }
