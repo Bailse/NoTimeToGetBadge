@@ -13,6 +13,14 @@ import javafx.scene.text.Text;
 
 public class StatusTab extends VBox {
 
+<<<<<<< HEAD
+=======
+    private Text staminaText;
+    private Text healthText;
+    private Text moneyText;
+    private Text educationText;
+
+>>>>>>> 1f19859fed4ff1d1076f11bdeb2042e47d0f9b53
     public StatusTab(){
 
         Player player = GameSession.getPlayer();
@@ -37,11 +45,27 @@ public class StatusTab extends VBox {
         Circle clip = new Circle(100,100,100);
         avatar.setClip(clip);
 
-        Text stamina = new Text("Stamina: " + (player != null ? player.getStamina() : 0));
-        Text health = new Text("Health: " + (player != null ? player.getHealth() : 0));
-        Text money = new Text("Money: " + (player != null ? player.getMoney() : 0));
-        Text education = new Text("Education: " + (player != null ? player.getEducation() : 0));
+        staminaText = new Text();
+        healthText = new Text();
+        moneyText = new Text();
+        educationText = new Text();
 
-        this.getChildren().addAll(title, avatar, stamina, health, money, education);
+        updateStatus();
+
+        this.getChildren().addAll(title, avatar, staminaText, healthText, moneyText, educationText);
+    }
+<<<<<<< HEAD
+}
+=======
+
+    public void updateStatus(){
+        Player player = GameSession.getPlayer();
+        if(player == null) return;
+
+        staminaText.setText("Stamina: " + player.getStamina());
+        healthText.setText("Health: " + player.getHealth());
+        moneyText.setText("Money: " + player.getMoney());
+        educationText.setText("Education: " + player.getEducation());
     }
 }
+>>>>>>> 1f19859fed4ff1d1076f11bdeb2042e47d0f9b53

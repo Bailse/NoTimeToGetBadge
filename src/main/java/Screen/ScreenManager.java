@@ -3,7 +3,10 @@ package Screen;
 import Screen.Choosing.ChoosingScreen;
 import Screen.Game.GameScreen;
 import Screen.HowToPlay.HowToPlayScreen;
+<<<<<<< HEAD
 import Screen.Result.ResultScreen;
+=======
+>>>>>>> 1f19859fed4ff1d1076f11bdeb2042e47d0f9b53
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -45,8 +48,11 @@ public class ScreenManager {
         getStage().setScene(new Scene(new HowToPlayScreen(this),1200,1200));
     }
 
+<<<<<<< HEAD
     public void showResult(){
         getStage().setScene(new Scene(new ResultScreen(this),1200,1200));
     }
 
+=======
+>>>>>>> 1f19859fed4ff1d1076f11bdeb2042e47d0f9b53
 }

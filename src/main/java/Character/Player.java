@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1f19859fed4ff1d1076f11bdeb2042e47d0f9b53
 package Character;
 
 public class Player extends BasePlayer {

@@ -53,6 +53,8 @@ public class GameScreen extends VBox {
             int r = gamePane.getPlayerRow();
             int c = gamePane.getPlayerCol();
 
+            //System.out.println();
+
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Player Location");
             alert.setHeaderText(null);
@@ -81,8 +83,19 @@ public class GameScreen extends VBox {
         GridPane.setHgrow(statusArea, Priority.ALWAYS);
         GridPane.setVgrow(statusArea, Priority.ALWAYS);
 
+<<<<<<< HEAD
         StatusTab s1 = new StatusTab();
         statusArea.getChildren().add(s1);
+=======
+        StatusTab statusTab = new StatusTab();
+        statusArea.getChildren().add(statusTab);
+
+        gamePane.setOnStatusChange(() -> {
+            statusTab.updateStatus();
+        });
+
+
+>>>>>>> 1f19859fed4ff1d1076f11bdeb2042e47d0f9b53
 
         mainArea.add(statusArea, 1, 0);
 
