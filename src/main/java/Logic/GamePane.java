@@ -13,6 +13,8 @@ import javafx.scene.image.ImageView;
 
 //import javax.swing.text.html.ImageView;
 import java.util.*;
+import Logic.GameSession;
+import Character.Player;
 
 public class GamePane extends Pane {
 
@@ -96,7 +98,12 @@ public class GamePane extends Pane {
 
         drawMap();
 
-        player = new ImageView(imgDown);
+        Player sessionPlayer = GameSession.getPlayer();
+        if(sessionPlayer != null && sessionPlayer.getImagePath() != null){
+            player = new ImageView(new Image(getClass().getResourceAsStream(sessionPlayer.getImagePath())));
+        }else{
+            player = new ImageView(imgDown);
+        }
         player.setFitWidth(TILE_SIZE - 10);
         player.setFitHeight(TILE_SIZE - 10);
 
@@ -107,6 +114,14 @@ public class GamePane extends Pane {
 
         clickablePath();
     }
+
+    public GamePane(String avatarPath){
+        this();
+        if(avatarPath != null){
+            player.setImage(new Image(getClass().getResourceAsStream(avatarPath)));
+        }
+    }
+
 
     private void drawMap() {
 

@@ -9,7 +9,7 @@ import Character.BasePlayer;
 
 public class GameScreen extends VBox {
 
-    public GameScreen(ScreenManager game, BasePlayer player) {
+    public GameScreen(ScreenManager game) {
 
 
         // ให้ VBox เต็มจอ
@@ -45,7 +45,7 @@ public class GameScreen extends VBox {
 
 // GamePane
 
-        GamePane gamePane = new GamePane();
+        GamePane gamePane = new GamePane(Logic.GameSession.getPlayer()!=null ? Logic.GameSession.getPlayer().getImagePath() : null);
 
 // ผูก action
         topbar.setOnActionClick(() -> {
@@ -81,7 +81,7 @@ public class GameScreen extends VBox {
         GridPane.setHgrow(statusArea, Priority.ALWAYS);
         GridPane.setVgrow(statusArea, Priority.ALWAYS);
 
-        StatusTab s1 = new StatusTab(player);
+        StatusTab s1 = new StatusTab();
         statusArea.getChildren().add(s1);
 
         mainArea.add(statusArea, 1, 0);
