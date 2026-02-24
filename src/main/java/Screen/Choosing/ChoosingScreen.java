@@ -1,86 +1,183 @@
 package Screen.Choosing;
 
 import Screen.ScreenManager;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.layout.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
+import java.io.InputStream;
 
-public class ChoosingScreen extends VBox {
+/**
+ * Character selection screen (polished UI).
+ *
+ * NOTE:
+ * - This screen is intentionally UI-only (it does not modify other game logic),
+ *   because the project constraint is to avoid changing any other parts.
+ */
+public class ChoosingScreen extends BorderPane {
 
+    private final String[] avatarPaths = new String[]{
+            "/Annie_Zheng.jpg",
+            "/Huh.jpg",
+            "/Lily.jpg",
+            "/deku_nerd.jpg"
+    };
 
+    private final String[] archetypeNames = new String[]{
+            "Hustler (Work Focus)",
+            "Genius (Study Focus)",
+            "Athlete (Health Focus)",
+            "Socialite (Happiness Focus)"
+    };
+
+    private final String[] prosCons = new String[]{
+            "Pros:\n• Earn more from Work (+20%)\n• Faster commute (−10% travel time)\n\nCons:\n• Work drains a bit more Happiness",
+            "Pros:\n• Study gain boosted (+25%)\n• Study drains less Happiness\n\nCons:\n• Starts with a bit less Money",
+            "Pros:\n• Exercise health gain boosted (+25%)\n• Stress increases slower\n\nCons:\n• Party costs slightly more Money",
+            "Pros:\n• Relax/Happiness gain boosted (+25%)\n• Party costs less Money\n\nCons:\n• Starts with a bit more Stress"
+    };
+
+    private int selectedIndex = 0;
+
+    private final Label selectedTitle = new Label();
+    private final Label selectedDesc = new Label();
 
     public ChoosingScreen(ScreenManager manager) {
+        setPrefSize(1200, 1200);
+        setPadding(new Insets(18));
+        setStyle("-fx-background-color: #161616; -fx-font-family: 'Segoe UI';");
 
-        this.setPrefSize(1200, 1200);
-        this.setSpacing(20);
-        this.setPadding(new Insets(20));
+        // ===== Header + Name =====
+        Label title = new Label("Create Character");
+        title.setStyle("-fx-text-fill: white; -fx-font-size: 30px; -fx-font-weight: 900;");
 
-        // menu top bar //
+        Label hint = new Label("Choose 1 of 4 characters. Each has different advantages and tradeoffs.");
+        hint.setStyle("-fx-text-fill: #cfcfcf; -fx-font-size: 13px;");
 
-        Button goBack = new Button("Go Back");
+        VBox top = new VBox(10, title, hint);
+        top.setPadding(new Insets(10, 10, 12, 10));
+        top.setAlignment(Pos.CENTER_LEFT);
+        setTop(top);
+
+        // ===== Avatar cards row =====
+        HBox avatarsRow = new HBox(14);
+        avatarsRow.setAlignment(Pos.CENTER);
+        avatarsRow.setPadding(new Insets(10));
+
+        StackPane[] cards = new StackPane[4];
+
+        for (int i = 0; i < 4; i++) {
+            ImageView iv = safeAvatar(avatarPaths[i]);
+            iv.setFitWidth(120);
+            iv.setFitHeight(120);
+            iv.setPreserveRatio(true);
+
+            Label aName = new Label(archetypeNames[i]);
+            aName.setStyle("-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: 900;");
+            aName.setWrapText(true);
+            aName.setMaxWidth(150);
+            aName.setAlignment(Pos.CENTER);
+
+            VBox cardBox = new VBox(10, iv, aName);
+            cardBox.setAlignment(Pos.CENTER);
+            cardBox.setPadding(new Insets(12));
+
+            StackPane card = new StackPane(cardBox);
+            card.setMinSize(175, 195);
+            card.setStyle(cardStyle(i == selectedIndex));
+
+            int idx = i;
+            card.setOnMouseClicked(e -> {
+                selectedIndex = idx;
+                for (int k = 0; k < cards.length; k++) {
+                    cards[k].setStyle(cardStyle(k == selectedIndex));
+                }
+                refreshDescription();
+            });
+
+            cards[i] = card;
+            avatarsRow.getChildren().add(card);
+        }
+
+        // ===== Description box =====
+        selectedTitle.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: 900;");
+        selectedDesc.setStyle("-fx-text-fill: #d6d6d6; -fx-font-size: 13px;");
+        selectedDesc.setWrapText(true);
+
+        VBox descBox = new VBox(8, selectedTitle, selectedDesc);
+        descBox.setPadding(new Insets(16));
+        descBox.setStyle(
+                "-fx-background-color: rgba(255,255,255,0.05);" +
+                        "-fx-background-radius: 16;" +
+                        "-fx-border-radius: 16;" +
+                        "-fx-border-color: rgba(255,255,255,0.14);"
+        );
+        descBox.setMaxWidth(780);
+
+        VBox center = new VBox(14, avatarsRow, descBox);
+        center.setAlignment(Pos.CENTER);
+        center.setPadding(new Insets(10));
+        setCenter(center);
+
+        refreshDescription();
+
+        // ===== Bottom buttons =====
+        Button back = new Button("Back");
+        back.setOnAction(e -> manager.showTitle());
+
         Button start = new Button("Start Game");
-
-        goBack.setOnAction(e -> manager.showTitle());
+        start.setStyle("-fx-font-weight: 900;");
         start.setOnAction(e -> manager.showGame());
 
-        HBox controlBar = new HBox(20, goBack, start);
-        controlBar.setAlignment(Pos.CENTER);
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        //player choose//
-
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(30);
-        grid.setVgap(30);
-
-        ColumnConstraints col = new ColumnConstraints();
-        col.setPercentWidth(50);
-
-        RowConstraints row = new RowConstraints();
-        row.setPercentHeight(50);
-
-        grid.getColumnConstraints().addAll(col, col);
-        grid.getRowConstraints().addAll(row, row);
-
-        init player1 = new init("nerd boy", "/deku_nerd.jpg", "Play");
-        // set player //
-        player1.addAll();
-
-        init player2 = new init("young man", "/hunter_song.jpeg", "Play");
-        // set player //
-        player2.addAll();
-
-        init player3 = new init("young man", "/Huh.jpg", "Play");
-        // set player //
-        player3.addAll();
-
-        init player4 = new init("young man", "/Lily.jpg", "Play");
-        // set player //
-
-        player4.addAll();
-
-        grid.add(player1, 0, 0);
-        grid.add(player2, 1, 0);
-        grid.add(player3, 0, 1);
-        grid.add(player4, 1, 1);
-
-
-
-        this.getChildren().addAll(controlBar, grid);
-
-        VBox.setVgrow(grid, Priority.ALWAYS);
+        HBox bottom = new HBox(10, back, spacer, start);
+        bottom.setAlignment(Pos.CENTER);
+        bottom.setPadding(new Insets(10));
+        setBottom(bottom);
     }
 
-
+    private void refreshDescription() {
+        selectedTitle.setText(archetypeNames[selectedIndex]);
+        selectedDesc.setText(prosCons[selectedIndex]);
     }
 
+    private String cardStyle(boolean selected) {
+        if (selected) {
+            return "-fx-background-color: rgba(90,160,255,0.18);" +
+                    "-fx-background-radius: 18;" +
+                    "-fx-border-radius: 18;" +
+                    "-fx-border-color: rgba(90,160,255,0.65);" +
+                    "-fx-border-width: 2;";
+        }
+        return "-fx-background-color: rgba(255,255,255,0.04);" +
+                "-fx-background-radius: 18;" +
+                "-fx-border-radius: 18;" +
+                "-fx-border-color: rgba(255,255,255,0.12);" +
+                "-fx-border-width: 1;";
+    }
 
-
-
-
-
-
+    private ImageView safeAvatar(String path) {
+        try (InputStream is = getClass().getResourceAsStream(path)) {
+            if (is != null) {
+                return new ImageView(new Image(is));
+            }
+        } catch (Exception ignored) {
+        }
+        // fallback: generate a tiny placeholder image so the UI never crashes
+        WritableImage placeholder = new WritableImage(1, 1);
+        return new ImageView(placeholder);
+    }
+}
