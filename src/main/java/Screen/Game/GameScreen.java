@@ -91,7 +91,7 @@ public class GameScreen extends VBox {
         statusArea.getChildren().add(statusTab);
 
         gamePane.setOnStatusChange(() -> {
-            statusTab.updateStatus();
+            statusTab.update();
         });
 
         mainArea.add(statusArea, 1, 0);

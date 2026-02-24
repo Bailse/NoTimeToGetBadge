@@ -60,7 +60,7 @@ public class StatusTab extends VBox {
         Circle clip = new Circle(100,100,100);
         avatar.setClip(clip);
 
-        // ===== Create Bars =====
+        //Create Bars
         VBox staminaBox = createBar("Stamina", 100);
         VBox healthBox = createBar("Health", 100);
         VBox educationBox = createBar("Education", 100);
