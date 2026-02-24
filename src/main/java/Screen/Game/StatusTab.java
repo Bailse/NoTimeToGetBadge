@@ -119,14 +119,14 @@ public class StatusTab extends VBox {
         Player player = GameSession.getPlayer();
         if(player == null) return;
 
-        staminaBar.setProgress(player.getStamina() / 100.0);
-        healthBar.setProgress(player.getHealth() / 100.0);
-        educationBar.setProgress(player.getEducation() / 100.0);
+        staminaBar.setProgress(player.getStamina() / 200.0);
+        healthBar.setProgress(player.getHealth() / 200.0);
+        educationBar.setProgress(player.getEducation() / 200.0);
         moneyBar.setProgress(player.getMoney() / 1000.0);
 
-        staminaLabel.setText(player.getStamina() + " / 100");
-        healthLabel.setText(player.getHealth() + " / 100");
-        educationLabel.setText(player.getEducation() + " / 100");
+        staminaLabel.setText(player.getStamina() + " / 200");
+        healthLabel.setText(player.getHealth() + " / 200");
+        educationLabel.setText(player.getEducation() + " / 200");
         moneyLabel.setText(player.getMoney() + " / 1000");
     }
 }
