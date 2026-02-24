@@ -30,6 +30,7 @@ public class GamePane extends Pane {
 
     private Runnable onReachBuilding;
     private Runnable onLeaveBuilding;
+    private Runnable onStatusChange;
 
 
 
@@ -148,6 +149,14 @@ public class GamePane extends Pane {
                 int finalC = c;
 
                 tile.setOnMouseClicked(e -> {
+
+                    Player sessionPlayer = GameSession.getPlayer();
+
+                    if (sessionPlayer != null && sessionPlayer.getStamina() <= 0) {
+                        System.out.println("No stamina! Can't move.");
+                        return;
+                    }
+
                     if (!isMoving && clickable[finalR][finalC]) {
                         List<int[]> path = findPath(playerRow, playerCol, finalR, finalC);
                         walkPath(path);
@@ -268,6 +277,20 @@ public class GamePane extends Pane {
             playerRow = next[0];
             playerCol = next[1];
 
+            Player sessionPlayer = GameSession.getPlayer();
+            if (sessionPlayer != null) {
+                int oldStamina = sessionPlayer.getStamina();
+
+                sessionPlayer.walk();   // ลด stamina
+
+                int newStamina = sessionPlayer.getStamina();
+
+                System.out.println("Stamina: " + oldStamina + " -> " + newStamina);
+
+            }
+            if (onStatusChange != null) {
+                onStatusChange.run();
+            }
 
             if (CheckPlayer()) {
                 if (onReachBuilding != null) {
@@ -278,6 +301,14 @@ public class GamePane extends Pane {
                     onLeaveBuilding.run();
                 }
             }
+
+            if (sessionPlayer != null && sessionPlayer.getStamina() <= 0) {
+                isMoving = false;
+                return;
+            }
+
+
+
 
             if (!path.isEmpty()) {
                 walkPath(path);
@@ -324,5 +355,9 @@ public class GamePane extends Pane {
 
     public void setPlayerCol(int playerCol) {
         this.playerCol = playerCol;
+    }
+
+    public void setOnStatusChange(Runnable r) {
+        this.onStatusChange = r;
     }
 }
