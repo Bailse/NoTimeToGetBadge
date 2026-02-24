@@ -1,46 +1,62 @@
+
 package Screen.Game;
 
-import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
+import Character.Player;
+import Logic.GameSession;
+import javafx.geometry.Pos;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import Character.BasePlayer;
 
 public class StatusTab extends VBox {
 
-    private ProgressBar staminaBar;
-    private ProgressBar healthBar;
-    private ProgressBar educationBar;
-    private ProgressBar moneyBar;
+    private Text staminaText;
+    private Text healthText;
+    private Text moneyText;
+    private Text educationText;
 
-    public StatusTab(BasePlayer player) {
+    public StatusTab(){
 
-        setSpacing(20);
-        setPadding(new Insets(40));
+        Player player = GameSession.getPlayer();
 
-        Label title = new Label("Status");
-        title.setStyle("-fx-font-size: 40;");
+        this.setSpacing(20);
+        this.setAlignment(Pos.TOP_CENTER);
 
-        staminaBar = createBar("Stamina", player.getStamina(), 100);
-        healthBar = createBar("Health", player.getHealth(), 100);
-        educationBar = createBar("Education", player.getEducation(), 100);
-        moneyBar = createBar("Money", player.getMoney(), 1000);
+        Text title = new Text("Status");
+        title.setFont(Font.font(40));
 
-        getChildren().addAll(title, staminaBar, healthBar, educationBar, moneyBar);
+        ImageView avatar;
+
+        if(player != null && player.getImagePath() != null){
+            avatar = new ImageView(new Image(getClass().getResourceAsStream(player.getImagePath())));
+        }else{
+            avatar = new ImageView(new Image(getClass().getResourceAsStream("/player.png")));
+        }
+
+        avatar.setFitWidth(200);
+        avatar.setFitHeight(200);
+
+        Circle clip = new Circle(100,100,100);
+        avatar.setClip(clip);
+
+        staminaText = new Text();
+        healthText = new Text();
+        moneyText = new Text();
+        educationText = new Text();
+
+        updateStatus();
+
+        this.getChildren().addAll(title, avatar, staminaText, healthText, moneyText, educationText);
     }
 
-    private ProgressBar createBar(String name, int value, int max) {
-        Label label = new Label(name + ": " + value);
-        ProgressBar bar = new ProgressBar((double)value / max);
-        bar.setPrefWidth(300);
-        getChildren().add(label);
-        return bar;
-    }
+    public void updateStatus(){
+        Player player = GameSession.getPlayer();
+        if(player == null) return;
 
-    public void update(BasePlayer player) {
-        staminaBar.setProgress(player.getStamina() / 100.0);
-        healthBar.setProgress(player.getHealth() / 100.0);
-        educationBar.setProgress(player.getEducation() / 100.0);
-        moneyBar.setProgress(player.getMoney() / 1000.0);
+        staminaText.setText("Stamina: " + player.getStamina());
+        healthText.setText("Health: " + player.getHealth());
+        moneyText.setText("Money: " + player.getMoney());
+        educationText.setText("Education: " + player.getEducation());
     }
 }
