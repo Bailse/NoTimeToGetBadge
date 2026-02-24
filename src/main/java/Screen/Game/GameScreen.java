@@ -3,11 +3,18 @@ package Screen.Game;
 import Logic.GamePane;
 import Screen.ScreenManager;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.*;
 
 public class GameScreen extends VBox {
 
+
+
+
     public GameScreen(ScreenManager game) {
+
+
+
 
         // ให้ VBox เต็มจอ
         this.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -41,10 +48,36 @@ public class GameScreen extends VBox {
         mainArea.getRowConstraints().add(row);
 
 // GamePane
+
         GamePane gamePane = new GamePane();
+
+// ผูก action
+        topbar.setOnActionClick(() -> {
+
+            int r = gamePane.getPlayerRow();
+            int c = gamePane.getPlayerCol();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Player Location");
+            alert.setHeaderText(null);
+            alert.setContentText("You are at row: " + r + " col: " + c);
+            alert.showAndWait();
+        });
+
+// ผูก enable/disable
+        gamePane.setOnReachBuilding(() -> {
+            topbar.setActionVisible(true);
+        });
+
+        gamePane.setOnLeaveBuilding(() -> {
+            topbar.setActionVisible(false);
+        });
+
         GridPane.setHgrow(gamePane, Priority.ALWAYS);
         GridPane.setVgrow(gamePane, Priority.ALWAYS);
         mainArea.add(gamePane, 0, 0);
+        //mainArea.add(gamePane, 0, 0);
+        //mainArea.add(gamebar, 0, 1);
 
 // Status
         VBox statusArea = new VBox();
