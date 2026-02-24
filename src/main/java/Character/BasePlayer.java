@@ -6,15 +6,14 @@ public abstract class BasePlayer {
     private int money;
     private int education;
     private int health;
-
     private double moneyDiscount;      // เช่น 0.80
     private double educationMultiply;  // เช่น 1.10
     private int healthDecrease;        // ลด health เวลากิจกรรม
     private int staminaDecrease;       // ลด stamina เวลาเดิน
 
     public BasePlayer(int stamina, int money, int education, int health,
-                      double moneyDiscount, double educationMultiply,
-                      int healthDecrease, int staminaDecrease) {
+                         double moneyDiscount, double educationMultiply,
+                         int healthDecrease, int staminaDecrease) {
 
         setStamina(stamina);
         setMoney(money);

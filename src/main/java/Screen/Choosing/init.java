@@ -12,9 +12,9 @@ import javafx.scene.text.Text;
 public class init extends VBox {
 
     private String des;
-    private String picture;
     private String name_button;
     private Text descirption;
+    private String picture;
     private Circle circle;
     private ImageView imageView;
     private Button Player_button;

@@ -1,5 +1,6 @@
 package Screen.Game;
 
+import Logic.GamePane;
 import Screen.ScreenManager;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -13,14 +14,18 @@ public class Gamebar extends BorderPane {
 
     private Button go_back;
     private Button end_round;
+    private Button action;
 
     public Gamebar(){
 
         this.go_back = new Button("go Back");
         this.end_round = new Button("end round");
+        this.action = new Button("ACTION");
+        this.action.setDisable(true);
         setPadding(new Insets(20));
         this.setLeft(go_back);
         this.setRight(end_round);
+        this.setCenter(action);
 
     }
 
@@ -39,6 +44,25 @@ public class Gamebar extends BorderPane {
     public void setEnd_round(Button end_round) {
         this.end_round = end_round;
     }
+
+    public Button getAction() {
+        return action;
+    }
+
+    public void setAction(Button action) {
+        this.action = action;
+    }
+
+    public void setActionVisible(boolean visible){
+        this.action.setDisable(!visible);
+    }
+
+    public void setOnActionClick(Runnable r) {
+        action.setOnAction(e -> r.run());
+    }
+
+
+
 }
 
 

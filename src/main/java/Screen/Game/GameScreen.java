@@ -3,11 +3,18 @@ package Screen.Game;
 import Logic.GamePane;
 import Screen.ScreenManager;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.*;
 
 public class GameScreen extends VBox {
 
+
+
+
     public GameScreen(ScreenManager game) {
+
+
+
 
         // ให้ VBox เต็มจอ
         this.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
@@ -26,29 +33,60 @@ public class GameScreen extends VBox {
         VBox.setVgrow(mainArea, Priority.ALWAYS);
         mainArea.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-        // กำหนด 70 / 30
+        // Columns
         ColumnConstraints col1 = new ColumnConstraints();
-        col1.setPercentWidth(70);
+        col1.setPercentWidth(55);
 
         ColumnConstraints col2 = new ColumnConstraints();
-        col2.setPercentWidth(30);
+        col2.setPercentWidth(45);
 
         mainArea.getColumnConstraints().addAll(col1, col2);
 
-        // ------------------ GAME AREA (70%) ------------------
+        // Row
+        RowConstraints row = new RowConstraints();
+        row.setVgrow(Priority.ALWAYS);
+        mainArea.getRowConstraints().add(row);
+
+// GamePane
 
         GamePane gamePane = new GamePane();
-        gamePane.setMaxSize(Double.MAX_VALUE , Double.MAX_VALUE);
 
-        mainArea.add(gamePane,0,0);
+// ผูก action
+        topbar.setOnActionClick(() -> {
 
+            int r = gamePane.getPlayerRow();
+            int c = gamePane.getPlayerCol();
 
-        // ------------------ STATUS AREA (30%) ------------------
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Player Location");
+            alert.setHeaderText(null);
+            alert.setContentText("You are at row: " + r + " col: " + c);
+            alert.showAndWait();
+        });
+
+// ผูก enable/disable
+        gamePane.setOnReachBuilding(() -> {
+            topbar.setActionVisible(true);
+        });
+
+        gamePane.setOnLeaveBuilding(() -> {
+            topbar.setActionVisible(false);
+        });
+
+        GridPane.setHgrow(gamePane, Priority.ALWAYS);
+        GridPane.setVgrow(gamePane, Priority.ALWAYS);
+        mainArea.add(gamePane, 0, 0);
+        //mainArea.add(gamePane, 0, 0);
+        //mainArea.add(gamebar, 0, 1);
+
+// Status
         VBox statusArea = new VBox();
         statusArea.setStyle("-fx-background-color: lightgray;");
-        statusArea.setPadding(new Insets(10));
-        statusArea.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        GridPane.setHgrow(statusArea, Priority.ALWAYS);
+        GridPane.setVgrow(statusArea, Priority.ALWAYS);
 
+        StatusTab s1 = new StatusTab();
+        statusArea.getChildren().add(s1);
 
         mainArea.add(statusArea, 1, 0);
 
