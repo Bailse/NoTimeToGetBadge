@@ -50,6 +50,13 @@ public class TitleScreen extends VBox {
             }
         });
 
+        this.how_to_play.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                begin.showHowToPlay();
+            }
+        });
+
         this.exit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
