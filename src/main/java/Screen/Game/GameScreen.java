@@ -23,7 +23,7 @@ public class GameScreen extends VBox {
         Gamebar topbar = new Gamebar();
 
         topbar.getGo_back().setOnAction(e -> game.showTitle());
-        topbar.getEnd_round().setOnAction(e->game.showTitle());
+        topbar.getEnd_round().setOnAction(e->game.showResult());
 
 
         this.getChildren().add(topbar);
@@ -93,8 +93,6 @@ public class GameScreen extends VBox {
         gamePane.setOnStatusChange(() -> {
             statusTab.updateStatus();
         });
-
-
 
         mainArea.add(statusArea, 1, 0);
 
