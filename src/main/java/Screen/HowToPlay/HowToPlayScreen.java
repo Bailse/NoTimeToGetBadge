@@ -41,7 +41,7 @@ public class HowToPlayScreen extends BorderPane {
                 "Choose wisely and balance your life to succeed."
         );
 
-        content.setStyle("-fx-text-fill: #d6d6d6 -fx-font-size: 16px;");
+        content.setStyle("-fx-text-fill: #d6d6d6; -fx-font-size: 16px;");
         content.setWrapText(true);
         content.setMaxWidth(800);
 
