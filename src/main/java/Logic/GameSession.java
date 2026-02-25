@@ -1,10 +1,10 @@
 package Logic;
 
-import Character.Player;
+import Character.BasePlayer;
 
 public class GameSession {
 
-    private static Player player;
+    private static BasePlayer player;
 
     // ===== Round system =====
     private static final int MAX_ROUNDS = 10;
@@ -13,14 +13,14 @@ public class GameSession {
     // ===== Player baseline =====
     private static int initialStamina = 0;
 
-    public static void setPlayer(Player p){
+    public static void setBasePlayer(BasePlayer p){
         player = p;
         // reset session state when choosing a new player
         round = 1;
         initialStamina = (p != null) ? p.getStamina() : 0;
     }
 
-    public static Player getPlayer(){
+    public static BasePlayer getPlayer(){
         return player;
     }
 
@@ -35,6 +35,7 @@ public class GameSession {
     public static int getInitialStamina(){
         return initialStamina;
     }
+
 
     /** Increase round by 1 (but never exceed MAX_ROUNDS). */
     public static void advanceRound(){

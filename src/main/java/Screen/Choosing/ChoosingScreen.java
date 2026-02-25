@@ -1,11 +1,11 @@
 package Screen.Choosing;
 
+import Logic.GameSession;
 import Screen.ScreenManager;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -17,7 +17,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.io.InputStream;
-import Logic.GameSession;
+
 import Character.*;
 
 /**
@@ -143,13 +143,13 @@ public class ChoosingScreen extends BorderPane {
         start.setOnAction(e -> {
         CharacterType type;
         switch(selectedIndex){
-            case 0: type = CharacterType.HUSTLER; break;
-            case 1: type = CharacterType.GENIUS; break;
-            case 2: type = CharacterType.ATHLETE; break;
-            default: type = CharacterType.SOCIALITE;
+            case 0: type = CharacterType.GYMBRO; break;
+            case 1: type = CharacterType.NERD; break;
+            case 2: type = CharacterType.OTAKU; break;
+            default: type = CharacterType.NORMAL;
         }
-        Player p = PlayerFactory.create(type);
-        GameSession.setPlayer(p);
+        BasePlayer p = PlayerCreate.create(type);
+        GameSession.setBasePlayer(p);
         manager.showGame();
     });
 

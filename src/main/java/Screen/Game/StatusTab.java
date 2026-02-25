@@ -1,6 +1,5 @@
 package Screen.Game;
 
-import Character.Player;
 import Logic.GameSession;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -19,6 +18,7 @@ import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 
 import java.util.Objects;
+import Character.BasePlayer;
 
 public class StatusTab extends VBox {
 
@@ -26,7 +26,7 @@ public class StatusTab extends VBox {
     private Label staminaLabel, healthLabel, moneyLabel, educationLabel;
 
     public StatusTab() {
-        Player player = GameSession.getPlayer();
+        BasePlayer player = GameSession.getPlayer();
 
         setSpacing(25);
         setPadding(new Insets(30));
@@ -124,7 +124,7 @@ public class StatusTab extends VBox {
     }
 
     public void updateStatus() {
-        Player player = GameSession.getPlayer();
+        BasePlayer player = GameSession.getPlayer();
         if (player == null) return;
 
         animateBar(staminaBar, player.getStamina() / 200.0);

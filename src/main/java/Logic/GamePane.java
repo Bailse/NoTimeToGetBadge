@@ -1,20 +1,16 @@
 package Logic;
 
-import Screen.Game.Gamebar;
 import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 
 //import javax.swing.text.html.ImageView;
 import java.util.*;
-import Logic.GameSession;
-import Character.Player;
+
+import Character.BasePlayer;
 
 public class GamePane extends Pane {
 
@@ -99,7 +95,8 @@ public class GamePane extends Pane {
 
         drawMap();
 
-        Player sessionPlayer = GameSession.getPlayer();
+        BasePlayer sessionPlayer = GameSession.getPlayer();
+
         if(sessionPlayer != null && sessionPlayer.getImagePath() != null){
             player = new ImageView(new Image(getClass().getResourceAsStream(sessionPlayer.getImagePath())));
         }else{
@@ -150,7 +147,7 @@ public class GamePane extends Pane {
 
                 tile.setOnMouseClicked(e -> {
 
-                    Player sessionPlayer = GameSession.getPlayer();
+                    BasePlayer sessionPlayer = GameSession.getPlayer();
 
                     if (sessionPlayer != null && sessionPlayer.getStamina() <= 0) {
                         System.out.println("No stamina! Can't move.");
@@ -277,7 +274,7 @@ public class GamePane extends Pane {
             playerRow = next[0];
             playerCol = next[1];
 
-            Player sessionPlayer = GameSession.getPlayer();
+            BasePlayer sessionPlayer = GameSession.getPlayer();
             if (sessionPlayer != null) {
                 int oldStamina = sessionPlayer.getStamina();
 

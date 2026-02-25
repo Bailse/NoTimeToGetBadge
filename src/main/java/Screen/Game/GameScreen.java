@@ -1,6 +1,5 @@
 package Screen.Game;
-
-import Character.Player;
+import Character.BasePlayer;
 import Logic.GamePane;
 import Logic.GameSession;
 import Screen.ScreenManager;
@@ -80,7 +79,7 @@ public class GameScreen extends VBox {
     }
 
     private void handleEndRound(ScreenManager game, Gamebar topbar, GamePane gamePane, StatusTab statusTab){
-        Player player = GameSession.getPlayer();
+        BasePlayer player = GameSession.getPlayer();
         if(player == null) return;
 
         // prevent ending round while player is moving

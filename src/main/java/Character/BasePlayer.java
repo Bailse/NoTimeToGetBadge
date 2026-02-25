@@ -2,6 +2,7 @@ package Character;
 
 public abstract class BasePlayer {
 
+    private CharacterType characterType;
     private int stamina;
     private int money;
     private int education;
@@ -10,6 +11,8 @@ public abstract class BasePlayer {
     private double educationMultiply;  // เช่น 1.10
     private int healthDecrease;        // ลด health เวลากิจกรรม
     private int staminaDecrease;       // ลด stamina เวลาเดิน
+    private CharacterType type;
+    private String imagePath;
 
     public BasePlayer(int stamina, int money, int education, int health,
                          double moneyDiscount, double educationMultiply,
@@ -102,5 +105,25 @@ public abstract class BasePlayer {
     public void setHealthDecrease(int value) {
         healthDecrease = value;
     }
+
+
+    // ==================== PLAYER_TYPE ================
+
+    public CharacterType getType() {
+        return type;
+    }
+
+    public void setType(CharacterType type) {
+        this.type = type;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
 
 }
