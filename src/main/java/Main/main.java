@@ -34,9 +34,6 @@ public class main extends Application{
         TitleStage.setResizable(false);
         TitleStage.show();
 
-
-
-
     }
 
 

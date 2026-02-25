@@ -32,6 +32,9 @@ public abstract class BasePlayer {
         this.itemManager = new Item();
     }
 
+    public BasePlayer() {
+    }
+
     // ===== Actions =====
 
     public void walk() {
