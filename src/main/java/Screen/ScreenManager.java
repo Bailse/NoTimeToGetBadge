@@ -31,10 +31,6 @@ public class ScreenManager {
         getStage().setScene(new Scene(new GameScreen(this),1200,1200));
     }
 
-
-
-
-
     public Stage getStage() {
         return stage;
     }
@@ -43,13 +39,10 @@ public class ScreenManager {
         this.stage = stage;
     }
 
-
     public void showHowToPlay(){
         getStage().setScene(new Scene(new HowToPlayScreen(this),1200,1200));
     }
-
     public void showResult(){
         getStage().setScene(new Scene(new ResultScreen(this),1200,1200));
     }
-
 }
