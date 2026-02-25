@@ -55,7 +55,7 @@ public class ResultScreen extends StackPane {
 
         // ================= TITLE =================
         Label title = new Label("GAME ENDED!");
-        title.setFont(Font.font("Arial", FontWeight.BOLD, 48));
+        title.setFont(Font.font("Courier New", FontWeight.BLACK, 50));
         title.setTextFill(Color.WHITE);
 
         // ================= AVATAR (CIRCLE) =================
@@ -91,9 +91,9 @@ public class ResultScreen extends StackPane {
         """);
 
         // ================= BUTTON =================
-        Button backButton = new Button("Go Back");
+        Button backButton = new Button("GO BACK");
 
-        backButton.setFont(Font.font(20));
+        backButton.setFont(Font.font("Courier New", FontWeight.BLACK, 32));
 
         backButton.setStyle("""
         
