@@ -12,5 +12,9 @@ public class Nerd extends BasePlayer {
                 2,
                 10
         );
+        setImagePath("/Huh.jpg");
+
     }
+
+
 }

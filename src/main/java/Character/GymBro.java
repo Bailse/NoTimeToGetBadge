@@ -12,5 +12,6 @@ public class GymBro extends  BasePlayer{
                 1,
                 8
         );
+        setImagePath("/Annie_Zheng.jpg");
     }
 }

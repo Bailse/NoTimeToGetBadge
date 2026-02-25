@@ -1,8 +1,8 @@
 package Character;
 
 public enum CharacterType {
-    HUSTLER,
-    GENIUS,
-    ATHLETE,
-    SOCIALITE
+    GYMBRO,
+    NERD,
+    OTAKU,
+    NORMAL
 }
