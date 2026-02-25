@@ -124,7 +124,7 @@ public class StatusTab extends VBox {
         animateBar(staminaBar, player.getStamina() / 200.0);
         animateBar(healthBar, player.getHealth() / 200.0);
         animateBar(educationBar, player.getEducation() / 200.0);
-        animateBar(moneyBar, player.getMoney() / 2000.0);
+        animateBar(moneyBar, player.getMoney() / 10000.0);
 
         staminaLabel.setText(player.getStamina() + "/200");
         healthLabel.setText(player.getHealth() + "/200");
