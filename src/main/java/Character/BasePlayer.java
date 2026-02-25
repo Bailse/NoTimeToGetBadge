@@ -1,5 +1,7 @@
 package Character;
 
+import Item.Item;
+
 public abstract class BasePlayer {
 
     private CharacterType characterType;
@@ -13,6 +15,7 @@ public abstract class BasePlayer {
     private int staminaDecrease;       // ลด stamina เวลาเดิน
     private CharacterType type;
     private String imagePath;
+    private Item itemManager;
 
     public BasePlayer(int stamina, int money, int education, int health,
                          double moneyDiscount, double educationMultiply,
@@ -26,6 +29,7 @@ public abstract class BasePlayer {
         setEducationMultiply(educationMultiply);
         setHealthDecrease(healthDecrease);
         setStaminaDecrease(staminaDecrease);
+        this.itemManager = new Item();
     }
 
     // ===== Actions =====
@@ -125,5 +129,8 @@ public abstract class BasePlayer {
         this.imagePath = imagePath;
     }
 
+    public Item getItemManager() {
+        return itemManager;
+    }
 
 }

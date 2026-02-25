@@ -1,141 +1,124 @@
 package Screen.Game;
 
-import Character.Player;
+import Character.BasePlayer;
 import Logic.GameSession;
 import Item.*;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
-import javafx.geometry.Pos;
-import javafx.geometry.Insets;
+import javafx.animation.*;
+import javafx.geometry.*;
 import javafx.scene.layout.*;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.*;
+import javafx.scene.image.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+import javafx.scene.text.*;
 import javafx.util.Duration;
-
-import java.util.Objects;
 
 public class StatusTab extends VBox {
 
-    private ProgressBar staminaBar, healthBar, moneyBar, educationBar;
-    private Label staminaLabel, healthLabel, moneyLabel, educationLabel;
+    private ProgressBar staminaBar, healthBar, educationBar, moneyBar;
+    private Label staminaLabel, healthLabel, educationLabel, moneyLabel;
     private ImageView[] itemSlots;
 
     public StatusTab() {
-        // ตั้งค่า Spacing ให้กว้างขึ้นเพื่อกระจายองค์ประกอบ
-        setSpacing(20);
-        setPadding(new Insets(25));
+        // การตั้งค่า Layout หลัก (ขยายใหญ่ชนขอบ)
+        setSpacing(15);
+        setPadding(new Insets(20));
         setAlignment(Pos.TOP_CENTER);
-        setPrefWidth(450); // ความกว้าง Tab
+        setPrefWidth(480);
+        setStyle("-fx-background-color: #1a1a1a; -fx-border-color: #3d3d3d; -fx-border-width: 4;");
 
-        setStyle("""
-            -fx-background-color: #1a1a1a; 
-            -fx-border-color: #3d3d3d;
-            -fx-border-width: 4;
-            -fx-border-style: solid;
-        """);
-
+        // --- ส่วน Title และ Avatar ---
         Label title = new Label("GAME STATUS");
         title.setFont(Font.font("Courier New", FontWeight.BLACK, 32));
         title.setTextFill(Color.WHITE);
 
-        // ===== Avatar Section (ขนาดกำลังดี ไม่เล็กเกินไป) =====
-        StackPane avatarPane = new StackPane();
-        ImageView avatar = new ImageView();
+        StackPane avatarPane = createAvatarSection();
 
-        try {
-            Player p = GameSession.getPlayer();
-            String path = (p != null && p.getImagePath() != null) ? p.getImagePath() : "/player.png";
-            avatar.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(path))));
-        } catch (Exception e) {
-            System.out.println("Avatar not found");
-        }
+        // --- ส่วน Progress Bars ---
+        VBox sBox = createBar("STAMINA", "#ffff00");
+        VBox hBox = createBar("HEALTH", "#ff0000");
+        VBox eBox = createBar("EDUCATION", "#0000ff");
+        VBox mBox = createBar("MONEY", "#00ff00");
 
-        avatar.setFitWidth(160);
-        avatar.setFitHeight(160);
-        avatar.setClip(new Rectangle(160, 160));
-
-        Rectangle borderOut = new Rectangle(170, 170);
-        borderOut.setFill(Color.TRANSPARENT);
-        borderOut.setStroke(Color.WHITE);
-        borderOut.setStrokeWidth(4);
-
-        avatarPane.getChildren().addAll(borderOut, avatar);
-
-        // ===== Bars Section (ขยายขนาดแถบให้ยาวขึ้น) =====
-        VBox staminaBox = createBar("STAMINA", "#ffff00");
-        VBox healthBox = createBar("HEALTH", "#ff0000");
-        VBox educationBox = createBar("EDUCATION", "#0000ff");
-        VBox moneyBox = createBar("MONEY", "#00ff00");
-
-        // ===== Spacer (สำคัญ: ช่วยดัน Equipment ลงไปชนขอบล่างพอดี) =====
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
 
-        // ===== Equipment Section (ขยายขนาด Slot ให้ใหญ่ขึ้น) =====
+        // --- ส่วน Equipment (3 ช่อง ขนาดใหญ่ 100x100) ---
         Label invTitle = new Label("> EQUIPMENT");
-        invTitle.setFont(Font.font("Courier New", FontWeight.BOLD, 15));
+        invTitle.setFont(Font.font("Courier New", FontWeight.BOLD, 22));
         invTitle.setTextFill(Color.WHITE);
 
-        HBox inventoryBox = new HBox(20); // ระยะห่างช่องละ 15
+        HBox inventoryBox = new HBox(20);
         inventoryBox.setAlignment(Pos.CENTER);
-        itemSlots = new ImageView[4];
+        itemSlots = new ImageView[3];
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             StackPane slot = new StackPane();
-            Rectangle bg = new Rectangle(70, 70); // ขยายช่องเป็น 75x75
-            bg.setFill(Color.web("#2d2d2d"));
+            Rectangle bg = new Rectangle(100, 100);
+            bg.setFill(Color.web("#252525"));
             bg.setStroke(Color.web("#555555"));
             bg.setStrokeWidth(3);
 
             itemSlots[i] = new ImageView();
-            itemSlots[i].setFitWidth(60); // ขนาดไอเทมข้างในใหญ่ขึ้น
-            itemSlots[i].setFitHeight(60);
-            itemSlots[i].setPreserveRatio(true);
+            itemSlots[i].setFitWidth(80);
+            itemSlots[i].setFitHeight(80);
 
             slot.getChildren().addAll(bg, itemSlots[i]);
             inventoryBox.getChildren().add(slot);
         }
 
-        // เพิ่มทุกอย่างลงใน StatusTab
-        getChildren().addAll(title, avatarPane, staminaBox, healthBox, educationBox, moneyBox, spacer, invTitle, inventoryBox);
+        getChildren().addAll(title, avatarPane, sBox, hBox, eBox, mBox, spacer, invTitle, inventoryBox);
         updateStatus();
     }
 
-    private VBox createBar(String name, String color) {
-        Label nameLabel = new Label("> " + name);
-        nameLabel.setTextFill(Color.WHITE);
-        nameLabel.setFont(Font.font("Courier New", FontWeight.BOLD, 16));
-
-        ProgressBar bar = new ProgressBar();
-        bar.setPrefWidth(320); // ขยายความกว้างของแถบ
-        bar.setPrefHeight(22);
-        bar.setStyle("-fx-accent: " + color + "; -fx-control-inner-background: #333333; -fx-background-radius: 0; -fx-border-color: #000000;");
-
-        Label valLabel = new Label();
-        valLabel.setTextFill(Color.WHITE);
-        valLabel.setFont(Font.font("Courier New", FontWeight.BOLD, 13));
-
-        StackPane stack = new StackPane(bar, valLabel);
-        VBox box = new VBox(5, nameLabel, stack);
-
-        switch (name) {
-            case "STAMINA" -> { staminaBar = bar; staminaLabel = valLabel; }
-            case "HEALTH" -> { healthBar = bar; healthLabel = valLabel; }
-            case "EDUCATION" -> { educationBar = bar; educationLabel = valLabel; }
-            case "MONEY" -> { moneyBar = bar; moneyLabel = valLabel; }
+    private StackPane createAvatarSection() {
+        StackPane pane = new StackPane();
+        ImageView avatar = new ImageView();
+        BasePlayer p = GameSession.getPlayer();
+        if (p != null && p.getImagePath() != null) {
+            try {
+                avatar.setImage(new Image(getClass().getResourceAsStream(p.getImagePath())));
+            } catch (Exception e) { /* default handle */ }
         }
+        avatar.setFitWidth(160);
+        avatar.setFitHeight(160);
+        avatar.setClip(new Rectangle(160, 160));
+
+        Rectangle border = new Rectangle(172, 172);
+        border.setStroke(Color.WHITE);
+        border.setFill(Color.TRANSPARENT);
+        border.setStrokeWidth(3);
+        pane.getChildren().addAll(border, avatar);
+        return pane;
+    }
+
+    private VBox createBar(String name, String color) {
+        Label nLabel = new Label("> " + name);
+        nLabel.setTextFill(Color.WHITE);
+        nLabel.setFont(Font.font("Courier New", FontWeight.BOLD, 15));
+
+        ProgressBar bar = new ProgressBar(0);
+        bar.setPrefWidth(360);
+        bar.setPrefHeight(24);
+        bar.setStyle("-fx-accent: " + color + "; -fx-control-inner-background: #333333; -fx-background-radius: 0;");
+
+        Label vLabel = new Label();
+        vLabel.setTextFill(Color.WHITE);
+        vLabel.setFont(Font.font("Courier New", FontWeight.BOLD, 13));
+
+        StackPane stack = new StackPane(bar, vLabel);
+        VBox box = new VBox(5, nLabel, stack);
+
+        if (name.equals("STAMINA")) { staminaBar = bar; staminaLabel = vLabel; }
+        else if (name.equals("HEALTH")) { healthBar = bar; healthLabel = vLabel; }
+        else if (name.equals("EDUCATION")) { educationBar = bar; educationLabel = vLabel; }
+        else if (name.equals("MONEY")) { moneyBar = bar; moneyLabel = vLabel; }
+
         return box;
     }
 
     public void updateStatus() {
-        Player player = GameSession.getPlayer();
+        BasePlayer player = GameSession.getPlayer();
         if (player == null) return;
 
         animateBar(staminaBar, player.getStamina() / 200.0);
@@ -148,33 +131,34 @@ public class StatusTab extends VBox {
         educationLabel.setText(player.getEducation() + "/200");
         moneyLabel.setText("$" + player.getMoney());
 
-        //updateInventoryDisplay(player.getItemManager());
+        updateInventoryDisplay(player.getItemManager());
     }
 
     private void updateInventoryDisplay(Item itemManager) {
         if (itemManager == null) return;
-        for (int i = 0; i < 4; i++) {
+
+        // รูปเงาจางๆ (Placeholders) เมื่อยังไม่มีของ
+        String[] placeholders = {"WheyProtein.png", "Book.png", "Vehicle.png"};
+
+
+        for (int i = 0; i < 3; i++) {
             BaseItem item = itemManager.getInventory().get(i);
-            ImageView view = itemSlots[i];
+            itemManager.addItem(new Vehicle());
+            ImageView slotView = itemSlots[i];
 
-//            if (item != null) {
+            if (item != null) {
+                // กรณีมีของในประเภทนั้น: แสดงรูปจริงและชัดเจน (Opacity 1.0)
                 try {
-                    // Path รูปภาพใน resources
-                    String path = "/resources/" + item.getImage();
-                    view.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(path))));
-
-                    // เช็คสถานะ Active ตามโจทย์: สว่าง 100% หรือ จาง 20%
-                    if (item.isActive()) {
-                        view.setOpacity(1.0);
-                    } else {
-                        view.setOpacity(1.0); // แก้จาก 1.0 เป็น 0.2 แล้วครับ
-                    }
-                } catch (Exception e) {
-                    System.out.println("Image missing: " + item.getImage());
-                }
-//            } else {
-//                view.setImage(null);
-//            }
+                    slotView.setImage(new Image(getClass().getResourceAsStream("/" + item.getImage())));
+                    slotView.setOpacity(1.0);
+                } catch (Exception e) { /* image error */ }
+            } else {
+                // กรณีไม่มีของ: แสดงรูป Placeholder แบบจางๆ (Opacity 0.2)
+                try {
+                    slotView.setImage(new Image(getClass().getResourceAsStream("/" + placeholders[i])));
+                    slotView.setOpacity(0.2);
+                } catch (Exception e) { /* image error */ }
+            }
         }
     }
 
