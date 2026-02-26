@@ -106,6 +106,40 @@ public class GamePane extends Pane {
             if (onStatusChange != null) onStatusChange.run();
         }
     }
+    // เพิ่ม/แก้ไขใน Logic/GamePane.java
+
+    public void addItem(String itemName) {
+        BasePlayer p = GameSession.getPlayer();
+        if (p == null) return;
+
+        if (itemName.equals("Whey Protein")) {
+            p.getItemManager().addItem(new Item.WheyProtein()); // ใส่ในช่อง index 0
+        }
+        else if(itemName.equals("CAR")){
+            p.getItemManager().addItem(new Item.Vehicle());
+        }
+
+        if (onStatusChange != null) onStatusChange.run();
+    }
+
+    public void updateEducationItem(int level) {
+        BasePlayer p = GameSession.getPlayer();
+        if (p == null) return;
+
+        Item.BaseItem newBook;
+        // เลือกเล่มหนังสือตาม levelIndex (0-3)
+        switch (level) {
+            case 1:  newBook = new Item.Book2(); break;
+            case 2:  newBook = new Item.Book3(); break;
+            case 3:  newBook = new Item.Book4(); break;
+            default: newBook = new Item.Book1(); break;
+        }
+
+        // addItem จะไป set ที่ index 1 อัตโนมัติเพราะเป็น Category.EDUCATION
+        p.getItemManager().addItem(newBook);
+
+        if (onStatusChange != null) onStatusChange.run();
+    }
     // ===================================
 
 

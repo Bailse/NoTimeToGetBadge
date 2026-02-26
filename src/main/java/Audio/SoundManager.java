@@ -24,7 +24,7 @@ public class SoundManager {
 
             backgroundPlayer = new MediaPlayer(media);
             backgroundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            backgroundPlayer.setVolume(muted ? 0 : 0);
+            backgroundPlayer.setVolume(muted ? 0 : 0.5);
             backgroundPlayer.play();
 
         } catch (Exception e) {

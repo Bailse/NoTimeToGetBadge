@@ -48,6 +48,7 @@ public class ResultScreen extends StackPane {
     public ResultScreen(ScreenManager manager) {
 
         SoundManager.stopBackground();
+        SoundManager.playBackground("low.mp3");
         BasePlayer player = GameSession.getPlayer();
 
         setPrefSize(1200, 1200);
@@ -138,7 +139,11 @@ public class ResultScreen extends StackPane {
             -fx-border-width: 2;
         """);
 
-        backButton.setOnAction(e -> manager.showTitle());
+        backButton.setOnAction(e -> {
+            manager.showTitle();
+            SoundManager.stopBackground();
+            SoundManager.playBackground("background.mp3");
+        });
 
         HBox buttonBox = new HBox(backButton);
         buttonBox.setAlignment(Pos.CENTER);
@@ -152,7 +157,28 @@ public class ResultScreen extends StackPane {
                 buttonBox
         );
 
-        this.getChildren().add(mainBox);
+        // ================= MUSIC TOGGLE (BOTTOM RIGHT) =================
+        Button musicToggle = new Button(SoundManager.isMuted() ? "🔇" : "🔊");
+        musicToggle.setStyle("""
+            -fx-background-color: rgba(0, 0, 0, 0.5);
+            -fx-text-fill: white;
+            -fx-font-size: 24px;
+            -fx-background-radius: 10;
+            -fx-min-width: 60;
+            -fx-min-height: 60;
+            -fx-cursor: hand;
+        """);
+        musicToggle.setOnAction(e -> {
+            SoundManager.toggleMute();
+            musicToggle.setText(SoundManager.isMuted() ? "🔇" : "🔊");
+        });
+
+        // จัดวางปุ่มให้อยู่ล่างขวาสุดโดยใช้ StackPane Alignment
+        StackPane.setAlignment(musicToggle, Pos.BOTTOM_RIGHT);
+        StackPane.setMargin(musicToggle, new Insets(30)); // เว้นระยะจากขอบจอ 30px
+
+        // เพิ่มทุกอย่างลงใน StackPane หลัก
+        this.getChildren().addAll(mainBox, musicToggle);
         StackPane.setAlignment(mainBox, Pos.CENTER);
     }
 
