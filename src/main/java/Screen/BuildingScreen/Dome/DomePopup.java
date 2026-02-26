@@ -2,6 +2,7 @@ package Screen.BuildingScreen.Dome;
 
 
 import Logic.GamePane;
+import Logic.GameSession;
 import Screen.BuildingScreen.Normal;
 import Screen.BuildingScreen.ShopItem;
 import Screen.BuildingScreen.Shopable;
@@ -58,6 +59,9 @@ public class DomePopup implements Shopable, Normal {
                 if(gamePane.getPlayerHappiness() < 500){
                     gamePane.setPlayerStamina(gamePane.getPlayerStamina() - staminaCost);
                     gamePane.setPlayerHappiness(gamePane.getPlayerHappiness() + happinessGain);
+                    //gamePane.setPlayerHappiness(); <- ไม่ได้จำเป็นและทำให้ code เรา dupilcate เยอะมาก
+                    //ถ้าเราใช้
+                    //GameSession.getPlayer(). จะทำให้เรามี polymorph ได้ตามที่เขาต้องการเพราะว่าในตอนนี้เราไม่ได้ใช้เลย
                 }
                 else {
                     javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);

@@ -110,10 +110,10 @@ public class ResultScreen extends StackPane {
         statusGrid.setVgap(50);
         statusGrid.setAlignment(Pos.CENTER);
 
-        statusGrid.add(createStatusRow("Money", player.getMoney()), 0, 0);
-        statusGrid.add(createStatusRow("Education", player.getEducation()), 1, 0);
-        statusGrid.add(createStatusRow("Health", player.getHealth()), 0, 1);
-        statusGrid.add(createStatusRow("Happiness", player.getHappiness()), 1, 1);
+        statusGrid.add(createStatusRow("Money", (int) player.getMoney()), 0, 0);
+        statusGrid.add(createStatusRow("Education", (int) player.getEducation()), 1, 0);
+        statusGrid.add(createStatusRow("Health", (int) player.getHealth()), 0, 1);
+        statusGrid.add(createStatusRow("Happiness", (int) player.getHappiness()), 1, 1);
 
         StackPane descBox = new StackPane(statusGrid);
         descBox.setPadding(new Insets(40));

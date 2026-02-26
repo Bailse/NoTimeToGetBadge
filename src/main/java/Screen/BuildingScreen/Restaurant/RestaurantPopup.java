@@ -42,8 +42,8 @@ public class RestaurantPopup implements Shopable, Normal {
 
         @Override
         public void execute(GamePane gamePane) {
-            gamePane.setPlayerStamina(gamePane.getPlayerStamina() + staminaGain);
-            gamePane.setPlayerHealth(gamePane.getPlayerHealth() + healthGain);
+            gamePane.setPlayerStamina((int)gamePane.getPlayerStamina() + staminaGain);
+            gamePane.setPlayerHealth((int)gamePane.getPlayerHealth() + healthGain);
         }
     }
 
@@ -72,8 +72,8 @@ public class RestaurantPopup implements Shopable, Normal {
         // ===== 3. Work Action (ล้างจานในร้านอาหาร) =====
         Runnable workAction = () -> {
             if (gamePane.getPlayerStamina() >= 25) {
-                gamePane.setPlayerStamina(gamePane.getPlayerStamina() - 25);
-                gamePane.setPlayerMoney(gamePane.getPlayerMoney() + 120);
+                gamePane.setPlayerStamina((int)gamePane.getPlayerStamina() - 25);
+                gamePane.setPlayerMoney((int)gamePane.getPlayerMoney() + 120);
                 System.out.println("Washing dishes... Earned $120!");
             } else {
                 System.out.println("Too tired to wash dishes!");

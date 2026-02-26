@@ -1,6 +1,7 @@
 package Character;
 
 import Item.Item;
+import javafx.scene.image.Image;
 
 public abstract class BasePlayer {
 
@@ -17,6 +18,11 @@ public abstract class BasePlayer {
     private CharacterType type;
     private String imagePath;
     private Item itemManager;
+    private Image imgDown;
+    private Image imgLeft;
+    private Image imgRight;
+    private Image imgUp;
+
 
     public BasePlayer(int stamina, int money, int education, int health,
                          double moneyDiscount, double educationMultiply,
@@ -31,7 +37,7 @@ public abstract class BasePlayer {
         setHealthDecrease(healthDecrease);
         setStaminaDecrease(staminaDecrease);
         setHappiness(happiness);
-
+        
         this.itemManager = new Item();
     }
 
@@ -44,8 +50,9 @@ public abstract class BasePlayer {
         int cost = getStaminaDecrease();
 
         if (getItemManager().getInventory().get(2) != null) {
-            cost = (int)(cost * 0.75);
+            cost = (int)(getStaminaDecrease()*0.5);
         }
+
         setStamina(getStamina() - cost);
     }
 
@@ -158,4 +165,35 @@ public abstract class BasePlayer {
     public int getMaxUnlockedLevel() { return maxUnlockedLevel; }
     public void setMaxUnlockedLevel(int level) { this.maxUnlockedLevel = level; }
 
+    public Image getImgDown() {
+        return imgDown;
+    }
+
+    public void setImgDown(Image imgDown) {
+        this.imgDown = imgDown;
+    }
+
+    public Image getImgLeft() {
+        return imgLeft;
+    }
+
+    public void setImgLeft(Image imgLeft) {
+        this.imgLeft = imgLeft;
+    }
+
+    public Image getImgRight() {
+        return imgRight;
+    }
+
+    public void setImgRight(Image imgRight) {
+        this.imgRight = imgRight;
+    }
+
+    public Image getImgUp() {
+        return imgUp;
+    }
+
+    public void setImgUp(Image imgUp) {
+        this.imgUp = imgUp;
+    }
 }

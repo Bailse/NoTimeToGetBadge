@@ -78,10 +78,10 @@ public class ChulaPopup implements Shopable, Normal {
             }
 
             if (gamePane.getPlayerStamina() >= 10) {
-                gamePane.setPlayerStamina(gamePane.getPlayerStamina() - 10);
-                gamePane.setPlayerEducation(gamePane.getPlayerEducation() + currentEduGain);
-                gamePane.setPlayerHealth(gamePane.getPlayerHealth() - 5);
-                gamePane.setPlayerHappiness(gamePane.getPlayerHappiness() - 5);
+                gamePane.setPlayerStamina((int) (gamePane.getPlayerStamina() - 10));
+                gamePane.setPlayerEducation((int) (gamePane.getPlayerEducation() + currentEduGain));
+                gamePane.setPlayerHealth((int) (gamePane.getPlayerHealth() - 5));
+                gamePane.setPlayerHappiness((int) (gamePane.getPlayerHappiness() - 5));
                 refreshUI.run();
             }
         };
@@ -139,7 +139,7 @@ public class ChulaPopup implements Shopable, Normal {
                         popup.applyPixelStyle(btn, "#888888");
                         btn.setOnAction(e -> {
                             if (gamePane.getPlayerMoney() >= level.getPrice()) {
-                                gamePane.setPlayerMoney(gamePane.getPlayerMoney() - level.getPrice());
+                                gamePane.setPlayerMoney((int) (gamePane.getPlayerMoney() - level.getPrice()));
                                 GameSession.getPlayer().setMaxUnlockedLevel(level.levelIndex);
                                 gamePane.updateEducationItem(level.levelIndex);
 

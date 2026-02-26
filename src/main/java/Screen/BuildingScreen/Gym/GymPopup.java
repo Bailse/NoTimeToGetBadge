@@ -130,6 +130,7 @@ public class GymPopup implements Shopable, Normal {
                 gamePane.setPlayerStamina(gamePane.getPlayerStamina() - 20);
                 gamePane.setPlayerMoney(gamePane.getPlayerMoney() + 100);
                 Platform.runLater(refreshUI); // อัปเดตค่าหลังทำงาน
+
             }
         };
 

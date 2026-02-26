@@ -13,7 +13,7 @@ public class GameScreen extends VBox {
 
     public GameScreen(ScreenManager game) {
 
-        SoundManager.playBackground("low.mp3");
+        SoundManager.playBackground("background.mp3");
 
         setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
