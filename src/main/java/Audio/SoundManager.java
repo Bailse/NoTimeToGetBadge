@@ -6,8 +6,8 @@ import javafx.scene.media.MediaPlayer;
 public class SoundManager {
 
     private static MediaPlayer backgroundPlayer;
+    private static boolean muted = false;
 
-    // เล่น background music
     public static void playBackground(String filename) {
 
         try {
@@ -23,18 +23,13 @@ public class SoundManager {
             );
 
             backgroundPlayer = new MediaPlayer(media);
-
             backgroundPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-
-            backgroundPlayer.setVolume(0.5);
-
+            backgroundPlayer.setVolume(muted ? 0 : 0.5);
             backgroundPlayer.play();
 
         } catch (Exception e) {
-            System.out.println("Error loading music: " + filename);
             e.printStackTrace();
         }
-
     }
 
     public static void stopBackground() {
@@ -43,4 +38,14 @@ public class SoundManager {
         }
     }
 
+    public static void toggleMute() {
+        muted = !muted;
+        if (backgroundPlayer != null) {
+            backgroundPlayer.setVolume(muted ? 0 : 0.5);
+        }
+    }
+
+    public static boolean isMuted() {
+        return muted;
+    }
 }

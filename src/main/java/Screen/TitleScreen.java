@@ -3,11 +3,14 @@ package Screen;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+
+import java.util.Objects;
 
 public class TitleScreen extends VBox {
 
@@ -19,12 +22,31 @@ public class TitleScreen extends VBox {
 
     public TitleScreen(ScreenManager begin) {
         this.begin = begin;
-
+        this.setPrefSize(1200, 1200);
         // พื้นหลังสีเข้มสไตล์ Retro
-        this.setStyle("-fx-background-color: #0d0d0d;");
+        //this.setStyle("-fx-background-color: #0d0d0d;");
+        //this.setBackground(new Background(getClass().getResourceAsStream("/")));
+
+        Image image = new Image(Objects.requireNonNull(getClass().getResource("/tt4-2.png")).toExternalForm());
+
+        BackgroundSize backgroundSize = new BackgroundSize(
+                100, 100, true, true, true, false);
+
+        BackgroundImage backgroundImage = new BackgroundImage(
+                image,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                backgroundSize);
+
+        Background background = new Background(backgroundImage);
+
+        this.setBackground(background);
+
+
         this.setSpacing(30);
         this.setAlignment(Pos.CENTER);
-        this.setPadding(new Insets(50));
+        //this.setPadding(new Insets(50));
 
         // ===== หัวข้อเกม (Title) =====
         this.title = new Text("NO TIME\nTO GET BADGE");
@@ -84,4 +106,9 @@ public class TitleScreen extends VBox {
 
         return btn;
     }
+
+
+
+
+
 }
