@@ -1,5 +1,6 @@
 package Screen.BuildingScreen.Dome;
 
+
 import Logic.GamePane;
 import Screen.BuildingScreen.Normal;
 import Screen.BuildingScreen.ShopItem;
@@ -7,69 +8,65 @@ import Screen.BuildingScreen.Shopable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class DomePopup implements Shopable, Normal {
 
-    // ===== Enum จัดการ Logic ของกิจกรรม (อ้างอิงค่าจากตัวมันเอง) =====
+    // ใช้ Enum เพื่อจัดการกิจกรรมในหอพัก โดยอ้างอิง ShopItem (เพื่อให้ใช้ createShopButton ได้)
     private enum DomeAction implements ShopItem {
-        SLEEP("SLEEP 💤", 0, "#ffaa00", 40, 0, "Recover +40 Stamina"),
-        READ("READ 📚", 0, "#00FFAA", 10, 5, "Use 10 Stamina\nGet +5 Education"),
-        RELAX("RELAX 🎮", 0, "#ff66ff", 15, -2, "Recover +15 Stamina\nLose -2 Education");
+        SLEEP("SLEEP 💤\n-10 ⚡", 0, "#ffaa00", 10, 10),  // เพิ่ม Stamina 40, เพิ่ม Happiness 5
+        RELAX("RELAX 🎮\n-15 ⚡", 0, "#ff66ff", 15, 15); // เพิ่ม Stamina 15, เพิ่ม Happiness 15
 
         private final String name;
         private final int price;
         private final String color;
         private final int staminaCost;
-        private final int eduGain;
-        private final String description;
+        private final int happinessGain;
 
-        DomeAction(String name, int price, String color, int staminaCost, int eduGain, String description) {
+        DomeAction(String name, int price, String color, int staminaCost, int happinessGain) {
             this.name = name;
             this.price = price;
             this.color = color;
             this.staminaCost = staminaCost;
-            this.eduGain = eduGain;
-            this.description = description;
+            this.happinessGain = happinessGain;
         }
 
-        @Override public String getName() { return name; }
-        @Override public int getPrice() { return price; }
-        @Override public String getColor() { return color; }
+        @Override
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public int getPrice() {
+            return price;
+        }
+
+        @Override
+        public String getColor() {
+            return color;
+        }
 
         @Override
         public void execute(GamePane gamePane) {
-            // ดึงค่าปัจจุบันจาก gamePane
-            int currentStamina = gamePane.getPlayerStamina();
-            int currentEdu = gamePane.getPlayerEducation();
-
-            // เช็คเงื่อนไข Stamina (ถ้าค่าใช้จ่ายเป็นบวก คือต้องใช้พลังงาน)
-            if (staminaCost > 0 && currentStamina < staminaCost) {
-                showWarning("Stamina ไม่เพียงพอ! กรุณาพักผ่อน");
-                return;
+            if (gamePane.getPlayerStamina() >= staminaCost) {
+                if(gamePane.getPlayerHappiness() < 500){
+                    gamePane.setPlayerStamina(gamePane.getPlayerStamina() - staminaCost);
+                    gamePane.setPlayerHappiness(gamePane.getPlayerHappiness() + happinessGain);
+                }
+                else {
+                    javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+                    alert.setTitle("Happiness Status");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Your Happiness is already full! (Max: 500)");
+                    alert.showAndWait();
+                }
             }
-
-            // set ค่าใหม่กลับไปที่ gamePane (ปัจจุบัน - cost)
-            // ถ้าพักผ่อน cost คือ -40 จะกลายเป็น -(-40) = +40
-            gamePane.setPlayerStamina(currentStamina - staminaCost);
-            gamePane.setPlayerEducation(currentEdu + eduGain);
-
-            System.out.println("Action Executed: " + name + " | Stamina updated via GamePane");
-        }
-
-        private void showWarning(String message) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText(null);
-            alert.setContentText(message);
-            alert.showAndWait();
         }
     }
 
@@ -77,90 +74,45 @@ public class DomePopup implements Shopable, Normal {
         DomePopup popup = new DomePopup();
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setTitle("DORMITORY");
         stage.setResizable(false);
 
-        // ===== Labels แสดงสถานะ =====
-        Label staminaLabel = new Label();
-        Label eduLabel = new Label();
-        Label moneyLabel = new Label();
+        // ===== Labels สำหรับแสดงสถานะ =====
+        Label staminaLabel = new Label("STAMINA: " + gamePane.getPlayerStamina());
+        Label happinessLabel = new Label("HAPPINESS: " + gamePane.getPlayerHappiness());
 
-        // ฟังก์ชัน Refresh UI บนหน้าจอ Popup
+        // ตกแต่ง Style
+        staminaLabel.setStyle("-fx-text-fill: #00FFAA; -fx-font-size: 18px; -fx-font-weight: bold;");
+        happinessLabel.setStyle("-fx-text-fill: #FF69B4; -fx-font-size: 18px; -fx-font-weight: bold;"); // สีชมพูสำหรับความสุข
+
+        // ฟังก์ชัน Refresh UI
         Runnable refreshUI = () -> {
             staminaLabel.setText("STAMINA: " + gamePane.getPlayerStamina());
-            eduLabel.setText("EDUCATION: " + gamePane.getPlayerEducation());
-            moneyLabel.setText("MONEY: " + gamePane.getPlayerMoney());
+            happinessLabel.setText("HAPPINESS: " + gamePane.getPlayerHappiness());
         };
 
-        refreshUI.run(); // โหลดค่าครั้งแรก
-
-        staminaLabel.setStyle("-fx-text-fill: #00FFAA; -fx-font-size: 14px; -fx-font-weight: bold;");
-        eduLabel.setStyle("-fx-text-fill: #ff66ff; -fx-font-size: 14px; -fx-font-weight: bold;");
-        moneyLabel.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 14px; -fx-font-weight: bold;");
-
-        // ===== สร้าง Layout หลักจาก Normal Interface =====
+        // ใช้ createBaseLayout จาก Interface Normal
+        // ส่ง moneyLabel เป็นตัวสุดท้าย เพื่อให้มันไปปรากฏที่มุมซ้ายบน
         BorderPane root = popup.createBaseLayout(
                 stage, gamePane, "DORMITORY", Color.web("#ffaa00"),
-                "QUICK NAP", "#ffaa00",
-                () -> {
-                    // ปุ่มพิเศษมุมล่างขวา
-                    gamePane.setPlayerStamina(gamePane.getPlayerStamina() + 5);
-                    refreshUI.run();
-                },
+                null, null, null,
                 refreshUI,
-                staminaLabel, eduLabel, moneyLabel
+                staminaLabel, happinessLabel
         );
 
-        // ===== ส่วนกลาง: สร้างปุ่มกิจกรรม (วนลูปสร้างปุ่มแบบเดียวกับ Chula) =====
-        HBox optionsBox = new HBox(20);
+        // ส่วนกลาง: สร้างปุ่มกิจกรรม
+        HBox optionsBox = new HBox(30);
         optionsBox.setAlignment(Pos.CENTER);
         optionsBox.setPadding(new Insets(30));
 
-        for (DomeAction action : DomeAction.values()) {
-            // สร้างปุ่มจาก Shopable
-            Button btn = popup.createShopButton(action, gamePane, refreshUI);
+        for (DomeAction dome : DomeAction.values()) {
+            Button btn = popup.createShopButton(dome, gamePane, refreshUI);
             btn.setPrefSize(220, 160);
-
-            // *** สำคัญ: กำหนด Event เมื่อกดปุ่ม เพื่อให้เรียกใช้ Logic และ Refresh UI ***
-            btn.setOnAction(e -> {
-                action.execute(gamePane); // รัน Logic เพิ่ม/ลดค่า
-                refreshUI.run();          // อัปเดตตัวเลขใน Popup
-            });
-
-            // ตกแต่งเนื้อหาข้างในปุ่ม (Graphic)
-            VBox btnContent = new VBox(10);
-            btnContent.setAlignment(Pos.CENTER);
-
-            Label nameLbl = new Label(action.getName());
-            nameLbl.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;");
-
-            Label descLbl = new Label(action.description);
-            descLbl.setStyle("-fx-font-size: 12px; -fx-text-fill: #eee; -fx-text-alignment: center;");
-
-            btnContent.getChildren().addAll(nameLbl, descLbl);
-            btn.setGraphic(btnContent);
-            btn.setText("");
-
-            // สไตล์ของปุ่ม
-            String baseStyle = "-fx-background-color: " + action.getColor() + ";" +
-                    "-fx-background-radius: 10; -fx-border-radius: 10;" +
-                    "-fx-border-color: white; -fx-border-width: 2;";
-            btn.setStyle(baseStyle);
-
-            // เอฟเฟกต์เมื่อเมาส์ชี้
-            btn.setOnMouseEntered(e -> {
-                btn.setStyle(baseStyle + "-fx-brightness: 1.2; -fx-scale-x: 1.05; -fx-cursor: hand;");
-            });
-            btn.setOnMouseExited(e -> {
-                btn.setStyle(baseStyle);
-            });
-
             optionsBox.getChildren().add(btn);
         }
 
         root.setCenter(optionsBox);
 
-        Scene scene = new Scene(root, 900, 500);
+        Scene scene = new Scene(root, 900, 550);
         stage.setScene(scene);
         stage.showAndWait();
     }

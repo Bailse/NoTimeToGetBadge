@@ -90,6 +90,22 @@ public class GamePane extends Pane {
             if (onStatusChange != null) onStatusChange.run();
         }
     }
+
+    public int getPlayerHappiness() {
+        BasePlayer p = GameSession.getPlayer();
+        return (p != null) ? p.getHappiness() : 0;
+    }
+
+    public void setPlayerHappiness(int happiness) {
+        BasePlayer p = GameSession.getPlayer();
+        if (p != null) {
+            // จำกัดค่าไม่ให้เกิน 100 หรือต่ำกว่า 0 (Optional: แล้วแต่คุณออกแบบ)
+            int cappedHappiness = Math.min(500,happiness);
+            p.setHappiness(cappedHappiness);
+
+            if (onStatusChange != null) onStatusChange.run();
+        }
+    }
     // ===================================
 
 
