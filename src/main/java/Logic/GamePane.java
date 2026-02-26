@@ -1,5 +1,13 @@
 package Logic;
 
+import Screen.BuildingScreen.Building;
+import Screen.BuildingScreen.Chula.Chula;
+import Screen.BuildingScreen.Dome.Dome;
+import Screen.BuildingScreen.Gym.Gym;
+import Screen.BuildingScreen.Mall.Mall;
+import Screen.BuildingScreen.Park.Park;
+import Screen.BuildingScreen.Restaurant.Restaurant;
+import Screen.BuildingScreen.Travel.Travel;
 import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -28,29 +36,84 @@ public class GamePane extends Pane {
     private Runnable onLeaveBuilding;
     private Runnable onStatusChange;
 
+    // ===== [เพิ่มใหม่: Player Status] =====
+    public int getPlayerMoney() {
+        BasePlayer p = GameSession.getPlayer();
+        return (p != null) ? p.getMoney() : 0;
+    }
 
+    public void setPlayerMoney(int money) {
+        BasePlayer p = GameSession.getPlayer();
+        if (p != null) {
+            p.setMoney(money);
+            if (onStatusChange != null) onStatusChange.run();
+        }
+    }
+
+    public int getPlayerStamina() {
+        BasePlayer p = GameSession.getPlayer();
+        return (p != null) ? p.getStamina() : 0;
+    }
+
+    public void setPlayerStamina(int stamina) {
+        BasePlayer p = GameSession.getPlayer();
+        if (p != null) {
+            p.setStamina(stamina);
+            if (onStatusChange != null) onStatusChange.run();
+        }
+    }
+
+    public int getPlayerHealth() {
+        BasePlayer p = GameSession.getPlayer();
+        return (p != null) ? p.getHealth() : 100;
+    }
+
+    public void setPlayerHealth(int health) {
+        BasePlayer p = GameSession.getPlayer();
+        if (p != null) {
+            p.setHealth(health);
+            if (onStatusChange != null) onStatusChange.run();
+        }
+    }
+
+    // ===== [เพิ่มใหม่: Education System] =====
+    public int getPlayerEducation() {
+        BasePlayer p = GameSession.getPlayer();
+        // ดึงค่าจาก class Player (อย่าลืมไปเพิ่ม field นี้ใน Player.java)
+        return (p != null) ? p.getEducation() : 0;
+    }
+
+    public void setPlayerEducation(int education) {
+        BasePlayer p = GameSession.getPlayer();
+        if (p != null) {
+            p.setEducation(education); // อย่าลืมไปเพิ่ม Method ใน Player.java
+            if (onStatusChange != null) onStatusChange.run();
+        }
+    }
+    // ===================================
 
 
 
     private int[][] map = {
 
-                    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-                    {1,0,0,0,0,0,0,0,2,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,2,0,0,0,0,0,0,0,0,0,0,0,0,2,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,2,0,0,0,0,0,0,1},
-                    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,2,2,2,2,0,0,0,0,0,0,0,0,0,1},
+            {1,0,2,2,2,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 
 
 //            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -81,7 +144,8 @@ public class GamePane extends Pane {
     private ImageView player;
     private boolean isMoving = false;
 
-
+    //Building
+    private Building[][] bmap;
 
     public GamePane() {
 
@@ -110,6 +174,16 @@ public class GamePane extends Pane {
         this.getChildren().add(player);
 
         clickablePath();
+
+        bmap = new Building[map.length][map[0].length]; // กำหนดขนาดให้พอ
+
+        bmap[3][2] = new Dome();
+        bmap[3][3] = new Travel();
+        bmap[3][4] = new Gym();
+        bmap[3][5] = new Chula();
+        bmap[4][2] = new Park();
+        bmap[4][3] = new Mall();
+        bmap[4][4] = new Restaurant();
     }
 
     public GamePane(String avatarPath){
@@ -117,6 +191,11 @@ public class GamePane extends Pane {
         if(avatarPath != null){
             player.setImage(new Image(getClass().getResourceAsStream(avatarPath)));
         }
+    }
+
+    //Building ACTION
+    public Building getCurrentBuilding() {
+        return bmap[playerRow][playerCol];
     }
 
 
