@@ -11,12 +11,15 @@ public class ScreenManager {
 
     private Stage stage;
 
+
+
     public ScreenManager(Stage stage){
         setStage(stage);
     }
 
     public void showTitle(){
         getStage().setScene(new Scene(new TitleScreen(this), 1200,1200));
+
     }
 
     public void showChoose(){
