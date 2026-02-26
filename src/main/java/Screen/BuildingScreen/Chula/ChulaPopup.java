@@ -19,23 +19,21 @@ import javafx.stage.Stage;
 public class ChulaPopup implements Shopable, Normal {
 
     private enum StudyLevel implements ShopItem {
-        HIGH_SCHOOL("High School", 0, "#ff66ff", 5, 10, 0),
-        BACHELOR("Bachelor's\nDegree", 500, "#ff66ff", 15, 30, 1),
-        MASTER("Master's\nDegree", 1500, "#ff66ff", 25, 60, 2),
-        DOCTORATE("Doctorate\nDegree", 5000, "#ff66ff", 40, 120, 3);
+        HIGH_SCHOOL("High School", 0, "#ff66ff", 5, 0),
+        BACHELOR("Bachelor's\nDegree", 500, "#ff66ff", 15, 1),
+        MASTER("Master's\nDegree", 1500, "#ff66ff", 25, 2),
+        DOCTORATE("Doctorate\nDegree", 5000, "#ff66ff", 40, 3);
 
         private final String name;
         private final int price;
         private final String color;
-        private final int staminaCost;
         private final int eduGain;
         private final int levelIndex;
 
-        StudyLevel(String name, int price, String color, int staminaCost, int eduGain, int levelIndex) {
+        StudyLevel(String name, int price, String color, int eduGain, int levelIndex) {
             this.name = name;
             this.price = price;
             this.color = color;
-            this.staminaCost = staminaCost;
             this.eduGain = eduGain;
             this.levelIndex = levelIndex;
         }
@@ -46,11 +44,6 @@ public class ChulaPopup implements Shopable, Normal {
 
         @Override
         public void execute(GamePane gamePane) {
-            if (gamePane.getPlayerStamina() >= staminaCost) {
-                gamePane.setPlayerStamina(gamePane.getPlayerStamina() - staminaCost);
-                gamePane.setPlayerEducation(gamePane.getPlayerEducation() + eduGain);
-                System.out.println("Studying " + name);
-            }
         }
     }
 
@@ -64,9 +57,9 @@ public class ChulaPopup implements Shopable, Normal {
         Label eduLabel = new Label("EDUCATION: " + gamePane.getPlayerEducation());
         Label moneyLabel = new Label("MONEY: " + gamePane.getPlayerMoney());
 
-        staminaLabel.setStyle("-fx-text-fill: #00FFAA; -fx-font-size: 14px;");
-        eduLabel.setStyle("-fx-text-fill: #ff66ff; -fx-font-size: 14px;");
-        moneyLabel.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 14px;");
+        staminaLabel.setStyle("-fx-text-fill: #00FFAA; -fx-font-size: 18px;");
+        eduLabel.setStyle("-fx-text-fill: #ff66ff; -fx-font-size: 18px;");
+        moneyLabel.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 18px;");
 
         Runnable refreshUI = () -> {
             staminaLabel.setText("STAMINA: " + gamePane.getPlayerStamina());
@@ -87,6 +80,8 @@ public class ChulaPopup implements Shopable, Normal {
             if (gamePane.getPlayerStamina() >= 10) {
                 gamePane.setPlayerStamina(gamePane.getPlayerStamina() - 10);
                 gamePane.setPlayerEducation(gamePane.getPlayerEducation() + currentEduGain);
+                gamePane.setPlayerHealth(gamePane.getPlayerHealth() - 5);
+                gamePane.setPlayerHappiness(gamePane.getPlayerHappiness() - 5);
                 refreshUI.run();
             }
         };

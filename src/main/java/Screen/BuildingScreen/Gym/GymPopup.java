@@ -59,12 +59,12 @@ public class GymPopup implements Shopable, Normal {
 
         // ===== 1. เตรียม Labels สำหรับ Status =====
         Label staminaLabel = new Label("STAMINA: " + gamePane.getPlayerStamina());
-        Label moneyLabel = new Label("MONEY: " + gamePane.getPlayerMoney());
+        Label moneyLabel = new Label("$" + gamePane.getPlayerMoney());
         Label healthLabel = new Label("HEALTH: " + gamePane.getPlayerHealth());
 
-        staminaLabel.setStyle("-fx-text-fill: #00FFAA; -fx-font-size: 15px;");
-        moneyLabel.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 15px;");
-        healthLabel.setStyle("-fx-text-fill: #ff4d4d; -fx-font-size: 15px;");
+        staminaLabel.setStyle("-fx-text-fill: #00FFAA; -fx-font-size: 18px;");
+        moneyLabel.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 18px;");
+        healthLabel.setStyle("-fx-text-fill: #ff4d4d; -fx-font-size: 18px;");
 
         // ===== 2. ฟังก์ชัน Refresh UI (ส่งให้ Shopable และปุ่ม WORK) =====
         Runnable refreshUI = () -> {
@@ -105,6 +105,7 @@ public class GymPopup implements Shopable, Normal {
 
         for (GymService service : GymService.values()) {
             Button btn = popup.createShopButton(service, gamePane, refreshUI);
+            btn.setPrefSize(180, 140);
             optionsBox.getChildren().add(btn);
         }
 
