@@ -1,5 +1,9 @@
 package Character;
 
+import javafx.scene.image.Image;
+
+import java.util.Objects;
+
 public class NormalGuy extends BasePlayer{
     public NormalGuy() {
         super(
@@ -13,6 +17,12 @@ public class NormalGuy extends BasePlayer{
                 10,
                 100
         );
+        setImgUp(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Avatar/Normal_up.png"))));
+        setImgDown(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Avatar/Normal_down.png"))));
+        setImgRight(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Avatar/Normal_right.png"))));
+        setImgLeft(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Avatar/Normal_left.png"))));
+
         setImagePath("/deku_nerd.jpg");
+
     }
 }

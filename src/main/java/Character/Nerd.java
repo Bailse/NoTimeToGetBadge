@@ -1,5 +1,9 @@
 package Character;
 
+import javafx.scene.image.Image;
+
+import java.util.Objects;
+
 public class Nerd extends BasePlayer {
     public Nerd() {
         super(
@@ -14,6 +18,11 @@ public class Nerd extends BasePlayer {
                 100
         );
         setImagePath("/Huh.jpg");
+        setImgUp(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Avatar/Normal_up.png"))));
+        setImgDown(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Avatar/Normal_down.png"))));
+        setImgRight(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Avatar/Normal_right.png"))));
+        setImgLeft(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Avatar/Normal_left.png"))));
+
 
     }
 

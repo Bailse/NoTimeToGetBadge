@@ -27,14 +27,39 @@ public class GamePane extends Pane {
     private Image wallImage = new Image(getClass().getResourceAsStream("/block.png"));
     private Image floorImage = new Image(getClass().getResourceAsStream("/grass.png"));
     private Image gym = new Image(getClass().getResourceAsStream("/store.png"));
-    private Image imgDown = new Image(getClass().getResourceAsStream("/Lily.jpg"));
-    private Image imgLeft = new Image(getClass().getResourceAsStream("/Huh.jpg"));
-    private Image imgRight = new Image(getClass().getResourceAsStream("/deku_nerd.jpg"));
-    private Image imgUp = new Image(getClass().getResourceAsStream("/Annie_Zheng.jpg"));
-
+    private Image imgDown; //= new Image(getClass().getResourceAsStream("/Avatar/Normal_down.png"));
+    private Image imgLeft ;//= new Image(getClass().getResourceAsStream("/Avatar/Normal_left.png"));
+    private Image imgRight ;//= new Image(getClass().getResourceAsStream("/Avatar/Normal_right.png"));
+    private Image imgUp ;//= new Image(getClass().getResourceAsStream("/Avatar/Normal_up.png"));
+    private BasePlayer playerType = GameSession.getPlayer();
     private Runnable onReachBuilding;
     private Runnable onLeaveBuilding;
     private Runnable onStatusChange;
+
+
+
+    public void setImgDown() {
+        this.imgDown = playerType.getImgDown();
+
+    }
+
+
+
+    public void setImgLeft() {
+        this.imgLeft = playerType.getImgLeft();
+    }
+
+
+
+    public void setImgRight() {
+        this.imgRight = playerType.getImgRight();
+    }
+
+
+
+    public void setImgUp() {
+        this.imgUp = playerType.getImgUp();
+    }
 
     // ===== [เพิ่มใหม่: Player Status] =====
     public int getPlayerMoney() {
@@ -149,6 +174,10 @@ public class GamePane extends Pane {
 
     public GamePane() {
 
+        setImgLeft();
+        setImgDown();
+        setImgRight();
+        setImgUp();
 
 
         this.setPrefSize(
@@ -161,12 +190,14 @@ public class GamePane extends Pane {
         BasePlayer sessionPlayer = GameSession.getPlayer();
 
         if(sessionPlayer != null && sessionPlayer.getImagePath() != null){
-            player = new ImageView(new Image(getClass().getResourceAsStream(sessionPlayer.getImagePath())));
+            //player = new ImageView(new Image(getClass().getResourceAsStream(sessionPlayer.getImagePath())));
+            player = new ImageView(imgDown);
+
         }else{
             player = new ImageView(imgDown);
         }
-        player.setFitWidth(TILE_SIZE - 10);
-        player.setFitHeight(TILE_SIZE - 10);
+        player.setFitWidth(TILE_SIZE+7);
+        player.setFitHeight(TILE_SIZE+7);
 
         player.setTranslateX(playerCol * TILE_SIZE + 5);
         player.setTranslateY(playerRow * TILE_SIZE + 5);
@@ -188,8 +219,9 @@ public class GamePane extends Pane {
 
     public GamePane(String avatarPath){
         this();
+
         if(avatarPath != null){
-            player.setImage(new Image(getClass().getResourceAsStream(avatarPath)));
+            player.setImage(imgDown);
         }
     }
 
