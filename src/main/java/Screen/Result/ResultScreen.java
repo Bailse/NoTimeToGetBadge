@@ -1,7 +1,6 @@
 package Screen.Result;
 
 import Logic.GameSession;
-import Character.Player;
 import Screen.ScreenManager;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,6 +15,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 import java.util.Objects;
+import Character.BasePlayer;
 
 public class ResultScreen extends StackPane {
 
@@ -27,7 +27,7 @@ public class ResultScreen extends StackPane {
 
     public ResultScreen(ScreenManager manager) {
 
-        Player player = GameSession.getPlayer();
+        BasePlayer player = GameSession.getPlayer();
 
         setPrefSize(1200, 1200);
 
@@ -61,7 +61,7 @@ public class ResultScreen extends StackPane {
         // ================= AVATAR (CIRCLE) =================
         ImageView avatar = new ImageView(
                 new Image(Objects.requireNonNull(
-                        getClass().getResourceAsStream(player.getImagePath())))
+                        getClass().getResourceAsStream("/SstarBadge.png")))
         );
 
         avatar.setFitWidth(250);
@@ -93,7 +93,7 @@ public class ResultScreen extends StackPane {
         // ================= BUTTON =================
         Button backButton = new Button("GO BACK");
 
-        backButton.setFont(Font.font("Courier New", FontWeight.BLACK, 32));
+        backButton.setFont(Font.font("Courier New", FontWeight.BLACK, 16));
 
         backButton.setStyle("""
         

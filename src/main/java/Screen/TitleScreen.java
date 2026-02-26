@@ -1,15 +1,13 @@
 package Screen;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-
-import javafx.scene.control.Button;
 import javafx.geometry.Pos;
-import javafx.stage.Stage;
+import javafx.scene.control.Button;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 
 public class TitleScreen extends VBox {
 
@@ -19,62 +17,71 @@ public class TitleScreen extends VBox {
     private final Button how_to_play;
     private final Button exit;
 
-
     public TitleScreen(ScreenManager begin) {
-
         this.begin = begin;
 
-
-        this.title = new Text("No time to get badge");
-        this.title.setFont(Font.font(70));
-
-        this.start = new Button("   Start   ");
-        this.start.setMinWidth(100);
-
-        this.how_to_play = new Button("How to play");
-        this.how_to_play.setMinWidth(100);
-
-        this.exit = new Button("Exit");
-        this.exit.setMinWidth(100);
-
-        this.setSpacing(40);
+        // พื้นหลังสีเข้มสไตล์ Retro
+        this.setStyle("-fx-background-color: #0d0d0d;");
+        this.setSpacing(30);
         this.setAlignment(Pos.CENTER);
+        this.setPadding(new Insets(50));
 
+        // ===== หัวข้อเกม (Title) =====
+        this.title = new Text("NO TIME\nTO GET BADGE");
+        this.title.setFont(Font.font("Garamond", FontWeight.BLACK, 60));
+        this.title.setFill(Color.web("#00FF41")); // สีเขียวสไตล์ Matrix/Pixel
+        this.title.setStroke(Color.WHITE);
+        this.title.setStrokeWidth(1);
+        this.title.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
 
-        this.start.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
+        // ===== การตกแต่งปุ่ม (Button Styling) =====
+        this.start = createPixelButton("START GAME");
+        this.how_to_play = createPixelButton("HOW TO PLAY");
+        this.exit = createPixelButton("EXIT");
 
-                begin.showChoose();
-
-            }
-        });
-
-        this.how_to_play.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                begin.showHowToPlay();
-            }
-        });
-
-        this.exit.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                begin.endGame();
-            }
-        });
-
-
-
-
+        // ===== Event Handlers =====
+        this.start.setOnAction(e -> begin.showChoose());
+        this.how_to_play.setOnAction(e -> begin.showHowToPlay());
+        this.exit.setOnAction(e -> begin.endGame());
 
         this.getChildren().addAll(title, start, how_to_play, exit);
-
-
     }
 
+    /**
+     * Helper Method สำหรับสร้างปุ่มสไตล์ Pixel Art
+     */
+    private Button createPixelButton(String text) {
+        Button btn = new Button(text);
 
+        // สไตล์ปุ่มแบบ 8-bit: กรอบหนา, สีตัดกัน, ไม่มีความโค้ง (Radius 0)
+        String normalStyle =
+                "-fx-background-color: #252525; " +
+                        "-fx-text-fill: white; " +
+                        "-fx-font-family: 'Courier New'; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-font-size: 20px; " +
+                        "-fx-border-color: #555555; " +
+                        "-fx-border-width: 4; " +
+                        "-fx-background-radius: 0; " +
+                        "-fx-border-radius: 0; " +
+                        "-fx-cursor: hand;";
 
+        String hoverStyle =
+                "-fx-background-color: #00FF41; " +
+                        "-fx-text-fill: black; " +
+                        "-fx-border-color: #ffffff; " +
+                        "-fx-border-width: 4; " +
+                        "-fx-background-radius: 0; " +
+                        "-fx-border-radius: 0;";
 
+        btn.setStyle(normalStyle);
+        btn.setMinWidth(250);
+        btn.setPadding(new Insets(10, 20, 10, 20));
 
+        // เอฟเฟกต์เมื่อกด
+        btn.setOnMousePressed(e -> btn.setTranslateY(2));
+        btn.setOnMouseReleased(e -> btn.setTranslateY(-2));
+
+        return btn;
+    }
 }

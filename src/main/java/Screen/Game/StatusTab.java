@@ -1,148 +1,169 @@
 package Screen.Game;
 
-import Character.Player;
+import Character.BasePlayer;
 import Logic.GameSession;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
-import javafx.geometry.Pos;
-import javafx.geometry.Insets;
+import Item.*;
+import javafx.animation.*;
+import javafx.geometry.*;
 import javafx.scene.layout.*;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.*;
+import javafx.scene.image.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+import javafx.scene.text.*;
 import javafx.util.Duration;
-
-import java.util.Objects;
 
 public class StatusTab extends VBox {
 
-    private ProgressBar staminaBar, healthBar, moneyBar, educationBar;
-    private Label staminaLabel, healthLabel, moneyLabel, educationLabel;
+    private ProgressBar staminaBar, healthBar, educationBar, moneyBar;
+    private Label staminaLabel, healthLabel, educationLabel, moneyLabel;
+    private ImageView[] itemSlots;
 
     public StatusTab() {
-        Player player = GameSession.getPlayer();
-
-        setSpacing(25);
-        setPadding(new Insets(30));
+        // การตั้งค่า Layout หลัก (ขยายใหญ่ชนขอบ)
+        setSpacing(15);
+        setPadding(new Insets(20));
         setAlignment(Pos.TOP_CENTER);
-        setPrefWidth(450);
+        setPrefWidth(480);
+        setStyle("-fx-background-color: #1a1a1a; -fx-border-color: #3d3d3d; -fx-border-width: 4;");
 
-        // ===== ตกแต่งพื้นหลังสไตล์ PIXEL BOX =====
-        // ใช้ขอบเหลี่ยม 0px และเส้นขอบหนาแบบ Retro
-        setStyle("""
-            -fx-background-color: #1a1a1a; 
-            -fx-border-color: #3d3d3d;
-            -fx-border-width: 4;
-            -fx-border-style: solid;
-            -fx-background-insets: 0;
-        """);
-
+        // --- ส่วน Title และ Avatar ---
         Label title = new Label("GAME STATUS");
-        // แนะนำให้ใช้ Font "Courier New" หรือ Font แนว Monospace เพื่อให้ดูเป็น Pixel
         title.setFont(Font.font("Courier New", FontWeight.BLACK, 32));
-        title.setTextFill(Color.WHITE); // สี Cyan นีออน
+        title.setTextFill(Color.WHITE);
 
-        // ===== Avatar Section (เปลี่ยนจากวงกลมเป็นกรอบสี่เหลี่ยมพิกเซล) =====
-        StackPane avatarPane = new StackPane();
-        ImageView avatar = new ImageView();
+        StackPane avatarPane = createAvatarSection();
 
-        try {
-            String path = (player != null && player.getImagePath() != null) ? player.getImagePath() : "/player.png";
-            avatar.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(path))));
-        } catch (Exception e) {
-            System.out.println("Pixel Avatar not found");
+        // --- ส่วน Progress Bars ---
+        VBox sBox = createBar("STAMINA", "#ffff00");
+        VBox hBox = createBar("HEALTH", "#ff0000");
+        VBox eBox = createBar("EDUCATION", "#0000ff");
+        VBox mBox = createBar("MONEY", "#00ff00");
+
+        Region spacer = new Region();
+        VBox.setVgrow(spacer, Priority.ALWAYS);
+
+        // --- ส่วน Equipment (3 ช่อง ขนาดใหญ่ 100x100) ---
+        Label invTitle = new Label("> EQUIPMENT");
+        invTitle.setFont(Font.font("Courier New", FontWeight.BOLD, 22));
+        invTitle.setTextFill(Color.WHITE);
+
+        HBox inventoryBox = new HBox(20);
+        inventoryBox.setAlignment(Pos.CENTER);
+        itemSlots = new ImageView[3];
+
+        for (int i = 0; i < 3; i++) {
+            StackPane slot = new StackPane();
+            Rectangle bg = new Rectangle(100, 100);
+            bg.setFill(Color.web("#252525"));
+            bg.setStroke(Color.web("#555555"));
+            bg.setStrokeWidth(3);
+
+            itemSlots[i] = new ImageView();
+            itemSlots[i].setFitWidth(80);
+            itemSlots[i].setFitHeight(80);
+
+            slot.getChildren().addAll(bg, itemSlots[i]);
+            inventoryBox.getChildren().add(slot);
         }
 
-        avatar.setFitWidth(180);
-        avatar.setFitHeight(180);
-
-        // ใช้สี่เหลี่ยมตัดรูปแทนวงกลมเพื่อให้เข้ากับธีม Pixel
-        Rectangle clip = new Rectangle(180, 180);
-        avatar.setClip(clip);
-
-        // กรอบสี่เหลี่ยมซ้อนกัน 2 ชั้นแบบสไตล์เกมเก่า
-        Rectangle borderOut = new Rectangle(190, 190);
-        borderOut.setFill(Color.TRANSPARENT);
-        borderOut.setStroke(Color.web("#ffffff"));
-        borderOut.setStrokeWidth(4);
-
-        avatarPane.getChildren().addAll(borderOut, avatar);
-
-        // ===== Bars Section (สไตล์พิกเซลเหลี่ยมจัด) =====
-        VBox staminaBox = createBar("STAMINA", "#ffff00"); // เหลืองพิกเซล
-        VBox healthBox = createBar("HEALTH", "#ff0000");  // แดงจัด
-        VBox educationBox = createBar("EDUCATION", "#0000ff"); // น้ำเงินเข้ม
-        VBox moneyBox = createBar("MONEY", "#00ff00");    // เขียวนีออน
-
+        getChildren().addAll(title, avatarPane, sBox, hBox, eBox, mBox, spacer, invTitle, inventoryBox);
         updateStatus();
+    }
 
-        getChildren().addAll(title, avatarPane, staminaBox, healthBox, educationBox, moneyBox);
+    private StackPane createAvatarSection() {
+        StackPane pane = new StackPane();
+        ImageView avatar = new ImageView();
+        BasePlayer p = GameSession.getPlayer();
+        if (p != null && p.getImagePath() != null) {
+            try {
+                avatar.setImage(new Image(getClass().getResourceAsStream(p.getImagePath())));
+            } catch (Exception e) { /* default handle */ }
+        }
+        avatar.setFitWidth(160);
+        avatar.setFitHeight(160);
+        avatar.setClip(new Rectangle(160, 160));
+
+        Rectangle border = new Rectangle(172, 172);
+        border.setStroke(Color.WHITE);
+        border.setFill(Color.TRANSPARENT);
+        border.setStrokeWidth(3);
+        pane.getChildren().addAll(border, avatar);
+        return pane;
     }
 
     private VBox createBar(String name, String color) {
-        Label nameLabel = new Label("> " + name);
-        nameLabel.setTextFill(Color.WHITE);
-        nameLabel.setFont(Font.font("Courier New", FontWeight.BOLD, 16));
+        Label nLabel = new Label("> " + name);
+        nLabel.setTextFill(Color.WHITE);
+        nLabel.setFont(Font.font("Courier New", FontWeight.BOLD, 15));
 
-        ProgressBar bar = new ProgressBar();
-        bar.setPrefWidth(280);
-        bar.setPrefHeight(25);
+        ProgressBar bar = new ProgressBar(0);
+        bar.setPrefWidth(360);
+        bar.setPrefHeight(24);
+        bar.setStyle("-fx-accent: " + color + "; -fx-control-inner-background: #333333; -fx-background-radius: 0;");
 
-        // สไตล์ Pixel Bar: ลบความโค้ง (radius 0), เพิ่มเส้นขอบดำหนา
-        bar.setStyle("-fx-accent: " + color + "; " +
-                "-fx-control-inner-background: #333333; " +
-                "-fx-background-radius: 0; " +
-                "-fx-border-color: #000000; " +
-                "-fx-border-width: 2; " +
-                "-fx-text-box-border: transparent;");
+        Label vLabel = new Label();
+        vLabel.setTextFill(Color.WHITE);
+        vLabel.setFont(Font.font("Courier New", FontWeight.BOLD, 13));
 
-        Label valueLabel = new Label();
-        valueLabel.setTextFill(Color.WHITE);
-        valueLabel.setFont(Font.font("Courier New", FontWeight.BOLD, 14));
-        valueLabel.setStyle("-fx-effect: dropshadow(one-pass-box, black, 2, 1, 1, 1);");
+        StackPane stack = new StackPane(bar, vLabel);
+        VBox box = new VBox(5, nLabel, stack);
 
-        StackPane stack = new StackPane(bar, valueLabel);
-        stack.setAlignment(Pos.CENTER);
-
-        VBox box = new VBox(5, nameLabel, stack);
-        box.setAlignment(Pos.CENTER_LEFT);
-
-        switch (name) {
-            case "STAMINA" -> { staminaBar = bar; staminaLabel = valueLabel; }
-            case "HEALTH" -> { healthBar = bar; healthLabel = valueLabel; }
-            case "EDUCATION" -> { educationBar = bar; educationLabel = valueLabel; }
-            case "MONEY" -> { moneyBar = bar; moneyLabel = valueLabel; }
-        }
+        if (name.equals("STAMINA")) { staminaBar = bar; staminaLabel = vLabel; }
+        else if (name.equals("HEALTH")) { healthBar = bar; healthLabel = vLabel; }
+        else if (name.equals("EDUCATION")) { educationBar = bar; educationLabel = vLabel; }
+        else if (name.equals("MONEY")) { moneyBar = bar; moneyLabel = vLabel; }
 
         return box;
     }
 
     public void updateStatus() {
-        Player player = GameSession.getPlayer();
+        BasePlayer player = GameSession.getPlayer();
         if (player == null) return;
 
         animateBar(staminaBar, player.getStamina() / 200.0);
         animateBar(healthBar, player.getHealth() / 200.0);
         animateBar(educationBar, player.getEducation() / 200.0);
-        animateBar(moneyBar, player.getMoney() / 2000.0);
+        animateBar(moneyBar, player.getMoney() / 10000.0);
 
-        staminaLabel.setText(player.getStamina() + "/" + 200);
-        healthLabel.setText(player.getHealth() + "/" + 200);
-        educationLabel.setText(player.getEducation() + "/" + 200);
+        staminaLabel.setText(player.getStamina() + "/200");
+        healthLabel.setText(player.getHealth() + "/200");
+        educationLabel.setText(player.getEducation() + "/200");
         moneyLabel.setText("$" + player.getMoney());
+
+        updateInventoryDisplay(player.getItemManager());
+    }
+
+    private void updateInventoryDisplay(Item itemManager) {
+        if (itemManager == null) return;
+
+        // รูปเงาจางๆ (Placeholders) เมื่อยังไม่มีของ
+        String[] placeholders = {"WheyProtein.png", "Book.png", "Vehicle.png"};
+
+
+        for (int i = 0; i < 3; i++) {
+            BaseItem item = itemManager.getInventory().get(i);
+            itemManager.addItem(new Vehicle());
+            ImageView slotView = itemSlots[i];
+
+            if (item != null) {
+                // กรณีมีของในประเภทนั้น: แสดงรูปจริงและชัดเจน (Opacity 1.0)
+                try {
+                    slotView.setImage(new Image(getClass().getResourceAsStream("/" + item.getImage())));
+                    slotView.setOpacity(1.0);
+                } catch (Exception e) { /* image error */ }
+            } else {
+                // กรณีไม่มีของ: แสดงรูป Placeholder แบบจางๆ (Opacity 0.2)
+                try {
+                    slotView.setImage(new Image(getClass().getResourceAsStream("/" + placeholders[i])));
+                    slotView.setOpacity(0.2);
+                } catch (Exception e) { /* image error */ }
+            }
+        }
     }
 
     private void animateBar(ProgressBar bar, double newValue) {
-        // อนิเมชั่นแบบสั้นๆ กระตุกนิดๆ ให้ฟีลลิ่งแบบเกมย้อนยุค
-        Timeline timeline = new Timeline(
-                new KeyFrame(Duration.millis(200), new KeyValue(bar.progressProperty(), newValue))
-        );
-        timeline.play();
+        Timeline tl = new Timeline(new KeyFrame(Duration.millis(300), new KeyValue(bar.progressProperty(), newValue)));
+        tl.play();
     }
 }
