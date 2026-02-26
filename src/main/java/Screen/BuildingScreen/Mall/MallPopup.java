@@ -19,8 +19,8 @@ public class MallPopup implements Shopable, Normal {
 
     private enum MallItem implements ShopItem {
         PILLOW("PILLOW", 50, "#00ffff", 10, 0),
-        MICKEY_BED("MICKEY MOUSE\nBED SET", 350, "#ff007f", 40, 5),
-        TUNG_BED("TungTungSAHUR\nBED SET", 999, "#ffd700", 100, 20);
+        TUNG_BED("TungTungSAHUR\nBED SET", 676, "#ffd700", 100, 20),
+        CAR("CAR", 999, "#ff007f", 40, 5);
 
         private final String name;
         private final int price;
@@ -42,8 +42,11 @@ public class MallPopup implements Shopable, Normal {
 
         @Override
         public void execute(GamePane gamePane) {
-            gamePane.setPlayerStamina(gamePane.getPlayerStamina() + staminaGain);
-            gamePane.setPlayerHealth(gamePane.getPlayerHealth() + healthGain);
+            if(gamePane.getPlayerMoney() >= price){
+                gamePane.setPlayerStamina(gamePane.getPlayerStamina() + staminaGain);
+                gamePane.setPlayerHealth(gamePane.getPlayerHealth() + healthGain);
+                gamePane.setPlayerMoney(gamePane.getPlayerMoney() - price);
+            }
         }
     }
 
@@ -58,9 +61,9 @@ public class MallPopup implements Shopable, Normal {
         Label healthLabel = new Label("HEALTH: " + gamePane.getPlayerHealth());
         Label moneyLabel = new Label("MONEY: " + gamePane.getPlayerMoney());
 
-        staminaLabel.setStyle("-fx-text-fill: #00ff99; -fx-font-size: 15px;");
-        healthLabel.setStyle("-fx-text-fill: #ff4d4d; -fx-font-size: 15px;");
-        moneyLabel.setStyle("-fx-text-fill: gold; -fx-font-size: 15px;");
+        staminaLabel.setStyle("-fx-text-fill: #00ff99; -fx-font-size: 18px;");
+        healthLabel.setStyle("-fx-text-fill: #ff4d4d; -fx-font-size: 18px;");
+        moneyLabel.setStyle("-fx-text-fill: gold; -fx-font-size: 18px;");
 
         // ===== 2. Refresh UI Logic =====
         Runnable refreshUI = () -> {
@@ -72,7 +75,7 @@ public class MallPopup implements Shopable, Normal {
         // ===== 3. Work Action (งานพาร์ทไทม์ในห้าง) =====
         Runnable workAction = () -> {
             if (gamePane.getPlayerStamina() >= 10) {
-                gamePane.setPlayerStamina(gamePane.getPlayerStamina() - 30);
+                gamePane.setPlayerStamina(gamePane.getPlayerStamina() - 10);
                 gamePane.setPlayerMoney(gamePane.getPlayerMoney() + 20000);
                 System.out.println("Part-time job at Mall... +$200");
             } else {
@@ -94,16 +97,17 @@ public class MallPopup implements Shopable, Normal {
         );
 
         // ===== 5. ส่วนตรงกลาง (รายการขายของ) =====
-        HBox itemBox = new HBox(25);
-        itemBox.setAlignment(Pos.CENTER);
-        itemBox.setPadding(new Insets(40));
+        HBox optionBox = new HBox(25);
+        optionBox.setAlignment(Pos.CENTER);
+        optionBox.setPadding(new Insets(40));
 
         for (MallItem item : MallItem.values()) {
             Button btn = popup.createShopButton(item, gamePane, refreshUI);
-            itemBox.getChildren().add(btn);
+            btn.setPrefSize(180, 140);
+            optionBox.getChildren().add(btn);
         }
 
-        root.setCenter(itemBox);
+        root.setCenter(optionBox);
 
         Scene scene = new Scene(root, 800, 500);
         stage.setScene(scene);
