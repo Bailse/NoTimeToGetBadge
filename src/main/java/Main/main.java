@@ -1,11 +1,11 @@
 package Main;
 
+import Audio.SoundManager;
 import Screen.ScreenManager;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import Logic.SoundManager;
 
 public class main extends Application {
 

@@ -146,4 +146,10 @@ public abstract class BasePlayer {
     public void setHappiness(int happiness) {
         this.happiness = happiness;
     }
+    // ในไฟล์ Player.java
+    private int maxUnlockedLevel = 0; // 0=HighSchool, 1=Bachelor, 2=Master, 3=Doctorate
+
+    public int getMaxUnlockedLevel() { return maxUnlockedLevel; }
+    public void setMaxUnlockedLevel(int level) { this.maxUnlockedLevel = level; }
+
 }
