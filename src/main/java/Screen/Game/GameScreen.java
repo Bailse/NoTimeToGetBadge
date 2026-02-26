@@ -5,6 +5,7 @@ import Logic.GamePane;
 import Logic.GameSession;
 import Screen.BuildingScreen.Building;
 import Screen.ScreenManager;
+import Audio.SoundManager;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.*;
 
@@ -12,12 +13,14 @@ public class GameScreen extends VBox {
 
     public GameScreen(ScreenManager game) {
 
+        SoundManager.playBackground("background.mp3");
+
         setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
         // ------------------ TOP BAR ------------------
         Gamebar topbar = new Gamebar();
         topbar.updateRound(GameSession.getRound(), GameSession.getMaxRounds());
-        topbar.getGo_back().setOnAction(e -> game.showTitle());
+        topbar.getGo_back().setOnAction(e -> { SoundManager.stopBackground(); game.showTitle(); });
 
         getChildren().add(topbar);
 
