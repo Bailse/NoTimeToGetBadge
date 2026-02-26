@@ -15,8 +15,8 @@ import javafx.util.Duration;
 
 public class StatusTab extends VBox {
 
-    private ProgressBar staminaBar, healthBar, educationBar, moneyBar;
-    private Label staminaLabel, healthLabel, educationLabel, moneyLabel;
+    private ProgressBar staminaBar, healthBar, educationBar, moneyBar,happinessBar;
+    private Label staminaLabel, healthLabel, educationLabel, moneyLabel,happinessLabel;
     private ImageView[] itemSlots;
 
     public StatusTab() {
@@ -39,6 +39,7 @@ public class StatusTab extends VBox {
         VBox hBox = createBar("HEALTH", "#ff0000");
         VBox eBox = createBar("EDUCATION", "#0000ff");
         VBox mBox = createBar("MONEY", "#00ff00");
+        VBox qBox = createBar("HAPPINESS", "#ffff00");
 
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
@@ -67,7 +68,7 @@ public class StatusTab extends VBox {
             inventoryBox.getChildren().add(slot);
         }
 
-        getChildren().addAll(title, avatarPane, sBox, hBox, eBox, mBox, spacer, invTitle, inventoryBox);
+        getChildren().addAll( avatarPane, sBox, hBox, eBox, mBox, qBox,spacer, invTitle, inventoryBox);
         updateStatus();
     }
 
@@ -113,6 +114,7 @@ public class StatusTab extends VBox {
         else if (name.equals("HEALTH")) { healthBar = bar; healthLabel = vLabel; }
         else if (name.equals("EDUCATION")) { educationBar = bar; educationLabel = vLabel; }
         else if (name.equals("MONEY")) { moneyBar = bar; moneyLabel = vLabel; }
+        else if (name.equals("HAPPINESS")){happinessBar = bar; happinessLabel = vLabel;}
 
         return box;
     }
@@ -125,11 +127,16 @@ public class StatusTab extends VBox {
         animateBar(healthBar, player.getHealth() / 200.0);
         animateBar(educationBar, player.getEducation() / 200.0);
         animateBar(moneyBar, player.getMoney() / 10000.0);
+        // //
+        animateBar(happinessBar, player.getHappiness() / 500.0);
+
+
 
         staminaLabel.setText(player.getStamina() + "/200");
         healthLabel.setText(player.getHealth() + "/200");
         educationLabel.setText(player.getEducation() + "/200");
         moneyLabel.setText("$" + player.getMoney());
+        happinessLabel.setText(player.getHappiness() + "/500");
 
         updateInventoryDisplay(player.getItemManager());
     }

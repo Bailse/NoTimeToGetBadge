@@ -10,7 +10,8 @@ public class Otaku extends BasePlayer {
                 0.95,
                 1.05,
                 3,
-                12
+                12,
+                100
         );
         setImagePath("/Lily.jpg");
     }

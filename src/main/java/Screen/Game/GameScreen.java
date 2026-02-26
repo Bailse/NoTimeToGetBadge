@@ -3,6 +3,7 @@ package Screen.Game;
 import Character.BasePlayer;
 import Logic.GamePane;
 import Logic.GameSession;
+import Screen.BuildingScreen.Building;
 import Screen.ScreenManager;
 import Audio.SoundManager;
 import javafx.scene.control.Alert;
@@ -61,14 +62,13 @@ public class GameScreen extends VBox {
 
         // --- Action button (kept from original) ---
         topbar.setOnActionClick(() -> {
-            int r = gamePane.getPlayerRow();
-            int c = gamePane.getPlayerCol();
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Player Location");
-            alert.setHeaderText(null);
-            alert.setContentText("You are at row: " + r + " col: " + c);
-            alert.showAndWait();
+            Building building = gamePane.getCurrentBuilding();
+
+            if (building != null) {
+                building.interact(gamePane);
+            }
+
         });
 
         // --- End round logic (NEW) ---

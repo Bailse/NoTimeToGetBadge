@@ -9,6 +9,7 @@ public abstract class BasePlayer {
     private int money;
     private int education;
     private int health;
+    private int happiness;
     private double moneyDiscount;      // เช่น 0.80
     private double educationMultiply;  // เช่น 1.10
     private int healthDecrease;        // ลด health เวลากิจกรรม
@@ -19,7 +20,7 @@ public abstract class BasePlayer {
 
     public BasePlayer(int stamina, int money, int education, int health,
                          double moneyDiscount, double educationMultiply,
-                         int healthDecrease, int staminaDecrease) {
+                         int healthDecrease, int staminaDecrease , int happiness) {
 
         setStamina(stamina);
         setMoney(money);
@@ -29,6 +30,8 @@ public abstract class BasePlayer {
         setEducationMultiply(educationMultiply);
         setHealthDecrease(healthDecrease);
         setStaminaDecrease(staminaDecrease);
+        setHappiness(happiness);
+
         this.itemManager = new Item();
     }
 
@@ -135,5 +138,18 @@ public abstract class BasePlayer {
     public Item getItemManager() {
         return itemManager;
     }
+
+    public int getHappiness() {
+        return happiness;
+    }
+
+    public void setHappiness(int happiness) {
+        this.happiness = happiness;
+    }
+    // ในไฟล์ Player.java
+    private int maxUnlockedLevel = 0; // 0=HighSchool, 1=Bachelor, 2=Master, 3=Doctorate
+
+    public int getMaxUnlockedLevel() { return maxUnlockedLevel; }
+    public void setMaxUnlockedLevel(int level) { this.maxUnlockedLevel = level; }
 
 }
