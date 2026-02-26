@@ -69,13 +69,9 @@ public class TitleScreen extends VBox {
         this.getChildren().addAll(title, start, how_to_play, exit);
     }
 
-    /**
-     * Helper Method สำหรับสร้างปุ่มสไตล์ Pixel Art
-     */
     private Button createPixelButton(String text) {
         Button btn = new Button(text);
 
-        // สไตล์ปุ่มแบบ 8-bit: กรอบหนา, สีตัดกัน, ไม่มีความโค้ง (Radius 0)
         String normalStyle =
                 "-fx-background-color: #252525; " +
                         "-fx-text-fill: white; " +

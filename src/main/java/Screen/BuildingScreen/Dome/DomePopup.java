@@ -1,10 +1,10 @@
 package Screen.BuildingScreen.Dome;
 
+
 import Logic.GamePane;
 import Screen.BuildingScreen.Normal;
 import Screen.BuildingScreen.ShopItem;
 import Screen.BuildingScreen.Shopable;
-import Screen.BuildingScreen.Travel.TravelPopup;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 
 public class DomePopup implements Shopable, Normal {
 
+    // ใช้ Enum เพื่อจัดการกิจกรรมในหอพัก โดยอ้างอิง ShopItem (เพื่อให้ใช้ createShopButton ได้)
     private enum DomeAction implements ShopItem {
         SLEEP("SLEEP 💤\n-10 ⚡", 0, "#ffaa00", 10, 10),  // เพิ่ม Stamina 40, เพิ่ม Happiness 5
         RELAX("RELAX 🎮\n-15 ⚡", 0, "#ff66ff", 15, 15); // เพิ่ม Stamina 15, เพิ่ม Happiness 15

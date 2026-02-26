@@ -141,8 +141,13 @@ public class ChulaPopup implements Shopable, Normal {
                             if (gamePane.getPlayerMoney() >= level.getPrice()) {
                                 gamePane.setPlayerMoney(gamePane.getPlayerMoney() - level.getPrice());
                                 GameSession.getPlayer().setMaxUnlockedLevel(level.levelIndex);
-                                this.run();
-                                refreshUI.run();
+                                gamePane.updateEducationItem(level.levelIndex);
+
+                                // อัปเดตหน้าจอโดยไม่ต้องเปิดใหม่ (แก้กระพริบ)
+                                javafx.application.Platform.runLater(() -> {
+                                    this.run(); // วาดปุ่มใหม่
+                                    refreshUI.run(); // อัปเดต Text Status
+                                });
                             }
                         });
                     } else {

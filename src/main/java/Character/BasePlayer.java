@@ -41,7 +41,12 @@ public abstract class BasePlayer {
     // ===== Actions =====
 
     public void walk() {
-        setStamina(getStamina() - getStaminaDecrease());
+        int cost = getStaminaDecrease();
+
+        if (getItemManager().getInventory().get(2) != null) {
+            cost = (int)(cost * 0.75);
+        }
+        setStamina(getStamina() - cost);
     }
 
     public void study(int baseEducationGain) {

@@ -7,7 +7,6 @@ public class Item {
 
     public Item() {
         inventory = new ArrayList<>();
-        // จองพื้นที่ 3 ช่อง (0: Health, 1: Education, 2: Vehicle)
         for (int i = 0; i < 3; i++) {
             inventory.add(null);
         }
