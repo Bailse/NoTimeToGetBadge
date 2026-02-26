@@ -145,12 +145,11 @@ public class StatusTab extends VBox {
         if (itemManager == null) return;
 
         // รูปเงาจางๆ (Placeholders) เมื่อยังไม่มีของ
-        String[] placeholders = {"WheyProtein.png", "Book.png", "Vehicle.png"};
+        String[] placeholders = {"WheyProtein.png", "book1.png", "Vehicle.png"};
 
 
         for (int i = 0; i < 3; i++) {
             BaseItem item = itemManager.getInventory().get(i);
-            itemManager.addItem(new Vehicle());
             ImageView slotView = itemSlots[i];
 
             if (item != null) {

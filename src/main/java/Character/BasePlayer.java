@@ -47,7 +47,13 @@ public abstract class BasePlayer {
     // ===== Actions =====
 
     public void walk() {
-        setStamina(getStamina() - getStaminaDecrease());
+        int cost = getStaminaDecrease();
+
+        if (getItemManager().getInventory().get(2) != null) {
+            cost = (int)(getStaminaDecrease()*0.5);
+        }
+
+        setStamina(getStamina() - cost);
     }
 
     public void study(int baseEducationGain) {
@@ -122,6 +128,14 @@ public abstract class BasePlayer {
         healthDecrease = value;
     }
 
+    // =================== Happiness ====================
+    public int getHappiness() {
+        return happiness;
+    }
+    public void setHappiness(int happiness) {
+        this.happiness = happiness;
+    }
+
 
     // ==================== PLAYER_TYPE ================
 
@@ -145,13 +159,6 @@ public abstract class BasePlayer {
         return itemManager;
     }
 
-    public int getHappiness() {
-        return happiness;
-    }
-
-    public void setHappiness(int happiness) {
-        this.happiness = happiness;
-    }
     // ในไฟล์ Player.java
     private int maxUnlockedLevel = 0; // 0=HighSchool, 1=Bachelor, 2=Master, 3=Doctorate
 

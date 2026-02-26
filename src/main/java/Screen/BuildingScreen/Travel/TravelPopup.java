@@ -20,22 +20,23 @@ public class TravelPopup implements Shopable, Normal {
 
     // Enum สำหรับสถานที่ท่องเที่ยว
     private enum Destination implements ShopItem {
-        BEACH("BEACH 🌊", 1000, "#00ccff", -50, 0),   // จ่าย 1000, เพิ่ม Stamina 50
-        JAPAN("JAPAN 🗾", 5000, "#00ccff", -100, 10), // จ่าย 5000, เพิ่ม Stamina 100, ได้ Edu 10
-        PARIS("PARIS 🗼", 10000, "#00ccff", -150, 20); // จ่าย 10000, เพิ่ม Stamina 150, ได้ Edu 20
+        // ชื่อปุ่ม, ราคา, สีขอบ, (ไม่ได้ใช้), ค่า Happiness ที่จะได้รับ
+        BEACH("BEACH 🌊", 1000, "#00ccff", 20, 20),
+        JAPAN("JAPAN 🗾", 5000, "#00ccff", 30, 50),
+        PARIS("PARIS 🗼", 10000, "#00ccff", 40, 100);
 
         private final String name;
         private final int price;
         private final String color;
         private final int staminaCost;
-        private final int eduGain;
+        private final int happinessGain;
 
-        Destination(String name, int price, String color, int staminaCost, int eduGain) {
+        Destination(String name, int price, String color, int staminaCost, int happinessGain) {
             this.name = name;
             this.price = price;
             this.color = color;
+            this.happinessGain = happinessGain;
             this.staminaCost = staminaCost;
-            this.eduGain = eduGain;
         }
 
         @Override public String getName() { return name; }
@@ -44,12 +45,20 @@ public class TravelPopup implements Shopable, Normal {
 
         @Override
         public void execute(GamePane gamePane) {
-            // เช็คเงิน (ระบบ Shopable มักเช็คให้ใน createShopButton แต่เช็คเผื่อไว้ได้)
-            if (gamePane.getPlayerMoney() >= price) {
-                gamePane.setPlayerMoney(gamePane.getPlayerMoney() - price);
-                gamePane.setPlayerStamina(gamePane.getPlayerStamina() - staminaCost); // ลบด้วยค่าติดลบ = เพิ่ม
-                gamePane.setPlayerEducation(gamePane.getPlayerEducation() + eduGain);
-                System.out.println("Traveling to " + name);
+            if(gamePane.getPlayerStamina() >= staminaCost && gamePane.getPlayerMoney() >= price){
+                if(gamePane.getPlayerHappiness() < 500){
+                    gamePane.setPlayerHappiness(gamePane.getPlayerHappiness() + happinessGain);
+                    gamePane.setPlayerStamina(gamePane.getPlayerStamina() - staminaCost);
+                    gamePane.setPlayerMoney(gamePane.getPlayerMoney() - price);
+                    System.out.println("Traveling to " + name + " | Happiness increased by " + happinessGain);
+                }
+                else {
+                    javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+                    alert.setTitle("Happiness Status");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Your Happiness is already full! (Max: 500)");
+                    alert.showAndWait();
+                }
             }
         }
     }
@@ -60,34 +69,34 @@ public class TravelPopup implements Shopable, Normal {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
 
-        // Labels สถานะ
+        // ===== 1. Labels สถานะ (สร้างตามลำดับที่ต้องการโชว์) =====
         Label staminaLabel = new Label("STAMINA: " + gamePane.getPlayerStamina());
-        Label eduLabel = new Label("EDUCATION: " + gamePane.getPlayerEducation());
-        Label moneyLabel = new Label("MONEY: " + gamePane.getPlayerMoney());
+        Label happinessLabel = new Label("HAPPINESS: " + gamePane.getPlayerHappiness());
+        Label moneyLabel = new Label("MONEY: $" + gamePane.getPlayerMoney());
 
-        staminaLabel.setStyle("-fx-text-fill: #00FFAA; -fx-font-size: 14px;");
-        eduLabel.setStyle("-fx-text-fill: #ff66ff; -fx-font-size: 14px;");
-        moneyLabel.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 14px;");
+// ตกแต่ง Style (ปรับเป็น 18px เพื่อความชัดเจน)
+        staminaLabel.setStyle("-fx-text-fill: #00FFAA; -fx-font-size: 18px; -fx-font-weight: bold;");
+        happinessLabel.setStyle("-fx-text-fill: #FF69B4; -fx-font-size: 18px; -fx-font-weight: bold;"); // สีชมพู
+        moneyLabel.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 18px; -fx-font-weight: bold;");    // สีทอง
 
+// ===== 2. ฟังก์ชัน Refresh UI (ต้องอัปเดตให้ครบทุกค่า) =====
         Runnable refreshUI = () -> {
             staminaLabel.setText("STAMINA: " + gamePane.getPlayerStamina());
-            eduLabel.setText("EDUCATION: " + gamePane.getPlayerEducation());
-            moneyLabel.setText("MONEY: " + gamePane.getPlayerMoney());
+            happinessLabel.setText("HAPPINESS: " + gamePane.getPlayerHappiness());
+            moneyLabel.setText("MONEY: $" + gamePane.getPlayerMoney());
         };
 
-        // ใช้ Base Layout (Header สีฟ้า #00ccff)
+// ===== 3. เรียก Base Layout =====
         BorderPane root = popup.createBaseLayout(
-                stage, gamePane, "AIRPORT / TRAVEL", Color.web("#00ccff"),
-                "WALK AROUND", "#00ccff",
-                () -> { // กิจกรรมปุ่มขวาล่าง
-                    if (gamePane.getPlayerStamina() >= 5) {
-                        gamePane.setPlayerStamina(gamePane.getPlayerStamina() - 5);
-                        gamePane.setPlayerEducation(gamePane.getPlayerEducation() + 1);
-                        refreshUI.run();
-                    }
-                },
+                stage,
+                gamePane,
+                "AIRPORT / TRAVEL",
+                Color.web("#00ccff"),
+                null, // No action button
+                null,
+                null,
                 refreshUI,
-                staminaLabel, eduLabel, moneyLabel
+                staminaLabel,moneyLabel,happinessLabel
         );
 
         // ส่วนปุ่มเลือกจุดหมาย
@@ -98,26 +107,6 @@ public class TravelPopup implements Shopable, Normal {
         for (Destination dest : Destination.values()) {
             Button btn = popup.createShopButton(dest, gamePane, refreshUI);
             btn.setPrefSize(220, 160);
-            btn.setText(dest.getName() + "\n$" + dest.getPrice());
-
-            // ปรับแต่งปุ่มโค้ง (Radius 15)
-            String normalStyle = "-fx-background-color: #0f3460; " +
-                    "-fx-border-color: #00ccff; " +
-                    "-fx-border-width: 4; " +
-                    "-fx-background-radius: 15; " +
-                    "-fx-border-radius: 15; " +
-                    "-fx-text-fill: white; " +
-                    "-fx-alignment: center; " +
-                    "-fx-text-alignment: center;";
-
-            btn.setStyle(normalStyle);
-
-            // รักษาความโค้งเมื่อเมาส์ออก
-            btn.setOnMouseExited(e -> {
-                btn.setStyle(normalStyle);
-                btn.setEffect(null);
-            });
-
             optionsBox.getChildren().add(btn);
         }
 

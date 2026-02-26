@@ -24,6 +24,9 @@ public class main extends Application {
         TitleStage.setTitle("No time to get badge");
         TitleStage.setResizable(false);
         TitleStage.show();
+
+        // Play background music forever
+        SoundManager.playBackground("background.mp3");
     }
 
     public static void main(String[] args) {

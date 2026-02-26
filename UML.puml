@@ -1,25 +1,227 @@
 @startuml
-class Character.Nerd {
+class Item.Vehicle {
 }
-class Screen.HowToPlay.HowToPlayScreen {
-- VBox createSection(String,String,String)
-}
-
 class Screen.TitleScreen {
 - ScreenManager begin
 - Text title
 - Button start
 - Button how_to_play
 - Button exit
+- Button createPixelButton(String)
 }
 
+
+class Screen.BuildingScreen.Gym.Gym {
++ void interact(GamePane)
+}
+
+class Screen.BuildingScreen.Dome.Dome {
++ void interact(GamePane)
+}
+
+class Screen.Choosing.ChoosingScreen {
+- String[] avatarPaths
+- String[] archetypeNames
+- String[] prosCons
+- int selectedIndex
+- Label selectedTitle
+- Label selectedDesc
+- void refreshDescription()
+- String cardStyle(boolean)
+- ImageView safeAvatar(String)
+}
+
+
+class Screen.BuildingScreen.Chula.ChulaPopup {
++ {static} void show(GamePane)
+}
+
+enum Screen.BuildingScreen.Chula.StudyLevel {
++  HIGH_SCHOOL
++  BACHELOR
++  MASTER
++  DOCTORATE
+- String name
+- int price
+- String color
+- int eduGain
+- int levelIndex
++ String getName()
++ int getPrice()
++ String getColor()
++ void execute(GamePane)
+}
+
+
+class Main.main {
++ void start(Stage)
++ {static} void main(String[])
+}
+
+abstract class Screen.BuildingScreen.Building {
+# String name
++ {abstract}void interact(GamePane)
+}
+
+
+class Item.EducationThing {
+}
+class Screen.Game.Gamebar {
+- Button go_back
+- Button end_round
+- Button action
+- Button musicToggle
+- Label roundLabel
++ void updateRound(int,int)
++ Button getGo_back()
++ Button getEnd_round()
++ Button getAction()
++ void setActionVisible(boolean)
++ void setOnActionClick(Runnable)
+}
+
+
+class Screen.BuildingScreen.Mall.Mall {
++ void interact(GamePane)
+}
+
+class Screen.BuildingScreen.UI.UIUtil {
+- {static} Font pixelFont
++ {static} Font getPixelFont(double)
+}
+
+
+class Character.GymBro {
+}
+interface Screen.BuildingScreen.ShopItem {
+~ String getName()
+~ int getPrice()
+~ String getColor()
+~ void execute(GamePane)
+}
+
+class Character.NormalGuy {
+}
+interface Screen.BuildingScreen.Shopable {
+~ Button createShopButton(ShopItem,Logic.GamePane,Runnable)
+}
+
+class Screen.Game.StatusTab {
+- ProgressBar staminaBar
+- Label staminaLabel
+- ImageView[] itemSlots
+- StackPane createAvatarSection()
+- VBox createBar(String,String)
++ void updateStatus()
+- void updateInventoryDisplay(Item)
+- void animateBar(ProgressBar,double)
+}
+
+
+class Screen.BuildingScreen.Travel.TravelPopup {
++ {static} void show(GamePane)
+}
+
+enum Screen.BuildingScreen.Travel.Destination {
++  BEACH
++  JAPAN
++  PARIS
+- String name
+- int price
+- String color
+- int staminaCost
+- int happinessGain
++ String getName()
++ int getPrice()
++ String getColor()
++ void execute(GamePane)
+}
+
+
+class Logic.GamePane {
+- int TILE_SIZE
+- boolean[][] clickable
+- Image wallImage
+- Image floorImage
+- Image gym
+- Image imgDown
+- Image imgLeft
+- Image imgRight
+- Image imgUp
+- BasePlayer playerType
+- Runnable onReachBuilding
+- Runnable onLeaveBuilding
+- Runnable onStatusChange
+- int[][] map
+- int playerRow
+- int playerCol
+- ImageView player
+- boolean isMoving
+- Building[][] bmap
++ void setImgDown()
++ void setImgLeft()
++ void setImgRight()
++ void setImgUp()
++ int getPlayerMoney()
++ void setPlayerMoney(int)
++ int getPlayerStamina()
++ void setPlayerStamina(int)
++ int getPlayerHealth()
++ void setPlayerHealth(int)
++ int getPlayerEducation()
++ void setPlayerEducation(int)
++ int getPlayerHappiness()
++ void setPlayerHappiness(int)
++ void addItem(String)
++ void updateEducationItem(int)
++ Building getCurrentBuilding()
+- void drawMap()
+- List<int[]> findPath(int,int,int,int)
+- void clickablePath()
+- void walkPath(List<int[]>)
++ boolean CheckPlayer()
++ void setOnReachBuilding(Runnable)
++ void setOnLeaveBuilding(Runnable)
++ int getPlayerRow()
++ int getPlayerCol()
++ void setPlayerRow(int)
++ void setPlayerCol(int)
++ void setOnStatusChange(Runnable)
++ void resetPlayerToStart()
++ boolean isPlayerMoving()
+}
+
+
+class Screen.BuildingScreen.Gym.GymPopup {
++ {static} void show(GamePane)
+}
+
+enum Screen.BuildingScreen.Gym.GymService {
++  WORKOUT
++  POWER
++  BEAST
++  PROTEIN
+- String name
+- int price
+- String color
+- int staminaCost
+- int healthGain
+- boolean isUnique
+- boolean isSoldOut
++ String getName()
++ int getPrice()
++ String getColor()
++ void execute(GamePane)
+}
+
+
 class Logic.GameSession {
-- {static} Player player
+- {static} BasePlayer player
 - {static} int MAX_ROUNDS
 - {static} int round
 - {static} int initialStamina
-+ {static} void setPlayer(Player)
-+ {static} Player getPlayer()
++ {static} void setBasePlayer(BasePlayer)
++ {static} BasePlayer getPlayer()
 + {static} int getRound()
 + {static} int getMaxRounds()
 + {static} int getInitialStamina()
@@ -28,12 +230,90 @@ class Logic.GameSession {
 }
 
 
-enum Character.CharacterType {
-+  HUSTLER
-+  GENIUS
-+  ATHLETE
-+  SOCIALITE
+class Item.Book4 {
 }
+class Item.Book1 {
+}
+class Item.HealthThing {
+}
+class Character.Otaku {
+}
+enum Item.Category {
++  EDUCATION
++  HEALTH
++  VEHICLE
++  MONEY
++ String[] value()
++ Class<? extends Annotation> annotationType()
+}
+
+
+class Screen.BuildingScreen.Park.ParkPopup {
++ {static} void show(GamePane)
+}
+
+enum Screen.BuildingScreen.Park.ParkAction {
++  WALK
++  RELAX
+- String name
+- int price
+- String color
+- int staminaCost
+- int happinessGain
+- int healthGain
++ String getName()
++ int getPrice()
++ String getColor()
++ void execute(GamePane)
+}
+
+
+class Screen.BuildingScreen.Mall.MallPopup {
++ {static} void show(GamePane)
+}
+
+enum Screen.BuildingScreen.Mall.MallItem {
++  PILLOW
++  TUNG_BED
++  CAR
+- String name
+- int price
+- String color
+- int staminaGain
+- int healthGain
+- boolean isUnique
+- boolean soldOut
++ String getName()
++ int getPrice()
++ String getColor()
++ void execute(GamePane)
+}
+
+
+class Screen.BuildingScreen.UI.PixelTheme {
++ {static} String BG_DARK
++ {static} String PANEL_BG
++ {static} String BORDER_RED
++ {static} String BORDER_LIGHT
++ {static} String TEXT_LIGHT
++ {static} String TEXT_GOLD
+}
+
+enum Character.CharacterType {
++  GYMBRO
++  NERD
++  OTAKU
++  NORMAL
+}
+
+class Item.WheyProtein {
+}
+class Item.Item {
+- ArrayList<BaseItem> inventory
++ void addItem(BaseItem)
++ ArrayList<BaseItem> getInventory()
+}
+
 
 class Screen.Choosing.init {
 - String des
@@ -55,39 +335,45 @@ class Screen.Choosing.init {
 }
 
 
-class Screen.Choosing.ChoosingScreen {
-- String[] avatarPaths
-- String[] archetypeNames
-- String[] prosCons
-- int selectedIndex
-- Label selectedTitle
-- Label selectedDesc
-- void refreshDescription()
-- String cardStyle(boolean)
-- ImageView safeAvatar(String)
-}
-
-
 class Screen.Game.ActionButtoninit {
 - GamePane gamePane
 }
 
-class Main.main {
-+ void start(Stage)
-+ {static} void main(String[])
+class Item.BaseItem {
+- String name
+- String image
+- boolean active
+- Category category
++ String getName()
++ void setName(String)
++ String getImage()
++ void setImage(String)
++ boolean isActive()
++ void setActive(boolean)
++ Category getCategory()
++ void setCategory(Category)
 }
 
-class Item.BaseItem {
-}
+
 abstract class Character.BasePlayer {
+- CharacterType characterType
 - int stamina
 - int money
 - int education
 - int health
+- int happiness
 - double moneyDiscount
 - double educationMultiply
 - int healthDecrease
 - int staminaDecrease
+- CharacterType type
+- String imagePath
+- Item itemManager
+- Image imgDown
+- Image imgLeft
+- Image imgRight
+- Image imgUp
+- int maxUnlockedLevel
 + void walk()
 + void study(int)
 + void buyItem(int)
@@ -107,44 +393,49 @@ abstract class Character.BasePlayer {
 + void setHealth(int)
 + int getHealthDecrease()
 + void setHealthDecrease(int)
-}
-
-
-class Screen.Game.Gamebar {
-- Button go_back
-- Button end_round
-- Button action
-- Label roundLabel
-+ void updateRound(int,int)
-+ Button getGo_back()
-+ Button getEnd_round()
-+ Button getAction()
-+ void setActionVisible(boolean)
-+ void setOnActionClick(Runnable)
-}
-
-
-class Character.Player {
-- CharacterType type
-- String imagePath
++ int getHappiness()
++ void setHappiness(int)
 + CharacterType getType()
 + void setType(CharacterType)
 + String getImagePath()
 + void setImagePath(String)
-+ void clampAllStats()
++ Item getItemManager()
++ int getMaxUnlockedLevel()
++ void setMaxUnlockedLevel(int)
++ Image getImgDown()
++ void setImgDown(Image)
++ Image getImgLeft()
++ void setImgLeft(Image)
++ Image getImgRight()
++ void setImgRight(Image)
++ Image getImgUp()
++ void setImgUp(Image)
 }
 
 
-class Character.GymBro {
-}
-class Character.PlayerFactory {
-+ {static} Player create(CharacterType)
+class Screen.BuildingScreen.Dome.DomePopup {
++ {static} void show(GamePane)
 }
 
-class Character.Otaku {
+enum Screen.BuildingScreen.Dome.DomeAction {
++  SLEEP
++  RELAX
+- String name
+- int price
+- String color
+- int staminaCost
+- int happinessGain
++ String getName()
++ int getPrice()
++ String getColor()
++ void execute(GamePane)
 }
-class Character.NormalGuy {
+
+
+class Character.PlayerCreate {
++ {static} BasePlayer create(CharacterType)
 }
+
 class Screen.ScreenManager {
 - Stage stage
 + void showTitle()
@@ -173,56 +464,82 @@ class Main.main2 {
 }
 
 
+interface Screen.BuildingScreen.Normal {
+~ BorderPane createBaseLayout(Stage,GamePane,String,Color,String,String,Runnable,Runnable,Label)
+- String toHex(Color)
+~ void applyPixelStyle(Button,String)
+}
+
 class Screen.Result.ResultScreen {
 - String[] Badge
+- {static} int MONEY_SSTAR
+- {static} int MONEY_S
+- {static} int HEALTH_SSTAR
+- {static} int HEALTH_S
+- {static} int EDUCATION_SSTAR
+- {static} int EDUCATION_S
+- {static} int HAPPINESS_SSTAR
+- {static} int HAPPINESS_S
 - HBox createStatusRow(String,int)
-- ImageView createBadge(int)
+- ImageView createBadge(String,int)
 }
 
 
-class Screen.Game.StatusTab {
-- ProgressBar staminaBar
-- Label staminaLabel
-- VBox createBar(String,String)
-+ void updateStatus()
-- void animateBar(ProgressBar,double)
+class Screen.BuildingScreen.Chula.Chula {
++ void interact(GamePane)
+}
+
+class Item.Book2 {
+}
+class Character.Nerd {
+}
+class Screen.HowToPlay.HowToPlayScreen {
+- VBox createSection(String,String,String)
+}
+
+class Audio.SoundManager {
+- {static} MediaPlayer backgroundPlayer
+- {static} boolean muted
++ {static} void playBackground(String)
++ {static} void stopBackground()
++ {static} void toggleMute()
++ {static} boolean isMuted()
 }
 
 
-class Logic.GamePane {
-- int TILE_SIZE
-- boolean[][] clickable
-- Image wallImage
-- Image floorImage
-- Image gym
-- Image imgDown
-- Image imgLeft
-- Image imgRight
-- Image imgUp
-- Runnable onReachBuilding
-- Runnable onLeaveBuilding
-- Runnable onStatusChange
-- int[][] map
-- int playerRow
-- int playerCol
-- ImageView player
-- boolean isMoving
-- void drawMap()
-- List<int[]> findPath(int,int,int,int)
-- void clickablePath()
-- void walkPath(List<int[]>)
-+ boolean CheckPlayer()
-+ void setOnReachBuilding(Runnable)
-+ void setOnLeaveBuilding(Runnable)
-+ int getPlayerRow()
-+ int getPlayerCol()
-+ void setPlayerRow(int)
-+ void setPlayerCol(int)
-+ void setOnStatusChange(Runnable)
-+ void resetPlayerToStart()
-+ boolean isPlayerMoving()
+class Item.Book3 {
+}
+class Screen.BuildingScreen.Restaurant.RestaurantPopup {
++ {static} void show(GamePane)
 }
 
+enum Screen.BuildingScreen.Restaurant.FoodMenu {
++  PAD_THAI
++  KRAPAO
++  TOM_YUM
+- String name
+- int price
+- String color
+- int staminaGain
+- int healthGain
++ String getName()
++ int getPrice()
++ String getColor()
++ void execute(GamePane)
+}
+
+
+class Screen.BuildingScreen.Restaurant.Restaurant {
++ void interact(GamePane)
+}
+
+class Screen.BuildingScreen.Travel.Travel {
++ void interact(GamePane)
+}
+
+class Screen.BuildingScreen.Park.Park {
++ void interact(GamePane)
+}
 
 class Screen.Game.GameScreen {
 - void handleEndRound(ScreenManager,Gamebar,GamePane,StatusTab)
@@ -230,21 +547,50 @@ class Screen.Game.GameScreen {
 
 
 
-Character.BasePlayer <|-- Character.Nerd
-Screen.HowToPlay.BorderPane <|-- Screen.HowToPlay.HowToPlayScreen
-javafx.scene.layout.VBox <|-- Screen.TitleScreen
-javafx.scene.layout.VBox <|-- Screen.Choosing.init
+Item.BaseItem <|-- Item.Vehicle
+Screen.VBox <|-- Screen.TitleScreen
+Screen.BuildingScreen.Building <|-- Screen.BuildingScreen.Gym.Gym
+Screen.BuildingScreen.Building <|-- Screen.BuildingScreen.Dome.Dome
 javafx.scene.layout.BorderPane <|-- Screen.Choosing.ChoosingScreen
-Screen.Game.Gamebar <|-- Screen.Game.ActionButtoninit
+Screen.BuildingScreen.Shopable <|.. Screen.BuildingScreen.Chula.ChulaPopup
+Screen.BuildingScreen.Normal <|.. Screen.BuildingScreen.Chula.ChulaPopup
 javafx.application.Application <|-- Main.main
+Item.BaseItem <|-- Item.EducationThing
 javafx.scene.layout.BorderPane <|-- Screen.Game.Gamebar
-Character.BasePlayer <|-- Character.Player
+Screen.BuildingScreen.Building <|-- Screen.BuildingScreen.Mall.Mall
 Character.BasePlayer <|-- Character.GymBro
-Character.BasePlayer <|-- Character.Otaku
 Character.BasePlayer <|-- Character.NormalGuy
+Screen.BuildingScreen.Normal <|-- Screen.BuildingScreen.Shopable
+Screen.Game.VBox <|-- Screen.Game.StatusTab
+Screen.BuildingScreen.Shopable <|.. Screen.BuildingScreen.Travel.TravelPopup
+Screen.BuildingScreen.Normal <|.. Screen.BuildingScreen.Travel.TravelPopup
+javafx.scene.layout.Pane <|-- Logic.GamePane
+Screen.BuildingScreen.Shopable <|.. Screen.BuildingScreen.Gym.GymPopup
+Screen.BuildingScreen.Normal <|.. Screen.BuildingScreen.Gym.GymPopup
+Item.EducationThing <|-- Item.Book4
+Item.EducationThing <|-- Item.Book1
+Item.BaseItem <|-- Item.HealthThing
+Character.BasePlayer <|-- Character.Otaku
+Screen.BuildingScreen.Shopable <|.. Screen.BuildingScreen.Park.ParkPopup
+Screen.BuildingScreen.Normal <|.. Screen.BuildingScreen.Park.ParkPopup
+Screen.BuildingScreen.Shopable <|.. Screen.BuildingScreen.Mall.MallPopup
+Screen.BuildingScreen.Normal <|.. Screen.BuildingScreen.Mall.MallPopup
+Item.HealthThing <|-- Item.WheyProtein
+javafx.scene.layout.VBox <|-- Screen.Choosing.init
+Screen.Game.Gamebar <|-- Screen.Game.ActionButtoninit
+Screen.BuildingScreen.Shopable <|.. Screen.BuildingScreen.Dome.DomePopup
+Screen.BuildingScreen.Normal <|.. Screen.BuildingScreen.Dome.DomePopup
 javafx.application.Application <|-- Main.main2
 Screen.Result.StackPane <|-- Screen.Result.ResultScreen
-Screen.Game.VBox <|-- Screen.Game.StatusTab
-javafx.scene.layout.Pane <|-- Logic.GamePane
+Screen.BuildingScreen.Building <|-- Screen.BuildingScreen.Chula.Chula
+Item.EducationThing <|-- Item.Book2
+Character.BasePlayer <|-- Character.Nerd
+Screen.HowToPlay.BorderPane <|-- Screen.HowToPlay.HowToPlayScreen
+Item.EducationThing <|-- Item.Book3
+Screen.BuildingScreen.Shopable <|.. Screen.BuildingScreen.Restaurant.RestaurantPopup
+Screen.BuildingScreen.Normal <|.. Screen.BuildingScreen.Restaurant.RestaurantPopup
+Screen.BuildingScreen.Building <|-- Screen.BuildingScreen.Restaurant.Restaurant
+Screen.BuildingScreen.Building <|-- Screen.BuildingScreen.Travel.Travel
+Screen.BuildingScreen.Building <|-- Screen.BuildingScreen.Park.Park
 Screen.Game.VBox <|-- Screen.Game.GameScreen
 @enduml
