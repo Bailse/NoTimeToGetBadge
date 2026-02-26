@@ -76,12 +76,12 @@ public class ResultScreen extends StackPane {
 
         statusGrid.add(createStatusRow("Money", player.getMoney()), 0, 0);
         statusGrid.add(createStatusRow("Education", player.getEducation()), 1, 0);
+        statusGrid.add(createStatusRow("Health", player.getHealth()), 0, 1);
+        statusGrid.add(createStatusRow("Happiness", player.getHappiness()), 1, 1);
 
-
-        HBox healthRow = createStatusRow("Health", player.getHealth());
-
-        statusGrid.add(healthRow, 0, 1, 2, 1);
-        GridPane.setHalignment(healthRow, javafx.geometry.HPos.CENTER);
+       // HBox healthRow = createStatusRow("Health", player.getHealth());
+       // statusGrid.add(healthRow, 0, 1, 2, 1);
+        //GridPane.setHalignment(healthRow, javafx.geometry.HPos.CENTER);
 
         StackPane descBox = new StackPane(statusGrid);
         descBox.setPadding(new Insets(40));
