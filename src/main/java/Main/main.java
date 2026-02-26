@@ -1,6 +1,5 @@
 package Main;
 
-import Audio.SoundManager;
 import Screen.ScreenManager;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -24,8 +23,6 @@ public class main extends Application {
         TitleStage.setResizable(false);
         TitleStage.show();
 
-        // Play background music forever
-        SoundManager.playBackground("background.mp3");
     }
 
     public static void main(String[] args) {

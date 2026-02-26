@@ -1,10 +1,12 @@
 package Screen.Game;
 
+import Audio.SoundManager;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class Gamebar extends BorderPane {
@@ -12,12 +14,19 @@ public class Gamebar extends BorderPane {
     private Button go_back;
     private Button end_round;
     private Button action;
+    private Button musicToggle;
     private Label roundLabel;
 
     public Gamebar(){
 
-        go_back = new Button("go Back");
-        end_round = new Button("end round");
+        go_back = new Button("Go Back");
+        end_round = new Button("End Round");
+
+        musicToggle = new Button("🔊");
+        musicToggle.setOnAction(e -> {
+            SoundManager.toggleMute();
+            musicToggle.setText(SoundManager.isMuted() ? "🔇" : "🔊");
+        });
 
         roundLabel = new Label("Round: 1/10");
         roundLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
@@ -28,7 +37,10 @@ public class Gamebar extends BorderPane {
         setPadding(new Insets(20));
 
         setLeft(go_back);
-        setRight(end_round);
+
+        HBox rightBox = new HBox(10, musicToggle, end_round);
+        rightBox.setAlignment(Pos.CENTER_RIGHT);
+        setRight(rightBox);
 
         VBox centerBox = new VBox(6, roundLabel, action);
         centerBox.setAlignment(Pos.CENTER);

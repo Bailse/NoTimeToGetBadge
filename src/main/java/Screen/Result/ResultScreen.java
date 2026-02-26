@@ -1,5 +1,7 @@
 package Screen.Result;
 
+import Audio.SoundManager;
+
 import Logic.GameSession;
 import Screen.ScreenManager;
 import javafx.geometry.Insets;
@@ -26,7 +28,7 @@ public class ResultScreen extends StackPane {
     };
 
     public ResultScreen(ScreenManager manager) {
-
+        SoundManager.stopBackground();
         BasePlayer player = GameSession.getPlayer();
 
         setPrefSize(1200, 1200);
