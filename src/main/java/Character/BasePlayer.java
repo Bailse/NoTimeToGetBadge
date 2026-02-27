@@ -80,7 +80,7 @@ public abstract class BasePlayer {
         return staminaDecrease;
     }
     public void setStaminaDecrease(int value) {
-        staminaDecrease = value;
+        staminaDecrease = Math.max(value,0);
     }
 
     // ==================== MONEY ====================
@@ -95,7 +95,7 @@ public abstract class BasePlayer {
         return moneyDiscount;
     }
     public void setMoneyDiscount(double value) {
-        moneyDiscount = value;
+        moneyDiscount = (value <= 0) ? 0.0 : value;
     }
 
     // ==================== EDUCATION ====================
@@ -110,7 +110,7 @@ public abstract class BasePlayer {
         return educationMultiply;
     }
     public void setEducationMultiply(double value) {
-        educationMultiply = value;
+        educationMultiply = (value <= 0) ? 0.0 : value;
     }
 
     // ==================== HEALTH ====================
@@ -125,7 +125,7 @@ public abstract class BasePlayer {
         return healthDecrease;
     }
     public void setHealthDecrease(int value) {
-        healthDecrease = value;
+        healthDecrease = Math.max(value,0);
     }
 
     // =================== Happiness ====================
@@ -133,7 +133,7 @@ public abstract class BasePlayer {
         return happiness;
     }
     public void setHappiness(int happiness) {
-        this.happiness = happiness;
+        this.happiness = Math.max(happiness,0);
     }
 
 
@@ -163,7 +163,7 @@ public abstract class BasePlayer {
     private int maxUnlockedLevel = 0; // 0=HighSchool, 1=Bachelor, 2=Master, 3=Doctorate
 
     public int getMaxUnlockedLevel() { return maxUnlockedLevel; }
-    public void setMaxUnlockedLevel(int level) { this.maxUnlockedLevel = level; }
+    public void setMaxUnlockedLevel(int level) { this.maxUnlockedLevel = Math.max(level,0); }
 
     public Image getImgDown() {
         return imgDown;
