@@ -4,6 +4,8 @@ import Character.BasePlayer;
 import Logic.GamePane;
 import Logic.GameSession;
 import Screen.BuildingScreen.Building;
+import Screen.BuildingScreen.Gym.GymPopup;
+import Screen.BuildingScreen.Mall.MallPopup;
 import Screen.ScreenManager;
 import Audio.SoundManager;
 import javafx.scene.control.Alert;
@@ -12,7 +14,8 @@ import javafx.scene.layout.*;
 public class GameScreen extends VBox {
 
     public GameScreen(ScreenManager game) {
-
+        GymPopup.resetAllGymService();
+        MallPopup.resetAllMallItems();
         SoundManager.playBackground("background.mp3");
 
         setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);

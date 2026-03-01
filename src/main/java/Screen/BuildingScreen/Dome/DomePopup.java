@@ -2,7 +2,7 @@ package Screen.BuildingScreen.Dome;
 
 
 import Logic.GamePane;
-import Logic.GameSession;
+import Character.BasePlayer;
 import Screen.BuildingScreen.Normal;
 import Screen.BuildingScreen.ShopItem;
 import Screen.BuildingScreen.Shopable;
@@ -55,13 +55,11 @@ public class DomePopup implements Shopable, Normal {
 
         @Override
         public void execute(GamePane gamePane) {
-            if (gamePane.getPlayerStamina() >= staminaCost) {
-                if(gamePane.getPlayerHappiness() < 500){
-                    gamePane.setPlayerStamina(gamePane.getPlayerStamina() - staminaCost);
-                    gamePane.setPlayerHappiness(gamePane.getPlayerHappiness() + happinessGain);
-                    //gamePane.setPlayerHappiness(); <- ไม่ได้จำเป็นและทำให้ code เรา dupilcate เยอะมาก
-                    //ถ้าเราใช้
-                    //GameSession.getPlayer(). จะทำให้เรามี polymorph ได้ตามที่เขาต้องการเพราะว่าในตอนนี้เราไม่ได้ใช้เลย
+            BasePlayer p = gamePane.getPlayer();
+            if (p.getStamina() >= staminaCost) {
+                if(p.getHappiness() < 500){
+                    p.setStamina(p.getStamina() - staminaCost);
+                    p.setHappiness(p.getHappiness() + happinessGain);
                 }
                 else {
                     javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
@@ -75,14 +73,16 @@ public class DomePopup implements Shopable, Normal {
     }
 
     public static void show(GamePane gamePane) {
+        BasePlayer p = gamePane.getPlayer();
+
         DomePopup popup = new DomePopup();
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
 
         // ===== Labels สำหรับแสดงสถานะ =====
-        Label staminaLabel = new Label("STAMINA: " + gamePane.getPlayerStamina());
-        Label happinessLabel = new Label("HAPPINESS: " + gamePane.getPlayerHappiness());
+        Label staminaLabel = new Label("STAMINA: " + p.getStamina());
+        Label happinessLabel = new Label("HAPPINESS: " + p.getHappiness());
 
         // ตกแต่ง Style
         staminaLabel.setStyle("-fx-text-fill: #00FFAA; -fx-font-size: 18px; -fx-font-weight: bold;");
@@ -90,8 +90,8 @@ public class DomePopup implements Shopable, Normal {
 
         // ฟังก์ชัน Refresh UI
         Runnable refreshUI = () -> {
-            staminaLabel.setText("STAMINA: " + gamePane.getPlayerStamina());
-            happinessLabel.setText("HAPPINESS: " + gamePane.getPlayerHappiness());
+            staminaLabel.setText("STAMINA: " + p.getStamina());
+            happinessLabel.setText("HAPPINESS: " + p.getHappiness());
         };
 
         // ใช้ createBaseLayout จาก Interface Normal

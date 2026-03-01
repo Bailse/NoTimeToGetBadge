@@ -1,7 +1,11 @@
 package Screen.BuildingScreen.Gym;
 
+import Logic.GameSession;
+import Screen.BuildingScreen.Mall.MallPopup;
 import Screen.BuildingScreen.ShopItem;
 import Logic.GamePane;
+import Character.BasePlayer;
+import Character.GymBro;
 import Screen.BuildingScreen.Normal;
 import Screen.BuildingScreen.Shopable;
 import javafx.application.Platform;
@@ -16,8 +20,12 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class GymPopup implements Shopable, Normal {
+import static Screen.UI.ToastUtil.showToast;
 
+public class GymPopup implements Shopable, Normal {
+    public static void resetAllGymService() {
+        GymService.resetGymService();
+    }
     private enum GymService implements ShopItem {
         WORKOUT("WORK OUT", 25, "#e94560", 5, 5, false),
         POWER("POWER", 100, "#e94560", 10, 15, false),
@@ -45,27 +53,36 @@ public class GymPopup implements Shopable, Normal {
         @Override public int getPrice() { return price; }
         @Override public String getColor() { return color; }
 
+        public static void resetGymService() {
+            for (GymService item : GymService.values()) {
+                item.isSoldOut = false;
+            }
+        }
+
         @Override
         public void execute(GamePane gamePane) {
-            if (gamePane.getPlayerMoney() < this.price) return;
+            BasePlayer p = gamePane.getPlayer();
+            if (p.getMoney() < this.price) return;
 
             if (this == PROTEIN) {
                 if (!isSoldOut) {
-                    gamePane.setPlayerMoney(gamePane.getPlayerMoney() - price);
+                    p.setMoney(p.getMoney() - price);
                     gamePane.addItem("Whey Protein");
                     this.isSoldOut = true;
                 }
             } else {
-                if (gamePane.getPlayerStamina() >= staminaCost) {
-                    gamePane.setPlayerMoney(gamePane.getPlayerMoney() - price);
-                    gamePane.setPlayerStamina(gamePane.getPlayerStamina() - staminaCost);
-                    gamePane.setPlayerHealth(gamePane.getPlayerHealth() + healthGain);
+                if (p.getStamina() >= staminaCost) {
+                    p.setMoney(p.getMoney() - price);
+                    p.setStamina(p.getStamina() - staminaCost);
+                    p.setHealth(p.getHealth() + healthGain);
                 }
             }
         }
     }
 
     public static void show(GamePane gamePane) {
+        BasePlayer p = gamePane.getPlayer();
+
         GymPopup popup = new GymPopup();
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -88,9 +105,9 @@ public class GymPopup implements Shopable, Normal {
         // 3. ฟังก์ชัน Refresh UI (แบบไม่ปิดหน้าจอ)
         Runnable refreshUI = () -> {
             // อัปเดตข้อความ Label
-            staminaLabel.setText("STAMINA: " + gamePane.getPlayerStamina());
-            healthLabel.setText("HEALTH: " + gamePane.getPlayerHealth());
-            moneyLabel.setText("$" + gamePane.getPlayerMoney());
+            staminaLabel.setText("STAMINA: " + p.getStamina());
+            healthLabel.setText("HEALTH: " + p.getHealth());
+            moneyLabel.setText("$" + p.getMoney());
 
             // เคลียร์และสร้างปุ่มใหม่ในกล่องเดิม (ไม่กระพริบ)
             optionsBox.getChildren().clear();
@@ -109,9 +126,9 @@ public class GymPopup implements Shopable, Normal {
                         service.execute(gamePane);
                         // ใช้คำสั่งนี้เพื่อบังคับ Update UI ในรอบถัดไปของ JavaFX
                         Platform.runLater(() -> {
-                            staminaLabel.setText("STAMINA: " + gamePane.getPlayerStamina());
-                            healthLabel.setText("HEALTH: " + gamePane.getPlayerHealth());
-                            moneyLabel.setText("$" + gamePane.getPlayerMoney());
+                            staminaLabel.setText("STAMINA: " + p.getStamina());
+                            healthLabel.setText("HEALTH: " + p.getHealth());
+                            moneyLabel.setText("$" + p.getMoney());
                             if (service.isUnique && service.isSoldOut) {
                                 btn.setText("SOLD OUT");
                                 btn.setDisable(true);
@@ -126,12 +143,35 @@ public class GymPopup implements Shopable, Normal {
 
         // 4. Logic ปุ่ม WORK
         Runnable workAction = () -> {
-            if (gamePane.getPlayerStamina() >= 20) {
-                gamePane.setPlayerStamina(gamePane.getPlayerStamina() - 20);
-                gamePane.setPlayerMoney(gamePane.getPlayerMoney() + 100);
-                Platform.runLater(refreshUI); // อัปเดตค่าหลังทำงาน
+            int staminaCost = (p instanceof GymBro) ? 5 : 10;
+            int moneyGain = 200;
 
+            // 1. สั่งให้ทำงาน และเก็บผลลัพธ์ไว้
+            boolean isSuccess = p.work(staminaCost, moneyGain);
+
+            if (isSuccess) {
+                // 2. ถ้าทำงานสำเร็จ และเป็น GymBro ให้คำนวณโบนัส
+                if (p instanceof GymBro) {
+                    String bonusStatus = ((GymBro) p).earnWorkBonus();
+
+                    // 3. จัดการ Toast ตามสถานะโบนัสที่ได้รับ
+                    if (bonusStatus.equals("GYM_BONUS_ACTIVATED")) {
+                        showToast("💪 GYMBRO BONUS: +$20000", "gold", 300, 70,false);
+                    } else {
+                        int count = ((GymBro) p).getWorkCount();
+                        showToast("GymBro Work Count: " + count + "/5", "gold", 300, 50,false);
+                    }
+                } else {
+                    // สำหรับอาชีพอื่นที่มาทำงานที่ Mall
+                    showToast("💰 Work Success! +$" + moneyGain, "white", 300, 50,false);
+                }
+            } else {
+                // 4. ถ้าทำงานไม่สำเร็จ (Stamina ไม่พอ)
+                showToast("❌ NOT ENOUGH STAMINA!", "#ff4d4d", 300, 50,true);
             }
+
+            gamePane.notifyUpdate();
+            refreshUI.run();
         };
 
         // 5. ประกอบ Layout

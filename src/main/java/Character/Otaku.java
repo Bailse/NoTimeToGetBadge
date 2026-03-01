@@ -14,7 +14,7 @@ public class Otaku extends BasePlayer {
                 0.95,
                 1.05,
                 3,
-                12,
+                5,
                 100
         );
         setImagePath("/Lily.jpg");
@@ -23,5 +23,25 @@ public class Otaku extends BasePlayer {
         setImgRight(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Avatar/Otaku/Otaku_right.png"))));
         setImgLeft(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Avatar/Otaku/Otaku_left.png"))));
 
+    }
+
+    private int workCount = 0;
+
+    public String earnWorkBonus() { //Mall
+        this.workCount++;
+
+        if (this.workCount >= 5) {
+            int bonusMoney = 20000;
+            this.setMoney(this.getMoney() + bonusMoney);
+
+            this.workCount = 0; // รีเซ็ตแต้ม
+            return "OTAKU_BONUS_ACTIVATED"; // สถานะเมื่อได้โบนัสใหญ่
+        }
+
+        return "OTAKU_PROGRESS_" + this.workCount; // สถานะสะสมแต้มปกติ
+    }
+
+    public int getWorkCount() {
+        return workCount;
     }
 }

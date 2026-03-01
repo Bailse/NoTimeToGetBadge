@@ -2,6 +2,7 @@ package Screen.BuildingScreen.Travel;
 
 
 import Logic.GamePane;
+import Character.BasePlayer;
 import Screen.BuildingScreen.Normal;
 import Screen.BuildingScreen.ShopItem;
 import Screen.BuildingScreen.Shopable;
@@ -45,11 +46,13 @@ public class TravelPopup implements Shopable, Normal {
 
         @Override
         public void execute(GamePane gamePane) {
-            if(gamePane.getPlayerStamina() >= staminaCost && gamePane.getPlayerMoney() >= price){
-                if(gamePane.getPlayerHappiness() < 500){
-                    gamePane.setPlayerHappiness(gamePane.getPlayerHappiness() + happinessGain);
-                    gamePane.setPlayerStamina(gamePane.getPlayerStamina() - staminaCost);
-                    gamePane.setPlayerMoney(gamePane.getPlayerMoney() - price);
+            BasePlayer p = gamePane.getPlayer();
+
+            if(p.getStamina() >= staminaCost && p.getMoney() >= price){
+                if(p.getHappiness() < 500){
+                    p.setHappiness(p.getHappiness() + happinessGain);
+                    p.setStamina(p.getStamina() - staminaCost);
+                    p.setMoney(p.getMoney() - price);
                     System.out.println("Traveling to " + name + " | Happiness increased by " + happinessGain);
                 }
                 else {
@@ -64,15 +67,17 @@ public class TravelPopup implements Shopable, Normal {
     }
 
     public static void show(GamePane gamePane) {
+        BasePlayer p = gamePane.getPlayer();
+
         TravelPopup popup = new TravelPopup();
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
 
         // ===== 1. Labels สถานะ (สร้างตามลำดับที่ต้องการโชว์) =====
-        Label staminaLabel = new Label("STAMINA: " + gamePane.getPlayerStamina());
-        Label happinessLabel = new Label("HAPPINESS: " + gamePane.getPlayerHappiness());
-        Label moneyLabel = new Label("MONEY: $" + gamePane.getPlayerMoney());
+        Label staminaLabel = new Label("STAMINA: " + p.getStamina());
+        Label happinessLabel = new Label("HAPPINESS: " + p.getHappiness());
+        Label moneyLabel = new Label("MONEY: $" + p.getMoney());
 
 // ตกแต่ง Style (ปรับเป็น 18px เพื่อความชัดเจน)
         staminaLabel.setStyle("-fx-text-fill: #00FFAA; -fx-font-size: 18px; -fx-font-weight: bold;");
@@ -81,9 +86,9 @@ public class TravelPopup implements Shopable, Normal {
 
 // ===== 2. ฟังก์ชัน Refresh UI (ต้องอัปเดตให้ครบทุกค่า) =====
         Runnable refreshUI = () -> {
-            staminaLabel.setText("STAMINA: " + gamePane.getPlayerStamina());
-            happinessLabel.setText("HAPPINESS: " + gamePane.getPlayerHappiness());
-            moneyLabel.setText("MONEY: $" + gamePane.getPlayerMoney());
+            staminaLabel.setText("STAMINA: " + p.getStamina());
+            happinessLabel.setText("HAPPINESS: " + p.getHappiness());
+            moneyLabel.setText("MONEY: $" + p.getMoney());
         };
 
 // ===== 3. เรียก Base Layout =====

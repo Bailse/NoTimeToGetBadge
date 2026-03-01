@@ -119,7 +119,7 @@ public class GamePane extends Pane {
         //bmap[4][3] = new Mall();
         //bmap[4][4] = new Restaurant();
 
-        bmap[1][7] = new Dome();
+        bmap[1][7] = new Mall();
         bmap[1][8] = new Dome();
         bmap[5][1] = new Gym();
         bmap[7][6] = new Chula();
@@ -446,77 +446,18 @@ public class GamePane extends Pane {
         this.imgUp = playerType.getImgUp();
     }
 
-    // ===== [เพิ่มใหม่: Player Status] =====
-    public int getPlayerMoney() {
-        BasePlayer p = GameSession.getPlayer();
-        return (p != null) ? p.getMoney() : 0;
+    // ใน GamePane.java
+    public BasePlayer getPlayer() {
+        return GameSession.getPlayer();
     }
 
-    public void setPlayerMoney(int money) {
-        BasePlayer p = GameSession.getPlayer();
-        if (p != null) {
-            p.setMoney(money);
-            if (onStatusChange != null) onStatusChange.run();
+    // ถ้าคุณต้องการให้ UI อัปเดตเมื่อมีการเปลี่ยนแปลงค่า
+// สามารถคง Method ที่ใช้แจ้งเตือนไว้ได้
+    public void notifyUpdate() {
+        if (onStatusChange != null) {
+            onStatusChange.run();
         }
     }
-
-    public int getPlayerStamina() {
-        BasePlayer p = GameSession.getPlayer();
-        return (p != null) ? p.getStamina() : 0;
-    }
-
-    public void setPlayerStamina(int stamina) {
-        BasePlayer p = GameSession.getPlayer();
-        if (p != null) {
-            p.setStamina(stamina);
-            if (onStatusChange != null) onStatusChange.run();
-        }
-    }
-
-    public int getPlayerHealth() {
-        BasePlayer p = GameSession.getPlayer();
-        return (p != null) ? p.getHealth() : 100;
-    }
-
-    public void setPlayerHealth(int health) {
-        BasePlayer p = GameSession.getPlayer();
-        if (p != null) {
-            p.setHealth(health);
-            if (onStatusChange != null) onStatusChange.run();
-        }
-    }
-
-    // ===== [เพิ่มใหม่: Education System] =====
-    public int getPlayerEducation() {
-        BasePlayer p = GameSession.getPlayer();
-        // ดึงค่าจาก class Player (อย่าลืมไปเพิ่ม field นี้ใน Player.java)
-        return (p != null) ? p.getEducation() : 0;
-    }
-
-    public void setPlayerEducation(int education) {
-        BasePlayer p = GameSession.getPlayer();
-        if (p != null) {
-            p.setEducation(education); // อย่าลืมไปเพิ่ม Method ใน Player.java
-            if (onStatusChange != null) onStatusChange.run();
-        }
-    }
-
-    public int getPlayerHappiness() {
-        BasePlayer p = GameSession.getPlayer();
-        return (p != null) ? p.getHappiness() : 0;
-    }
-
-    public void setPlayerHappiness(int happiness) {
-        BasePlayer p = GameSession.getPlayer();
-        if (p != null) {
-            // จำกัดค่าไม่ให้เกิน 100 หรือต่ำกว่า 0 (Optional: แล้วแต่คุณออกแบบ)
-            int cappedHappiness = Math.min(500,happiness);
-            p.setHappiness(cappedHappiness);
-
-            if (onStatusChange != null) onStatusChange.run();
-        }
-    }
-    // เพิ่ม/แก้ไขใน Logic/GamePane.java
 
     public void addItem(String itemName) {
         BasePlayer p = GameSession.getPlayer();

@@ -14,7 +14,7 @@ public class Nerd extends BasePlayer {
                 1.0,
                 1.20,
                 2,
-                10,
+                5,
                 100
         );
         setImagePath("/Huh.jpg");
@@ -26,5 +26,24 @@ public class Nerd extends BasePlayer {
 
     }
 
+    private int studyCount = 0;
 
+    public String earnStudyBonus() {
+        this.studyCount++;
+
+        if (this.studyCount >= 5) {
+            int bonusEdu = 20;
+            this.setEducation(this.getEducation() + bonusEdu);
+            this.setStamina(this.getStamina() + 15);
+
+            this.studyCount = 0; // รีเซ็ตแต้ม
+            return "BONUS_ACTIVATED"; // ส่งสถานะว่าได้โบนัสใหญ่
+        }
+
+        return "PROGRESS_" + this.studyCount; // ส่งสถานะพร้อมจำนวนแต้มปัจจุบัน เช่น PROGRESS_1
+    }
+
+    public int getStudyCount() {
+        return studyCount;
+    }
 }

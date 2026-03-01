@@ -1,10 +1,12 @@
 package Screen.BuildingScreen;
 
 import javafx.scene.control.Button;
+import Character.BasePlayer;
 
 public interface Shopable extends Normal {
 
     default Button createShopButton(ShopItem item, Logic.GamePane gamePane, Runnable refreshUI) {
+        BasePlayer p = gamePane.getPlayer();
         String buttonText = (item.getPrice() > 0)
                 ? item.getName() + "\n$" + item.getPrice()
                 : item.getName();
@@ -16,13 +18,12 @@ public interface Shopable extends Normal {
 
         btn.setOnAction(e -> {
             // 1. ตรวจสอบเงื่อนไขการซื้อ (เช่น เงินพอไหม)
-            if (gamePane.getPlayerMoney() >= item.getPrice()) {
+            if (p.getMoney() >= item.getPrice()) {
 
                 // 2. เรียกใช้ execute เพื่อรัน Logic ของไอเทม (เปลี่ยนค่า Status จริงๆ)
                 item.execute(gamePane);
 
-
-                // 4. อัปเดตหน้าจอทันทีหลังจากเปลี่ยนค่าเสร็จ
+                gamePane.notifyUpdate();
                 refreshUI.run();
 
                 System.out.println("Purchased: " + item.getName());

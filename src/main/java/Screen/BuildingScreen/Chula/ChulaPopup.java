@@ -3,6 +3,7 @@ package Screen.BuildingScreen.Chula;
 import Screen.BuildingScreen.ShopItem;
 import Logic.GamePane;
 import Logic.GameSession;
+import Character.*;
 import Screen.BuildingScreen.Normal;
 import Screen.BuildingScreen.Shopable;
 import javafx.geometry.Insets;
@@ -16,13 +17,15 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import static Screen.UI.ToastUtil.showToast;
+
 public class ChulaPopup implements Shopable, Normal {
 
     private enum StudyLevel implements ShopItem {
-        HIGH_SCHOOL("High School", 0, "#ff66ff", 5, 0),
-        BACHELOR("Bachelor's\nDegree", 500, "#ff66ff", 15, 1),
-        MASTER("Master's\nDegree", 1500, "#ff66ff", 25, 2),
-        DOCTORATE("Doctorate\nDegree", 5000, "#ff66ff", 40, 3);
+        HIGH_SCHOOL("High School", 0, "#ff66ff", 2, 0),
+        BACHELOR("Bachelor's\nDegree", 500, "#ff66ff", 5, 1),
+        MASTER("Master's\nDegree", 1500, "#ff66ff", 7, 2),
+        DOCTORATE("Doctorate\nDegree", 5000, "#ff66ff", 15, 3);
 
         private final String name;
         private final int price;
@@ -38,9 +41,20 @@ public class ChulaPopup implements Shopable, Normal {
             this.levelIndex = levelIndex;
         }
 
-        @Override public String getName() { return name; }
-        @Override public int getPrice() { return price; }
-        @Override public String getColor() { return color; }
+        @Override
+        public String getName() {
+            return name;
+        }
+
+        @Override
+        public int getPrice() {
+            return price;
+        }
+
+        @Override
+        public String getColor() {
+            return color;
+        }
 
         @Override
         public void execute(GamePane gamePane) {
@@ -48,23 +62,25 @@ public class ChulaPopup implements Shopable, Normal {
     }
 
     public static void show(GamePane gamePane) {
+        BasePlayer p = gamePane.getPlayer();
+
         ChulaPopup popup = new ChulaPopup();
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
 
-        Label staminaLabel = new Label("STAMINA: " + gamePane.getPlayerStamina());
-        Label eduLabel = new Label("EDUCATION: " + gamePane.getPlayerEducation());
-        Label moneyLabel = new Label("MONEY: " + gamePane.getPlayerMoney());
+        Label staminaLabel = new Label("STAMINA: " + p.getStamina());
+        Label eduLabel = new Label("EDUCATION: " + p.getEducation());
+        Label moneyLabel = new Label("MONEY: " + p.getMoney());
 
         staminaLabel.setStyle("-fx-text-fill: #00FFAA; -fx-font-size: 18px;");
         eduLabel.setStyle("-fx-text-fill: #ff66ff; -fx-font-size: 18px;");
         moneyLabel.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 18px;");
 
         Runnable refreshUI = () -> {
-            staminaLabel.setText("STAMINA: " + gamePane.getPlayerStamina());
-            eduLabel.setText("EDUCATION: " + gamePane.getPlayerEducation());
-            moneyLabel.setText("MONEY: " + gamePane.getPlayerMoney());
+            staminaLabel.setText("STAMINA: " + p.getStamina());
+            eduLabel.setText("EDUCATION: " + p.getEducation());
+            moneyLabel.setText("MONEY: " + p.getMoney());
         };
 
         Runnable studyAction = () -> {
@@ -76,14 +92,36 @@ public class ChulaPopup implements Shopable, Normal {
                     break;
                 }
             }
+            if (p instanceof Nerd) {
+                if (p.getStamina() >= 10 && p.getEducation() < 200) {
+                    // โค้ดใน Popup เมื่อจบการเรียน 1 ครั้ง
+                    String status = ((Nerd) p).earnStudyBonus();
 
-            if (gamePane.getPlayerStamina() >= 10) {
-                gamePane.setPlayerStamina((int) (gamePane.getPlayerStamina() - 10));
-                gamePane.setPlayerEducation((int) (gamePane.getPlayerEducation() + currentEduGain));
-                gamePane.setPlayerHealth((int) (gamePane.getPlayerHealth() - 5));
-                gamePane.setPlayerHappiness((int) (gamePane.getPlayerHappiness() - 5));
-                refreshUI.run();
+                    if (status.equals("BONUS_ACTIVATED")) {
+                        // โชว์ Toast ขนาดใหญ่ สีเขียวสว่าง สำหรับ Nerd Power
+                        showToast("🤓 NERD POWER! Bonus Edu +20 & Stamina +15", "#00FF7F", 500, 70,true);
+                    } else if (status.startsWith("PROGRESS_")) {
+                        // ดึงตัวเลขแต้มสะสมออกมาโชว์ (ถ้าต้องการ)
+                        int currentCount = ((Nerd) p).getStudyCount();
+                        // โชว์ Toast ขนาดเล็ก สีฟ้าอ่อน สำหรับการสะสมแต้มปกติ
+                        showToast("Nerd Study: " + currentCount + "/5", "#ADD8E6", 200, 50,false);
+                    }
+                }
             }
+            String result = p.study(currentEduGain, 20); // สมมติค่า Edu+10, Stamina-20
+
+            switch (result) {
+                case "EDU_MAX":
+                    showToast("🎓 EDUCATION MAXED OUT! (200/200)", "#00FFFF", 400, 50,true);
+                    break;
+
+                case "NO_STAMINA":
+                    showToast("❌ NOT ENOUGH STAMINA!", "#ff4d4d", 300, 50,true);
+                    break;
+            }
+
+            gamePane.notifyUpdate();
+            refreshUI.run();
         };
 
         BorderPane root = popup.createBaseLayout(
@@ -138,11 +176,11 @@ public class ChulaPopup implements Shopable, Normal {
                         btn = new Button("UNLOCK\n" + level.getName() + "\n$" + level.getPrice());
                         popup.applyPixelStyle(btn, "#888888");
                         btn.setOnAction(e -> {
-                            if (gamePane.getPlayerMoney() >= level.getPrice()) {
-                                gamePane.setPlayerMoney((int) (gamePane.getPlayerMoney() - level.getPrice()));
+                            if (p.getMoney() >= level.getPrice()) {
+                                p.setMoney((int) (p.getMoney() - level.getPrice()));
                                 GameSession.getPlayer().setMaxUnlockedLevel(level.levelIndex);
                                 gamePane.updateEducationItem(level.levelIndex);
-
+                                gamePane.notifyUpdate();
                                 // อัปเดตหน้าจอโดยไม่ต้องเปิดใหม่ (แก้กระพริบ)
                                 javafx.application.Platform.runLater(() -> {
                                     this.run(); // วาดปุ่มใหม่

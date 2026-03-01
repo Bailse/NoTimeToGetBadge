@@ -1,4 +1,4 @@
-package Screen.BuildingScreen.UI;
+package Screen.UI;
 
 import javafx.scene.text.Font;
 

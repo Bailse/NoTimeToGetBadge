@@ -37,10 +37,10 @@ public class ChoosingScreen extends BorderPane {
     };
 
     private final String[] archetypeNames = new String[]{
-            "Hustler (Work Focus)",
-            "Genius (Study Focus)",
-            "Athlete (Health Focus)",
-            "Socialite (Happiness Focus)"
+            "GymBro",
+            "Nerd",
+            "Otaku",
+            "NormalGuy"
     };
 
     private final String[] prosCons = new String[]{

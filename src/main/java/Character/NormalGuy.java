@@ -25,4 +25,5 @@ public class NormalGuy extends BasePlayer{
         setImagePath("/deku_nerd.jpg");
 
     }
+
 }
