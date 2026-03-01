@@ -1,7 +1,6 @@
 package Main;
 
 import Audio.SoundManager;
-import Screen.BuildingScreen.Mall.MallPopup;
 import Screen.ScreenManager;
 import javafx.application.Application;
 import javafx.scene.Scene;
