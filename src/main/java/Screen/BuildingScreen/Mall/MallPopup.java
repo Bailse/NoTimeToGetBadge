@@ -141,18 +141,8 @@ public class MallPopup implements Shopable, Normal {
                     // 4. แสดง Toast ตามสถานะโบนัสที่ได้รับ (ใช้สี Pink)
                     if (bonusStatus.equals("OTAKU_BONUS_ACTIVATED")) {
                         showToast("🌸 OTAKU POWER! Bonus: +$20000", "pink", 450, 80,false);
-                    } else {
-                        // ดึงค่าแต้มปัจจุบันมาแสดง (เช่น 1/5, 2/5)
-                        int count = ((Otaku) p).getWorkCount();
-                        showToast("Otaku Work Count: " + count + "/5", "pink", 300, 50,false);
                     }
-                } else {
-                    // สำหรับอาชีพอื่นที่มาทำงานที่ Mall
-                    showToast("💰 Work Success! +$" + moneyGain, "white", 300, 50,false);
                 }
-            } else {
-                // 5. ถ้า Stamina ไม่พอ
-                showToast("❌ NOT ENOUGH STAMINA!", "#ff4d4d", 300, 50,true);
             }
 
             gamePane.notifyUpdate();

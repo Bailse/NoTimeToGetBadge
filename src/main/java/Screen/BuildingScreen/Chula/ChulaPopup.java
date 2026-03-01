@@ -99,12 +99,7 @@ public class ChulaPopup implements Shopable, Normal {
 
                     if (status.equals("BONUS_ACTIVATED")) {
                         // โชว์ Toast ขนาดใหญ่ สีเขียวสว่าง สำหรับ Nerd Power
-                        showToast("🤓 NERD POWER! Bonus Edu +20 & Stamina +15", "#00FF7F", 500, 70,true);
-                    } else if (status.startsWith("PROGRESS_")) {
-                        // ดึงตัวเลขแต้มสะสมออกมาโชว์ (ถ้าต้องการ)
-                        int currentCount = ((Nerd) p).getStudyCount();
-                        // โชว์ Toast ขนาดเล็ก สีฟ้าอ่อน สำหรับการสะสมแต้มปกติ
-                        showToast("Nerd Study: " + currentCount + "/5", "#ADD8E6", 200, 50,false);
+                        showToast("🤓 NERD POWER! Bonus Edu +20 & Stamina +15", "#00FF7F", 500, 70,false);
                     }
                 }
             }
@@ -112,11 +107,7 @@ public class ChulaPopup implements Shopable, Normal {
 
             switch (result) {
                 case "EDU_MAX":
-                    showToast("🎓 EDUCATION MAXED OUT! (200/200)", "#00FFFF", 400, 50,true);
-                    break;
-
-                case "NO_STAMINA":
-                    showToast("❌ NOT ENOUGH STAMINA!", "#ff4d4d", 300, 50,true);
+                    showToast("🎓 EDUCATION MAXED OUT! (200/200)", "#00FFFF", 400, 50, true);
                     break;
             }
 

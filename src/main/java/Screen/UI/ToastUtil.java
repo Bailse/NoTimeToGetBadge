@@ -59,21 +59,16 @@ public class ToastUtil {
             root.requestLayout();          // สั่งให้คำนวณตำแหน่งใหม่
             currentToastStage.sizeToScene(); // สั่งให้หน้าต่างยืดหดตามเนื้อหาข้างใน
 
-            // 1. กำหนดขอบเขตการ Random (หน่วยเป็น Pixel)
-            double randomRange = 200;
-            java.util.Random random = new java.util.Random();
+            // 1. ดึงขนาดหน้าจอที่ใช้งานอยู่ปัจจุบัน (รองรับทุกความละเอียดจอ)
+            javafx.geometry.Rectangle2D screenBounds = javafx.stage.Screen.getPrimary().getVisualBounds();
 
-// 2. คำนวณ Offset แบบสุ่ม (จะได้ค่าระหว่าง -50 ถึง +50)
-            double offsetX = (random.nextDouble() * randomRange) - (randomRange / 2);
-            double offsetY = (random.nextDouble() * randomRange) - (randomRange / 2);
+// 2. คำนวณตำแหน่งกึ่งกลาง (สูตร: (ความกว้างจอ - ความกว้าง Toast) / 2)
+            double centerX = (screenBounds.getWidth() - width) / 2;
+            double centerY = (screenBounds.getHeight() - height) / 2;
 
-// 3. ตั้งค่าตำแหน่งกึ่งกลางจอ + ค่า Random
-            double screenWidth = 1980; // ตามที่คุณกำหนดไว้เดิม
-            double centerX = (screenWidth - width) / 2;
-            double centerY = 230; // จุดเริ่มต้นเดิมของคุณ
-
-            currentToastStage.setX(centerX + offsetX);
-            currentToastStage.setY(centerY + offsetY);
+// 3. ตั้งค่าตำแหน่งให้ Stage
+            currentToastStage.setX(centerX);
+            currentToastStage.setY(centerY);
             // -------------------------------------------
 
             root.setOpacity(1.0);
@@ -81,10 +76,10 @@ public class ToastUtil {
 
             if (shouldBlink) {
                 // --- แบบที่ 1: กะพริบวูบวาบ (Flash) ---
-                currentFade = new javafx.animation.FadeTransition(javafx.util.Duration.millis(150), root);
+                currentFade = new javafx.animation.FadeTransition(javafx.util.Duration.millis(500), root);
                 currentFade.setFromValue(1.0);
                 currentFade.setToValue(0.3);
-                currentFade.setCycleCount(6); // กะพริบ ไป-กลับ รวม 6 ครั้ง (3 รอบ)
+                currentFade.setCycleCount(4); // กะพริบ ไป-กลับ รวม 6 ครั้ง (3 รอบ)
                 currentFade.setAutoReverse(true);
 
                 currentFade.setOnFinished(e -> {
@@ -92,16 +87,16 @@ public class ToastUtil {
                     javafx.animation.FadeTransition fadeOut = new javafx.animation.FadeTransition(javafx.util.Duration.millis(800), root);
                     fadeOut.setFromValue(1.0);
                     fadeOut.setToValue(0.0);
-                    fadeOut.setDelay(javafx.util.Duration.millis(500));
+                    fadeOut.setDelay(javafx.util.Duration.millis(350));
                     fadeOut.setOnFinished(ev -> currentToastStage.hide());
                     fadeOut.play();
                 });
             } else {
                 // --- แบบที่ 2: จางหายปกติ (Normal Fade) ---
-                currentFade = new javafx.animation.FadeTransition(javafx.util.Duration.millis(1500), root);
+                currentFade = new javafx.animation.FadeTransition(javafx.util.Duration.millis(800), root);
                 currentFade.setFromValue(1.0);
                 currentFade.setToValue(0.0);
-                currentFade.setDelay(javafx.util.Duration.millis(350));
+                currentFade.setDelay(javafx.util.Duration.millis(500));
                 currentFade.setOnFinished(e -> currentToastStage.hide());
             }
 
