@@ -5,7 +5,7 @@ import Logic.GamePane;
 import Screen.BuildingScreen.Normal;
 import Screen.BuildingScreen.ShopItem;
 import Screen.BuildingScreen.Shopable;
-import Screen.BuildingScreen.Travel.TravelPopup;
+import Character.BasePlayer;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -46,16 +46,19 @@ public class ParkPopup implements Shopable, Normal {
 
         @Override
         public void execute(GamePane gamePane) {
+            BasePlayer p = gamePane.getPlayer();
             // ถ้าค่า staminaCost เป็นบวก คือต้องใช้ค่าพลัง (เช็คว่าพอไหม)
-            if (gamePane.getPlayerStamina() >= staminaCost) {
-                gamePane.setPlayerStamina(gamePane.getPlayerStamina() - staminaCost);
-                gamePane.setPlayerHappiness(gamePane.getPlayerHappiness() + happinessGain);
-                gamePane.setPlayerHealth(gamePane.getPlayerHealth() + healthGain);
+            if (p.getStamina() >= staminaCost) {
+                p.setStamina(p.getStamina() - staminaCost);
+                p.setHappiness(p.getHappiness() + happinessGain);
+                p.setHealth(p.getHealth() + healthGain);
             }
         }
     }
 
     public static void show(GamePane gamePane) {
+        BasePlayer p = gamePane.getPlayer();
+
         ParkPopup popup = new ParkPopup();
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -63,9 +66,9 @@ public class ParkPopup implements Shopable, Normal {
 
         // Labels สำหรับแสดงสถานะ (Stamina, Edu, Money)
         // ===== Labels สำหรับแสดงสถานะ =====
-        Label staminaLabel = new Label("STAMINA: " + gamePane.getPlayerStamina());
-        Label happinessLabel = new Label("HAPPINESS: " + gamePane.getPlayerHappiness());
-        Label healthLabel = new Label("HEALTH: " + gamePane.getPlayerHealth());
+        Label staminaLabel = new Label("STAMINA: " + p.getStamina());
+        Label happinessLabel = new Label("HAPPINESS: " + p.getHappiness());
+        Label healthLabel = new Label("HEALTH: " + p.getHealth());
 
         // ตกแต่ง Style
         staminaLabel.setStyle("-fx-text-fill: #00FFAA; -fx-font-size: 18px; -fx-font-weight: bold;");
@@ -74,9 +77,9 @@ public class ParkPopup implements Shopable, Normal {
 
         // ฟังก์ชัน Refresh UI
         Runnable refreshUI = () -> {
-            staminaLabel.setText("STAMINA: " + gamePane.getPlayerStamina());
-            happinessLabel.setText("HAPPINESS: " + gamePane.getPlayerHappiness());
-            healthLabel.setText("HEALTH: " + gamePane.getPlayerHealth());
+            staminaLabel.setText("STAMINA: " + p.getStamina());
+            happinessLabel.setText("HAPPINESS: " + p.getHappiness());
+            healthLabel.setText("HEALTH: " + p.getHealth());
         };
 
         // ใช้ createBaseLayout จาก Interface Normal

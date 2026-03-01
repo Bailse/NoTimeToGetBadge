@@ -1,7 +1,10 @@
 package Screen.BuildingScreen.Mall;
 
+import Character.BasePlayer;
+import Logic.GameSession;
 import Screen.BuildingScreen.ShopItem;
 import Logic.GamePane;
+import Character.Otaku;
 import Screen.BuildingScreen.Normal;
 import Screen.BuildingScreen.Shopable;
 import javafx.application.Platform;
@@ -16,12 +19,16 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class MallPopup implements Shopable, Normal {
+import static Screen.UI.ToastUtil.showToast;
 
+public class MallPopup implements Shopable, Normal {
+    public static void resetAllMallItems() {
+        MallItem.resetMallItems();
+    }
     private enum MallItem implements ShopItem {
         PILLOW("PILLOW", 50, "#00ffff", 10, 0, false),
         TUNG_BED("BED SET", 676, "#ffd700", 100, 20, false),
-        CAR("CAR", 999, "#ff007f", 40, 5, true); // เปลี่ยนเป็น true เพื่อให้ซื้อได้ครั้งเดียว
+        CAR("CAR", 999, "#ff007f", 40, 5, true);
 
         private final String name;
         private final int price;
@@ -44,33 +51,42 @@ public class MallPopup implements Shopable, Normal {
         @Override public int getPrice() { return price; }
         @Override public String getColor() { return color; }
 
+        public static void resetMallItems() {
+            for (MallItem item : MallItem.values()) {
+                item.soldOut = false;
+            }
+        }
+
         @Override
         public void execute(GamePane gamePane) {
-            if (gamePane.getPlayerMoney() >= price) {
-                if (this == CAR) {
+            BasePlayer p = gamePane.getPlayer();
+            if (p.getMoney() >= price) {
+                if (this.isUnique) {
                     if (!soldOut) {
-                        gamePane.setPlayerMoney(gamePane.getPlayerMoney() - price);
-                        gamePane.addItem("CAR"); // เพิ่มไอเทมรถเข้าตัว
+                        p.setMoney(p.getMoney() - price);
+                        gamePane.addItem(this.name);
                         this.soldOut = true;
                     }
                 } else {
-                    gamePane.setPlayerStamina(gamePane.getPlayerStamina() + staminaGain);
-                    gamePane.setPlayerHealth(gamePane.getPlayerHealth() + healthGain);
-                    gamePane.setPlayerMoney(gamePane.getPlayerMoney() - price);
+                    p.setStamina(p.getStamina() + staminaGain);
+                    p.setHealth(p.getHealth() + healthGain);
+                    p.setMoney(p.getMoney() - price);
                 }
+                gamePane.notifyUpdate(); // สำคัญ: เพื่อให้อัปเดตหลอดพลังงานหน้าจอหลัก
             }
         }
     }
 
     public static void show(GamePane gamePane) {
+        BasePlayer p = gamePane.getPlayer();
         MallPopup popup = new MallPopup();
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
 
-        Label staminaLabel = new Label("STAMINA: " + gamePane.getPlayerStamina());
-        Label healthLabel = new Label("HEALTH: " + gamePane.getPlayerHealth());
-        Label moneyLabel = new Label("MONEY: " + gamePane.getPlayerMoney());
+        Label staminaLabel = new Label("STAMINA: " + p.getStamina());
+        Label healthLabel = new Label("HEALTH: " + p.getHealth());
+        Label moneyLabel = new Label("MONEY: " + p.getMoney());
 
         staminaLabel.setStyle("-fx-text-fill: #00ff99; -fx-font-size: 18px;");
         healthLabel.setStyle("-fx-text-fill: #ff4d4d; -fx-font-size: 18px;");
@@ -80,34 +96,29 @@ public class MallPopup implements Shopable, Normal {
         optionBox.setAlignment(Pos.CENTER);
         optionBox.setPadding(new Insets(40));
 
-        Runnable refreshUI = () -> {
-            staminaLabel.setText("STAMINA: " + gamePane.getPlayerStamina());
-            healthLabel.setText("HEALTH: " + gamePane.getPlayerHealth());
-            moneyLabel.setText("MONEY: " + gamePane.getPlayerMoney());
+        // แก้ปัญหา Variable might not have been initialized ด้วยการใช้ Final Array
+        final Runnable[] refreshUI = new Runnable[1];
+
+        refreshUI[0] = () -> {
+            staminaLabel.setText("STAMINA: " + p.getStamina());
+            healthLabel.setText("HEALTH: " + p.getHealth());
+            moneyLabel.setText("MONEY: " + p.getMoney());
 
             optionBox.getChildren().clear();
             for (MallItem item : MallItem.values()) {
+                // สร้างปุ่มเบื้องต้น (ส่ง null ไปก่อนเพราะเราจะกำหนด setOnAction เองด้านล่าง)
                 Button btn = popup.createShopButton(item, gamePane, null);
                 btn.setPrefSize(180, 140);
 
                 if (item.isUnique && item.soldOut) {
                     btn.setText("SOLD OUT");
                     btn.setDisable(true);
-                    btn.setStyle("-fx-background-color: #333333; -fx-text-fill: gray;");
+                    btn.setStyle("-fx-background-color: #333333; -fx-text-fill: gray; -fx-border-radius: 10;");
                 } else {
                     btn.setOnAction(e -> {
                         item.execute(gamePane);
-                        Platform.runLater(() -> {
-                            // อัปเดต UI ทันทีโดยไม่ปิดหน้าต่าง (แก้ปัญหากระพริบ)
-                            staminaLabel.setText("STAMINA: " + gamePane.getPlayerStamina());
-                            healthLabel.setText("HEALTH: " + gamePane.getPlayerHealth());
-                            moneyLabel.setText("MONEY: " + gamePane.getPlayerMoney());
-                            if (item.isUnique && item.soldOut) {
-                                btn.setText("SOLD OUT");
-                                btn.setDisable(true);
-                                btn.setStyle("-fx-background-color: #333333; -fx-text-fill: gray;");
-                            }
-                        });
+                        // เรียกใช้ผ่าน Array เพื่อให้ Lambda รู้จักตัวแปร
+                        Platform.runLater(refreshUI[0]);
                     });
                 }
                 optionBox.getChildren().add(btn);
@@ -115,19 +126,45 @@ public class MallPopup implements Shopable, Normal {
         };
 
         Runnable workAction = () -> {
-            if (gamePane.getPlayerStamina() >= 10) {
-                gamePane.setPlayerStamina(gamePane.getPlayerStamina() - 10);
-                gamePane.setPlayerMoney(gamePane.getPlayerMoney() + 20000);
-                Platform.runLater(refreshUI);
+            // 1. กำหนดค่าพื้นฐาน (Otaku ทำงานที่ Mall จะเหนื่อยน้อยกว่าคนอื่น)
+            int staminaCost = (p instanceof Otaku) ? 5 : 10;
+            int moneyGain = 200;
+
+            // 2. สั่งให้ทำงาน และตรวจสอบว่า Stamina พอหรือไม่จากผลลัพธ์ boolean
+            boolean isSuccess = p.work(staminaCost, moneyGain);
+
+            if (isSuccess) {
+                // 3. ถ้าทำงานสำเร็จ และเป็น Otaku ให้คำนวณแต้มโบนัส
+                if (p instanceof Otaku) {
+                    String bonusStatus = ((Otaku) p).earnWorkBonus();
+
+                    // 4. แสดง Toast ตามสถานะโบนัสที่ได้รับ (ใช้สี Pink)
+                    if (bonusStatus.equals("OTAKU_BONUS_ACTIVATED")) {
+                        showToast("🌸 OTAKU POWER! Bonus: +$20000", "pink", 450, 80,false);
+                    } else {
+                        // ดึงค่าแต้มปัจจุบันมาแสดง (เช่น 1/5, 2/5)
+                        int count = ((Otaku) p).getWorkCount();
+                        showToast("Otaku Work Count: " + count + "/5", "pink", 300, 50,false);
+                    }
+                } else {
+                    // สำหรับอาชีพอื่นที่มาทำงานที่ Mall
+                    showToast("💰 Work Success! +$" + moneyGain, "white", 300, 50,false);
+                }
+            } else {
+                // 5. ถ้า Stamina ไม่พอ
+                showToast("❌ NOT ENOUGH STAMINA!", "#ff4d4d", 300, 50,true);
             }
+
+            gamePane.notifyUpdate();
+            refreshUI[0].run();
         };
 
         BorderPane root = popup.createBaseLayout(
                 stage, gamePane, "MALL", Color.CYAN, "PART-TIME", "#00ffff",
-                workAction, refreshUI, staminaLabel, healthLabel, moneyLabel
+                workAction, refreshUI[0], staminaLabel, healthLabel, moneyLabel
         );
 
-        refreshUI.run();
+        refreshUI[0].run();
         root.setCenter(optionBox);
 
         Scene scene = new Scene(root, 800, 500);

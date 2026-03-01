@@ -1,7 +1,9 @@
 package Screen.BuildingScreen.Restaurant;
 
+import Logic.GameSession;
 import Screen.BuildingScreen.ShopItem;
 import Logic.GamePane;
+import Character.BasePlayer;
 import Screen.BuildingScreen.Normal;
 import Screen.BuildingScreen.Shopable;
 import javafx.geometry.Insets;
@@ -14,6 +16,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import static Screen.UI.ToastUtil.showToast;
 
 public class RestaurantPopup implements Shopable, Normal {
 
@@ -42,21 +46,24 @@ public class RestaurantPopup implements Shopable, Normal {
 
         @Override
         public void execute(GamePane gamePane) {
-            gamePane.setPlayerStamina((int)gamePane.getPlayerStamina() + staminaGain);
-            gamePane.setPlayerHealth((int)gamePane.getPlayerHealth() + healthGain);
+            BasePlayer p = gamePane.getPlayer();
+            p.setStamina((int)p.getStamina() + staminaGain);
+            p.setHealth((int)p.getHealth() + healthGain);
         }
     }
 
     public static void show(GamePane gamePane) {
+        BasePlayer p = gamePane.getPlayer();
+
         RestaurantPopup popup = new RestaurantPopup();
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
 
         // ===== 1. เตรียม Labels =====
-        Label staminaLabel = new Label("STAMINA: " + gamePane.getPlayerStamina());
-        Label healthLabel = new Label("HEALTH: " + gamePane.getPlayerHealth());
-        Label moneyLabel = new Label("MONEY: " + gamePane.getPlayerMoney());
+        Label staminaLabel = new Label("STAMINA: " + p.getStamina());
+        Label healthLabel = new Label("HEALTH: " + p.getHealth());
+        Label moneyLabel = new Label("MONEY: " + p.getMoney());
 
         staminaLabel.setStyle("-fx-text-fill: #00FFAA; -fx-font-size: 18px;");
         healthLabel.setStyle("-fx-text-fill: #ff4d4d; -fx-font-size: 18px;");
@@ -64,20 +71,30 @@ public class RestaurantPopup implements Shopable, Normal {
 
         // ===== 2. Refresh UI Logic =====
         Runnable refreshUI = () -> {
-            staminaLabel.setText("STAMINA: " + gamePane.getPlayerStamina());
-            healthLabel.setText("HEALTH: " + gamePane.getPlayerHealth());
-            moneyLabel.setText("MONEY: " + gamePane.getPlayerMoney());
+            staminaLabel.setText("STAMINA: " + p.getStamina());
+            healthLabel.setText("HEALTH: " + p.getHealth());
+            moneyLabel.setText("MONEY: " + p.getMoney());
         };
 
         // ===== 3. Work Action (ล้างจานในร้านอาหาร) =====
         Runnable workAction = () -> {
-            if (gamePane.getPlayerStamina() >= 25) {
-                gamePane.setPlayerStamina((int)gamePane.getPlayerStamina() - 25);
-                gamePane.setPlayerMoney((int)gamePane.getPlayerMoney() + 120);
-                System.out.println("Washing dishes... Earned $120!");
+            int staminaCost = 10;
+            int moneyGain = 200;
+
+            // 1. สั่งให้ทำงาน และเก็บผลลัพธ์ (boolean)
+            boolean isSuccess = p.work(staminaCost, moneyGain);
+
+            if (isSuccess) {
+                // 2. ถ้าสำเร็จ: โชว์ Toast ปกติ (ไม่กะพริบ = false)
+                showToast("💦 Dishwashing: +$" + moneyGain, "white", 300, 50, false);
             } else {
-                System.out.println("Too tired to wash dishes!");
+                // 3. ถ้าพลังหมด: โชว์ Toast กะพริบเตือน (กะพริบ = true)
+                showToast("❌ NOT ENOUGH STAMINA!", "#ff4d4d", 300, 50, true);
             }
+
+            // 4. อัปเดต UI ตามปกติ
+            gamePane.notifyUpdate();
+            refreshUI.run();
         };
 
         // ===== 4. สร้าง Layout หลักจาก Normal Interface =====
