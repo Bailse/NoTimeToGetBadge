@@ -82,16 +82,7 @@ public class RestaurantPopup implements Shopable, Normal {
             int moneyGain = 200;
 
             // 1. สั่งให้ทำงาน และเก็บผลลัพธ์ (boolean)
-            boolean isSuccess = p.work(staminaCost, moneyGain);
-
-            if (isSuccess) {
-                // 2. ถ้าสำเร็จ: โชว์ Toast ปกติ (ไม่กะพริบ = false)
-                showToast("💦 Dishwashing: +$" + moneyGain, "white", 300, 50, false);
-            } else {
-                // 3. ถ้าพลังหมด: โชว์ Toast กะพริบเตือน (กะพริบ = true)
-                showToast("❌ NOT ENOUGH STAMINA!", "#ff4d4d", 300, 50, true);
-            }
-
+            p.work(staminaCost, moneyGain);
             // 4. อัปเดต UI ตามปกติ
             gamePane.notifyUpdate();
             refreshUI.run();

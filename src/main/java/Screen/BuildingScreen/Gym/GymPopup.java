@@ -157,17 +157,8 @@ public class GymPopup implements Shopable, Normal {
                     // 3. จัดการ Toast ตามสถานะโบนัสที่ได้รับ
                     if (bonusStatus.equals("GYM_BONUS_ACTIVATED")) {
                         showToast("💪 GYMBRO BONUS: +$20000", "gold", 300, 70,false);
-                    } else {
-                        int count = ((GymBro) p).getWorkCount();
-                        showToast("GymBro Work Count: " + count + "/5", "gold", 300, 50,false);
                     }
-                } else {
-                    // สำหรับอาชีพอื่นที่มาทำงานที่ Mall
-                    showToast("💰 Work Success! +$" + moneyGain, "white", 300, 50,false);
                 }
-            } else {
-                // 4. ถ้าทำงานไม่สำเร็จ (Stamina ไม่พอ)
-                showToast("❌ NOT ENOUGH STAMINA!", "#ff4d4d", 300, 50,true);
             }
 
             gamePane.notifyUpdate();
