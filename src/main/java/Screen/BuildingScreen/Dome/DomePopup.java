@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 
 public class DomePopup implements Shopable, Normal {
 
-    // ใช้ Enum เพื่อจัดการกิจกรรมในหอพัก โดยอ้างอิง ShopItem (เพื่อให้ใช้ createShopButton ได้)
+
     private enum DomeAction implements ShopItem {
         SLEEP("SLEEP 💤\n-10 ⚡", 0, "#ffaa00", 10, 10),  // เพิ่ม Stamina 40, เพิ่ม Happiness 5
         RELAX("RELAX 🎮\n-15 ⚡", 0, "#ff66ff", 15, 15); // เพิ่ม Stamina 15, เพิ่ม Happiness 15
@@ -80,22 +80,21 @@ public class DomePopup implements Shopable, Normal {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
 
-        // ===== Labels สำหรับแสดงสถานะ =====
+
         Label staminaLabel = new Label("STAMINA: " + p.getStamina());
         Label happinessLabel = new Label("HAPPINESS: " + p.getHappiness());
 
-        // ตกแต่ง Style
+
         staminaLabel.setStyle("-fx-text-fill: #00FFAA; -fx-font-size: 18px; -fx-font-weight: bold;");
         happinessLabel.setStyle("-fx-text-fill: #FF69B4; -fx-font-size: 18px; -fx-font-weight: bold;"); // สีชมพูสำหรับความสุข
 
-        // ฟังก์ชัน Refresh UI
+
         Runnable refreshUI = () -> {
             staminaLabel.setText("STAMINA: " + p.getStamina());
             happinessLabel.setText("HAPPINESS: " + p.getHappiness());
         };
 
-        // ใช้ createBaseLayout จาก Interface Normal
-        // ส่ง moneyLabel เป็นตัวสุดท้าย เพื่อให้มันไปปรากฏที่มุมซ้ายบน
+
         BorderPane root = popup.createBaseLayout(
                 stage, gamePane, "DORMITORY", Color.web("#ffaa00"),
                 null, null, null,
@@ -103,7 +102,7 @@ public class DomePopup implements Shopable, Normal {
                 staminaLabel, happinessLabel
         );
 
-        // ส่วนกลาง: สร้างปุ่มกิจกรรม
+
         HBox optionsBox = new HBox(30);
         optionsBox.setAlignment(Pos.CENTER);
         optionsBox.setPadding(new Insets(30));

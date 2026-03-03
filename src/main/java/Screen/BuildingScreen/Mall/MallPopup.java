@@ -26,23 +26,22 @@ public class MallPopup implements Shopable, Normal {
         MallItem.resetMallItems();
     }
     private enum MallItem implements ShopItem {
-        PILLOW("PILLOW", 50, "#00ffff", 10, 0, false),
-        TUNG_BED("BED SET", 676, "#ffd700", 100, 20, false),
-        CAR("CAR", 999, "#ff007f", 40, 5, true);
+        PILLOW("PILLOW", 250, "#00ffff",  10, false),
+        TUNG_BED("BED SET", 700, "#ffd700",  20, false),
+        CAR("CAR", 999, "#ff007f",  0, true);
 
         private final String name;
         private final int price;
         private final String color;
-        private final int staminaGain;
         private final int healthGain;
         private final boolean isUnique;
         private boolean soldOut = false;
 
-        MallItem(String name, int price, String color, int staminaGain, int healthGain, boolean isUnique) {
+        MallItem(String name, int price, String color, int healthGain, boolean isUnique) {
             this.name = name;
             this.price = price;
             this.color = color;
-            this.staminaGain = staminaGain;
+
             this.healthGain = healthGain;
             this.isUnique = isUnique;
         }
@@ -59,20 +58,19 @@ public class MallPopup implements Shopable, Normal {
 
         @Override
         public void execute(GamePane gamePane) {
-            BasePlayer p = gamePane.getPlayer();
-            if (p.getMoney() >= price) {
+            BasePlayer player = gamePane.getPlayer();
+            if (player.getMoney() >= price) {
                 if (this.isUnique) {
                     if (!soldOut) {
-                        p.setMoney(p.getMoney() - price);
+                        player.setMoney(player.getMoney() - price);
                         gamePane.addItem(this.name);
                         this.soldOut = true;
                     }
                 } else {
-                    p.setStamina(p.getStamina() + staminaGain);
-                    p.setHealth(p.getHealth() + healthGain);
-                    p.setMoney(p.getMoney() - price);
+                    player.setHealth(player.getHealth() + healthGain);
+                    player.setMoney(player.getMoney() - price);
                 }
-                gamePane.notifyUpdate(); // สำคัญ: เพื่อให้อัปเดตหลอดพลังงานหน้าจอหลัก
+                gamePane.notifyUpdate();
             }
         }
     }
@@ -96,7 +94,7 @@ public class MallPopup implements Shopable, Normal {
         optionBox.setAlignment(Pos.CENTER);
         optionBox.setPadding(new Insets(40));
 
-        // แก้ปัญหา Variable might not have been initialized ด้วยการใช้ Final Array
+
         final Runnable[] refreshUI = new Runnable[1];
 
         refreshUI[0] = () -> {
@@ -106,7 +104,7 @@ public class MallPopup implements Shopable, Normal {
 
             optionBox.getChildren().clear();
             for (MallItem item : MallItem.values()) {
-                // สร้างปุ่มเบื้องต้น (ส่ง null ไปก่อนเพราะเราจะกำหนด setOnAction เองด้านล่าง)
+
                 Button btn = popup.createShopButton(item, gamePane, null);
                 btn.setPrefSize(180, 140);
 
@@ -117,7 +115,7 @@ public class MallPopup implements Shopable, Normal {
                 } else {
                     btn.setOnAction(e -> {
                         item.execute(gamePane);
-                        // เรียกใช้ผ่าน Array เพื่อให้ Lambda รู้จักตัวแปร
+
                         Platform.runLater(refreshUI[0]);
                     });
                 }
@@ -126,19 +124,19 @@ public class MallPopup implements Shopable, Normal {
         };
 
         Runnable workAction = () -> {
-            // 1. กำหนดค่าพื้นฐาน (Otaku ทำงานที่ Mall จะเหนื่อยน้อยกว่าคนอื่น)
+
             int staminaCost = (p instanceof Otaku) ? 5 : 10;
             int moneyGain = 200;
 
-            // 2. สั่งให้ทำงาน และตรวจสอบว่า Stamina พอหรือไม่จากผลลัพธ์ boolean
+
             boolean isSuccess = p.work(staminaCost, moneyGain);
 
             if (isSuccess) {
-                // 3. ถ้าทำงานสำเร็จ และเป็น Otaku ให้คำนวณแต้มโบนัส
+
                 if (p instanceof Otaku) {
                     String bonusStatus = ((Otaku) p).earnWorkBonus();
 
-                    // 4. แสดง Toast ตามสถานะโบนัสที่ได้รับ (ใช้สี Pink)
+
                     if (bonusStatus.equals("OTAKU_BONUS_ACTIVATED")) {
                         showToast("🌸 OTAKU POWER! Bonus: +$700", "pink", 450, 80,false);
                     }
@@ -150,7 +148,7 @@ public class MallPopup implements Shopable, Normal {
         };
 
         BorderPane root = popup.createBaseLayout(
-                stage, gamePane, "MALL", Color.CYAN, "PART-TIME", "#00ffff",
+                stage, gamePane, "MALL", Color.CYAN, "WORK", "#00ffff",
                 workAction, refreshUI[0], staminaLabel, healthLabel, moneyLabel
         );
 

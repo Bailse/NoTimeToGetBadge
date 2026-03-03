@@ -11,8 +11,6 @@ public class Otaku extends BasePlayer {
                 1500,
                 5,
                 0,
-                0.95,
-                0.80,
                 3,
                 4,
                 45
@@ -34,11 +32,11 @@ public class Otaku extends BasePlayer {
             int bonusMoney = 700;
             this.setMoney(this.getMoney() + bonusMoney);
 
-            this.workCount = 0; // รีเซ็ตแต้ม
-            return "OTAKU_BONUS_ACTIVATED"; // สถานะเมื่อได้โบนัสใหญ่
+            this.workCount = 0;
+            return "OTAKU_BONUS_ACTIVATED";
         }
 
-        return "OTAKU_PROGRESS_" + this.workCount; // สถานะสะสมแต้มปกติ
+        return "OTAKU_PROGRESS_" + this.workCount;
     }
 
     public int getWorkCount() {

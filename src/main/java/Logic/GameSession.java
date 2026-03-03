@@ -15,7 +15,6 @@ public class GameSession {
 
     public static void setBasePlayer(BasePlayer p){
         player = p;
-        // reset session state when choosing a new player
         round = 1;
         initialStamina = (p != null) ? p.getStamina() : 0;
     }
@@ -37,14 +36,14 @@ public class GameSession {
     }
 
 
-    /** Increase round by 1 (but never exceed MAX_ROUNDS). */
+
     public static void advanceRound(){
         if(round < MAX_ROUNDS){
             round++;
         }
     }
 
-    /** True if the game has reached the last round (10/10). */
+
     public static boolean isLastRound(){
         return round >= MAX_ROUNDS;
     }

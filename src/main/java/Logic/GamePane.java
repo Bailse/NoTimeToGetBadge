@@ -26,25 +26,20 @@ public class GamePane extends Pane {
     private MapCreate MapCreate;
     private final int TILE_SIZE = 40;
     private boolean[][] clickable;
-    private Image wallImage = new Image(getClass().getResourceAsStream("/map/block.png"));
-    private Image streetImage90 = new Image(getClass().getResourceAsStream("/map/street90.png"));
-    private Image streetImage180 = new Image(getClass().getResourceAsStream("/map/street180.png"));
-    private Image floorImage = new Image(getClass().getResourceAsStream("/map/grass2.png"));
-    private Image gym = new Image(getClass().getResourceAsStream("/map/store.png"));
     private Image imgDown;
     private Image imgLeft ;
     private Image imgRight ;
-
     private Image imgUp ;
     private BasePlayer playerType = GameSession.getPlayer();
     private Runnable onReachBuilding;
     private Runnable onLeaveBuilding;
     private Runnable onStatusChange;
-
-
-
+    private int playerRow = 2;
+    private int playerCol = 7;
+    private ImageView player;
+    private boolean isMoving = false;
+    private Building[][] bmap;
     private int[][] map = {
-
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
             {1,0,0,0,0,0,0,10,11,0,0,0,0,0,0,1},
             {1,0,3,4,4,4,4,4,4,4,4,4,4,3,0,1},
@@ -66,13 +61,6 @@ public class GamePane extends Pane {
 
     };
 
-    private int playerRow = 2;
-    private int playerCol = 7;
-
-    private ImageView player;
-    private boolean isMoving = false;
-
-    private Building[][] bmap;
 
     public GamePane() {
 
@@ -92,7 +80,6 @@ public class GamePane extends Pane {
         BasePlayer sessionPlayer = GameSession.getPlayer();
 
         if(sessionPlayer != null && sessionPlayer.getImagePath() != null){
-            //player = new ImageView(new Image(getClass().getResourceAsStream(sessionPlayer.getImagePath())));
             player = new ImageView(imgDown);
 
         }else{
@@ -101,9 +88,6 @@ public class GamePane extends Pane {
         player.setFitWidth(TILE_SIZE+20);
         player.setFitHeight(TILE_SIZE+20);
 
-       // player.setTranslateX(playerCol * TILE_SIZE + 5);
-       // player.setTranslateY(playerRow * TILE_SIZE + 5);
-
         updatePlayerPosition();
 
 
@@ -111,8 +95,7 @@ public class GamePane extends Pane {
 
         clickablePath();
 
-        bmap = new Building[map.length][map[0].length]; // กำหนดขนาดให้พอ
-
+        bmap = new Building[map.length][map[0].length];
 
         bmap[1][7] = new Dome();
         bmap[1][8] = new Dome();
@@ -122,25 +105,25 @@ public class GamePane extends Pane {
         bmap[7][6] = new Chula();
         bmap[7][9] = new Chula();
         bmap[9][6] = new Restaurant();
+        bmap[9][5] = new Restaurant();
         bmap[9][9] = new Park();
         bmap[8][14] = new Mall();
         bmap[7][14] = new Mall();
         bmap[9][14] = new Mall();
         bmap[16][7] = new Travel();
         bmap[16][8] = new Travel();
-        
-
     }
+
+    // set player when start game //
 
     public GamePane(String avatarPath){
         this();
-
         if(avatarPath != null){
             player.setImage(imgDown);
         }
     }
 
-    //Building ACTION
+
     public Building getCurrentBuilding() {
         return bmap[playerRow][playerCol];
     }
@@ -154,79 +137,7 @@ public class GamePane extends Pane {
                 ImageView tile;
                 Logic.MapCreate s1 = new MapCreate(map[r][c]);
 
-                if (map[r][c] == 1) {
-                    tile = new ImageView(wallImage);
-                } else if (map[r][c] == 2) {
-                    tile = new ImageView(gym);
-                    
-                } else if (map[r][c] == 3) {
-                    tile = new ImageView(streetImage90);
-
-                } else if (map[r][c] == 4) {
-                    tile = new ImageView(streetImage180);
-                }
-                else if (map[r][c] == 5) {
-                    tile = s1.getChoosing();
-                }
-                else if (map[r][c] == 6) {
-                    tile = s1.getChoosing();
-                }
-                else if (map[r][c] == 7) {
-                    tile = s1.getChoosing();
-                }
-                else if (map[r][c] == 8) {
-                    tile = s1.getChoosing();
-                }
-                else if (map[r][c] == 10) {
-                    tile = s1.getChoosing();
-                } else if (map[r][c] == 11) {
-                    tile = s1.getChoosing();
-                }
-                else if (map[r][c] == 12) {
-                    tile = s1.getChoosing();
-                }
-                else if (map[r][c] == 13) {
-                    tile = s1.getChoosing();
-                }
-                else if (map[r][c] == 14) {
-                    tile = s1.getChoosing();
-                } else if (map[r][c] == 15) {
-                    tile = s1.getChoosing();
-                } else if (map[r][c] == 16) {
-                    tile = s1.getChoosing();
-                } else if (map[r][c] == 17) {
-                    tile = s1.getChoosing();
-
-                } else if (map[r][c] == 18) {
-                    tile = s1.getChoosing();
-                }
-                else if (map[r][c] == 20) {
-                    tile = s1.getChoosing();
-                }
-                else if (map[r][c] == 19) {
-                    tile = s1.getChoosing();
-                }
-                else if (map[r][c] == 21) {
-                    tile = s1.getChoosing();
-                }
-                else if (map[r][c] == 22) {
-                    tile = s1.getChoosing();
-                }
-                else if (map[r][c] == 23) {
-                    tile = s1.getChoosing();
-                }
-                else if (map[r][c] == 24) {
-                    tile = s1.getChoosing();
-                }
-                else if (map[r][c] == 25) {
-                    tile = s1.getChoosing();
-                }else {
-                    tile = new ImageView(floorImage);
-                }
-
-
-
-
+                tile = s1.getChoosing();
 
                 tile.setFitWidth(TILE_SIZE);
                 tile.setFitHeight(TILE_SIZE);
@@ -258,7 +169,7 @@ public class GamePane extends Pane {
         }
     }
 
-    // BFS pathfinding (เหมือนเดิม)
+
     private List<int[]> findPath(int startR, int startC, int targetR, int targetC) {
 
         int rows = map.length;
@@ -335,11 +246,6 @@ public class GamePane extends Pane {
     }
 
 
-
-
-
-
-
     private void walkPath(List<int[]> path) {
 
         if (path.isEmpty()) return;
@@ -362,18 +268,12 @@ public class GamePane extends Pane {
         TranslateTransition move = new TranslateTransition();
         move.setNode(player);
         move.setDuration(Duration.seconds(0.15));
-       // move.setToX(next[1] * TILE_SIZE + 5);
-       // move.setToY(next[0] * TILE_SIZE + 5);
-
 
         double offsetX = (TILE_SIZE - player.getFitWidth()) / 2.0;
         double offsetY = (TILE_SIZE - player.getFitHeight()) / 2.0;
         
         move.setToX(next[1] * TILE_SIZE + offsetX);
         move.setToY(next[0] * TILE_SIZE + offsetY);
-
-
-
 
         move.setOnFinished(e -> {
             playerRow = next[0];
@@ -409,9 +309,6 @@ public class GamePane extends Pane {
                 return;
             }
 
-
-
-
             if (!path.isEmpty()) {
                 walkPath(path);
             } else {
@@ -430,40 +327,7 @@ public class GamePane extends Pane {
         return false;
     }
 
-    public void setOnReachBuilding(Runnable r) {
-        this.onReachBuilding = r;
-    }
 
-    public void setOnLeaveBuilding(Runnable r) {
-        this.onLeaveBuilding = r;
-    }
-
-
-    public int getPlayerRow() {
-        return playerRow;
-    }
-
-
-    public int getPlayerCol() {
-        return playerCol;
-    }
-
-
-
-    public void setPlayerRow(int playerRow) {
-        this.playerRow = playerRow;
-    }
-
-
-    public void setPlayerCol(int playerCol) {
-        this.playerCol = playerCol;
-    }
-
-    public void setOnStatusChange(Runnable r) {
-        this.onStatusChange = r;
-    }
-
-    /** Reset player position back to the starting tile (1,1). */
     public void resetPlayerToStart() {
         isMoving = false;
 
@@ -489,53 +353,55 @@ public class GamePane extends Pane {
 
     }
 
-
-
-    public void setImgLeft() {
-        this.imgLeft = playerType.getImgLeft();
-    }
-
-
-
-    public void setImgRight() {
-        this.imgRight = playerType.getImgRight();
-    }
-
-
-
-    public void setImgUp() {
-        this.imgUp = playerType.getImgUp();
-    }
-
-    // ใน GamePane.java
-    public BasePlayer getPlayer() {
-        return GameSession.getPlayer();
-    }
-
-
     public void notifyUpdate() {
         if (onStatusChange != null) {
             onStatusChange.run();
         }
     }
 
+    public void setOnReachBuilding(Runnable r) {
+        this.onReachBuilding = r;
+    }
+
+    public void setOnLeaveBuilding(Runnable r) {
+        this.onLeaveBuilding = r;
+    }
+
+    public void setOnStatusChange(Runnable r) {
+        this.onStatusChange = r;
+    }
+
+
+    public void setImgLeft() {
+        this.imgLeft = playerType.getImgLeft();
+    }
+
+    public void setImgRight() {
+        this.imgRight = playerType.getImgRight();
+    }
+
+    public void setImgUp() {
+        this.imgUp = playerType.getImgUp();
+    }
+
+    public BasePlayer getPlayer() {
+        return GameSession.getPlayer();
+    }
+
     public void addItem(String itemName) {
-        BasePlayer p = GameSession.getPlayer();
-        if (p == null) return;
+
+        if (getPlayer() == null) return;
 
         if (itemName.equals("Whey Protein")) {
-            p.getItemManager().addItem(new Item.WheyProtein()); // ใส่ในช่อง index 0
+            getPlayer().getItemManager().addItem(new Item.WheyProtein());
         }
         else if(itemName.equals("CAR")){
-            p.getItemManager().addItem(new Item.Vehicle());
+            getPlayer().getItemManager().addItem(new Item.Vehicle());
         }
 
         if (onStatusChange != null) onStatusChange.run();
 
     }
-
-
-
 
     public void updateEducationItem(int level) {
         BasePlayer p = GameSession.getPlayer();
@@ -550,7 +416,6 @@ public class GamePane extends Pane {
             default: newBook = new Item.Book1(); break;
         }
 
-        // addItem จะไป set ที่ index 1 อัตโนมัติเพราะเป็น Category.EDUCATION
         p.getItemManager().addItem(newBook);
 
         if (onStatusChange != null) onStatusChange.run();

@@ -89,12 +89,10 @@ public class GameScreen extends VBox {
         BasePlayer player = GameSession.getPlayer();
         if(player == null) return;
 
-        // prevent ending round while player is moving
         if(gamePane.isPlayerMoving()){
             return;
         }
 
-        // If currently at 10/10 and player presses End Round -> show end game
         if(GameSession.getRound() == GameSession.getMaxRounds()){
             game.showResult();
             return;

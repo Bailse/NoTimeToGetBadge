@@ -14,7 +14,6 @@ public class BaseItem {
         setActive(false);
     }
 
-    // Getter/Setter (ไม่ใช้ this ตามกฎเดิม)
     public String getName() { return name; }
     public void setName(String newName) { name = newName; }
 

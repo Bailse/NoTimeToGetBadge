@@ -11,8 +11,6 @@ public class Nerd extends BasePlayer {
                 1000,
                 30,
                 0,
-                1.0,
-                1.20,
                 2,
                 4,
                 25
@@ -34,11 +32,11 @@ public class Nerd extends BasePlayer {
         if (this.studyCount >= 5) {
             int bonusEdu = 20;
             this.setEducation(this.getEducation() + bonusEdu);
-            this.studyCount = 0; // รีเซ็ตแต้ม
-            return "BONUS_ACTIVATED"; // ส่งสถานะว่าได้โบนัสใหญ่
+            this.studyCount = 0;
+            return "BONUS_ACTIVATED";
         }
 
-        return "PROGRESS_" + this.studyCount; // ส่งสถานะพร้อมจำนวนแต้มปัจจุบัน เช่น PROGRESS_1
+        return "PROGRESS_" + this.studyCount;
     }
 
 }

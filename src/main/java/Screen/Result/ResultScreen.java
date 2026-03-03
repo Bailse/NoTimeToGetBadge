@@ -21,9 +21,9 @@ import Character.BasePlayer;
 public class ResultScreen extends StackPane {
 
     private final String[] Badge = new String[]{
-            "/SBadge.png",
-            "/SstarBadge.png",
-            "/UBadge.png"
+            "/Screen/SBadge.png",
+            "/Screen/SstarBadge.png",
+            "/Screen/UBadge.png"
     };
 
     // Money
@@ -59,7 +59,7 @@ public class ResultScreen extends StackPane {
 
         Image bgImage = new Image(
                 Objects.requireNonNull(
-                        getClass().getResource("/sky.png")
+                        getClass().getResource("/Screen/sky.png")
                 ).toExternalForm()
         );
 
@@ -170,11 +170,11 @@ public class ResultScreen extends StackPane {
             musicToggle.setText(SoundManager.isMuted() ? "🔇" : "🔊");
         });
 
-        // จัดวางปุ่มให้อยู่ล่างขวาสุดโดยใช้ StackPane Alignment
+
         StackPane.setAlignment(musicToggle, Pos.BOTTOM_RIGHT);
         StackPane.setMargin(musicToggle, new Insets(30)); // เว้นระยะจากขอบจอ 30px
 
-        // เพิ่มทุกอย่างลงใน StackPane หลัก
+
         this.getChildren().addAll(mainBox, musicToggle);
         StackPane.setAlignment(mainBox, Pos.CENTER);
     }

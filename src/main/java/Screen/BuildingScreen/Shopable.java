@@ -13,14 +13,14 @@ public interface Shopable extends Normal {
 
         Button btn = new Button(buttonText);
 
-        // เรียกใช้ style ที่เราย้ายมา (ขอบโค้ง 15 และสีตาม Item)
+
         applyPixelStyle(btn, item.getColor());
 
         btn.setOnAction(e -> {
-            // 1. ตรวจสอบเงื่อนไขการซื้อ (เช่น เงินพอไหม)
+
             if (p.getMoney() >= item.getPrice()) {
 
-                // 2. เรียกใช้ execute เพื่อรัน Logic ของไอเทม (เปลี่ยนค่า Status จริงๆ)
+
                 item.execute(gamePane);
 
                 gamePane.notifyUpdate();

@@ -2,5 +2,5 @@ package Item;
 
 
 public class Vehicle extends BaseItem {
-    public Vehicle() { super("Vehicle", "Vehicle.png", Category.VEHICLE); }
+    public Vehicle() { super("Vehicle", "Item/Vehicle.png", Category.VEHICLE); }
 }

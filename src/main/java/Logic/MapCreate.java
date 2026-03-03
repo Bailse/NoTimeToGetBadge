@@ -63,6 +63,19 @@ public class MapCreate {
     public MapCreate(int number){
 
         switch (number){
+            case 0:
+                choosing = new ImageView(floorImage);
+                break;
+            case 1:
+                choosing = new ImageView(wallImage);
+                break;
+            case 3:
+                choosing = new ImageView(streetImage90);
+                break;
+            case 4:
+                choosing = new ImageView(streetImage180);
+                break;
+
             case 5:
                 choosing = new ImageView(water);
                 break;

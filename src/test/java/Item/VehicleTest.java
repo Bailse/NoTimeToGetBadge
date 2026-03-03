@@ -10,7 +10,7 @@ public class VehicleTest {
     void vehicleProperties() {
         Vehicle v = new Vehicle();
         assertEquals("Vehicle", v.getName());
-        assertEquals("Vehicle.png", v.getImage());
+        assertEquals("Item/Vehicle.png", v.getImage());
         assertEquals(Category.VEHICLE, v.getCategory());
     }
 }

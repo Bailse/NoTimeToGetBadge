@@ -11,8 +11,6 @@ public class NormalGuy extends BasePlayer{
                 500,
                 5,
                 10,
-                1.0,
-                1.0,
                 3,
                 3,
                 35

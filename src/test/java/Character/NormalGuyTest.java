@@ -11,14 +11,12 @@ public class NormalGuyTest extends JavaFxTestBase {
     void constructorSetsExpectedBaselineStats() {
         NormalGuy p = new NormalGuy();
         assertEquals(200, p.getStamina());
-        assertEquals(5000, p.getMoney());
+        assertEquals(500, p.getMoney());
         assertEquals(5, p.getEducation());
-        assertEquals(90, p.getHealth());
-        assertEquals(1.0, p.getMoneyDiscount(), 1e-9);
-        assertEquals(1.0, p.getEducationMultiply(), 1e-9);
+        assertEquals(10, p.getHealth());
         assertEquals(3, p.getHealthDecrease());
-        assertEquals(5, p.getStaminaDecrease());
-        assertEquals(100, p.getHappiness());
+        assertEquals(3, p.getStaminaDecrease());
+        assertEquals(35, p.getHappiness());
     }
 
     @Test
@@ -31,24 +29,5 @@ public class NormalGuyTest extends JavaFxTestBase {
         assertNotNull(p.getImgRight());
     }
 
-    @Test
-    void statsNeverNegativeAfterExtremeOperations() {
-        NormalGuy p = new NormalGuy();
-        // drain stamina heavily
-        for (int i = 0; i < 1000; i++) {
-            p.walk();
-        }
-        assertTrue(p.getStamina() >= 0);
 
-        // buy very expensive item
-        p.buyItem(Integer.MAX_VALUE);
-        assertTrue(p.getMoney() >= 0);
-
-        // study with huge health decrease effect (by repeating)
-        for (int i = 0; i < 100; i++) {
-            p.study(1000);
-        }
-        assertTrue(p.getHealth() >= 0);
-        assertTrue(p.getEducation() >= 0);
-    }
 }

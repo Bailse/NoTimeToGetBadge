@@ -24,7 +24,7 @@ public class HowToPlayScreen extends BorderPane {
         try {
             Image bgImage = new Image(
                     Objects.requireNonNull(
-                            getClass().getResource("/h2p.png")
+                            getClass().getResource("/Screen/h2p.png")
                     ).toExternalForm()
             );
 
@@ -133,13 +133,6 @@ public class HowToPlayScreen extends BorderPane {
             -fx-cursor: hand;
         """);
 
-//        back.setOnMouseEntered(e ->
-//                back.setStyle("-fx-background-color: #00ffff; -fx-text-fill: black; -fx-padding: 12 40 12 40; -fx-background-radius: 8;")
-//        );
-//
-//        back.setOnMouseExited(e ->
-//                back.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-padding: 12 40 12 40; -fx-background-radius: 8;")
-//        );
 
         back.setOnAction(e -> manager.showTitle());
 

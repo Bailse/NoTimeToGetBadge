@@ -4,7 +4,7 @@ import java.lang.annotation.Annotation;
 
 public enum Category implements jdk.jfr.Category {
 
-        EDUCATION, HEALTH, VEHICLE, MONEY;
+        EDUCATION, HEALTH, VEHICLE;
 
     @Override
     public String[] value() {

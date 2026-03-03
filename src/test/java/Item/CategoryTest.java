@@ -9,11 +9,11 @@ public class CategoryTest {
     @Test
     void enumHasExpectedValues() {
         Category[] values = Category.values();
-        assertEquals(4, values.length);
+        assertEquals(3, values.length);
         assertNotNull(Category.EDUCATION);
         assertNotNull(Category.HEALTH);
         assertNotNull(Category.VEHICLE);
-        assertNotNull(Category.MONEY);
+
     }
 
     @Test
