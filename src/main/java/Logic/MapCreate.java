@@ -4,6 +4,11 @@ import Screen.BuildingScreen.Park.Park;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * Class for initialize map image in GamePane
+ */
+
+
 public class MapCreate {
 
     // for create map
@@ -59,7 +64,10 @@ public class MapCreate {
 
     private final Image flower = new Image(getClass().getResourceAsStream("/map/flower2.png"));
 
-
+    /**
+     * create map Tile by using number image to set Image of each TILE
+     *
+     */
     public MapCreate(int number){
 
         switch (number){

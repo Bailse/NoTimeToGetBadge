@@ -1,9 +1,15 @@
 package Item;
 
 import java.util.ArrayList;
-
+/**
+ * this Class use for store item in player
+ */
 public class Item {
     private ArrayList<BaseItem> inventory;
+
+    /**
+     * constructor that initialize Item arraylist 3 slot
+     */
 
     public Item() {
         inventory = new ArrayList<>();
@@ -11,6 +17,10 @@ public class Item {
             inventory.add(null);
         }
     }
+
+    /**
+     * add item method like HealthThing , EducationThing , Vehicle
+     */
 
     public void addItem(BaseItem item) {
         if (item instanceof HealthThing) {
@@ -22,7 +32,9 @@ public class Item {
         }
     }
 
-
+    /**
+     * get Inventory
+     */
 
     public ArrayList<BaseItem> getInventory() {
         return inventory;

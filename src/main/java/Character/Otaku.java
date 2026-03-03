@@ -3,8 +3,14 @@ package Character;
 import javafx.scene.image.Image;
 
 import java.util.Objects;
-
+/**
+ * Otaku class extends from BasePlayer
+ * Otaku that have special interact with Mall building
+ */
 public class Otaku extends BasePlayer {
+    /**
+     * constructor that initialize value for Otaku
+     */
     public Otaku() {
         super(
                 200,
@@ -25,6 +31,10 @@ public class Otaku extends BasePlayer {
 
     private int workCount = 0;
 
+    /**
+     * Counting work if work in Mall and is equal 5 this Otaku get bonus money and reset WorkCount to 0
+     */
+
     public String earnWorkBonus() { //Mall
         this.workCount++;
 
@@ -39,7 +49,5 @@ public class Otaku extends BasePlayer {
         return "OTAKU_PROGRESS_" + this.workCount;
     }
 
-    public int getWorkCount() {
-        return workCount;
-    }
+
 }

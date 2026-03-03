@@ -4,7 +4,17 @@ import javafx.scene.image.Image;
 
 import java.util.Objects;
 
+/**
+ * Gymbro class extends from BasePlayer
+ * Gymbro that have special interact with gym building
+ */
+
 public class GymBro extends  BasePlayer{
+
+    /**
+     * constructor that initialize value for GymBro
+     */
+
     public GymBro() {
         super(
                 200,
@@ -25,6 +35,10 @@ public class GymBro extends  BasePlayer{
 
     private int workCount = 0;
 
+    /**
+     * Counting work if work in Gym and is equal 5 this Gymbro get bonus money and reset WorkCount to 0
+     */
+
     public String earnWorkBonus() { //Gym
         this.workCount++;
 
@@ -39,8 +53,4 @@ public class GymBro extends  BasePlayer{
         return "GYM_PROGRESS_" + this.workCount;
     }
 
-
-    public int getWorkCount() {
-        return workCount;
-    }
 }

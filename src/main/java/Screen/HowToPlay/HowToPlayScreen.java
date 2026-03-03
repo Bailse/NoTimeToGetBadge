@@ -13,8 +13,14 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 import java.util.Objects;
-
+/**
+ * How to play Screen
+ */
 public class HowToPlayScreen extends BorderPane {
+
+    /**
+     * constructor initialize object in HowtoPlayScreen
+     */
 
     public HowToPlayScreen(ScreenManager manager){
 
@@ -142,6 +148,10 @@ public class HowToPlayScreen extends BorderPane {
 
         this.setBottom(bottom);
     }
+
+    /**
+     * Create Box of Section
+     */
 
     private VBox createSection(String title, String text, String colorHex) {
 

@@ -4,7 +4,14 @@ import javafx.scene.image.Image;
 
 import java.util.Objects;
 
+/**
+ * Nerd class extends from BasePlayer
+ * Nerd that have special interact with Chula building
+ */
 public class Nerd extends BasePlayer {
+    /**
+     * constructor that initialize value for Nerd
+     */
     public Nerd() {
         super(
                 200,
@@ -25,7 +32,9 @@ public class Nerd extends BasePlayer {
     }
 
     private int studyCount = 0;
-
+    /**
+     * Counting study if work in Chula and is equal 5 this Nerd get bonus Education and reset WorkCount to 0
+     */
     public String earnStudyBonus() {
         this.studyCount++;
 

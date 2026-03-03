@@ -3,8 +3,14 @@ package Character;
 import javafx.scene.image.Image;
 
 import java.util.Objects;
-
+/**
+ * NormalGuy class extends from BasePlayer
+ * NormalGuy that have noting special but the stat is balance
+ */
 public class NormalGuy extends BasePlayer{
+    /**
+     * constructor that initialize value for NormalGuy
+     */
     public NormalGuy() {
         super(
                 200,

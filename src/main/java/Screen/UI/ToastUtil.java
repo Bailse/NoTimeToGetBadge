@@ -5,10 +5,17 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+/**
+ * ToastUtil append when Bonus is active
+ */
+
+
 public class ToastUtil {
     private static Stage currentToastStage = null;
     private static javafx.animation.FadeTransition currentFade = null;
-
+    /**
+     * constructor initialize object in ToastUtil
+     */
 
     public static void showToast(String message, String hexColor, double width, double height, boolean shouldBlink) {
         javafx.application.Platform.runLater(() -> {
