@@ -94,11 +94,11 @@ public class ChulaPopup implements Shopable, Normal {
             }
             if (p instanceof Nerd) {
                 if (p.getStamina() >= 10 && p.getEducation() < 200) {
-                    // โค้ดใน Popup เมื่อจบการเรียน 1 ครั้ง
+
                     String status = ((Nerd) p).earnStudyBonus();
 
                     if (status.equals("BONUS_ACTIVATED")) {
-                        // โชว์ Toast ขนาดใหญ่ สีเขียวสว่าง สำหรับ Nerd Power
+
                         showToast("🤓 NERD POWER! Bonus Edu +20 ", "#00FF7F", 500, 70,false);
                     }
                 }
@@ -117,7 +117,7 @@ public class ChulaPopup implements Shopable, Normal {
 
         BorderPane root = popup.createBaseLayout(
                 stage, gamePane, "CHULA UNIVERSITY", Color.PINK,
-                "SELF STUDY", "#ff66ff", studyAction, refreshUI,
+                "STUDY", "#ff66ff", studyAction, refreshUI,
                 staminaLabel, eduLabel, moneyLabel
         );
 
@@ -140,7 +140,7 @@ public class ChulaPopup implements Shopable, Normal {
                         if (level.levelIndex == playerMaxLevel) {
                             btn.setText(level.getName() + "\n★ CURRENT ★");
 
-                            // 1. กำหนด Style ปกติให้เป็นขอบสีเหลืองทอง
+
                             String goldBorderStyle =
                                     "-fx-background-color: #0f3460;" +
                                             "-fx-border-color: #FFD700;" + // สีทอง
@@ -149,17 +149,15 @@ public class ChulaPopup implements Shopable, Normal {
                                             "-fx-border-radius: 10;" +
                                             "-fx-text-fill: white;";
 
-                            // เซตค่าเริ่มต้นเป็นสีทอง
+
                             btn.setStyle(goldBorderStyle);
 
-                            // 2. ปล่อยให้ OnMouseEntered ทำงานตามปกติ (จาก createShopButton)
-                            // แต่เราจะเขียนทับ OnMouseExited เพื่อให้มัน "กลับมาเป็นสีทอง"
                             btn.setOnMouseExited(e -> {
                                 btn.setStyle(goldBorderStyle);
                             });
 
                         } else {
-                            // ระดับที่ผ่านมาแล้ว (PASSED)
+
                             btn.setText(level.getName() + "\n(PASSED)");
                             btn.setOpacity(1);
                         }
@@ -172,10 +170,10 @@ public class ChulaPopup implements Shopable, Normal {
                                 GameSession.getPlayer().setMaxUnlockedLevel(level.levelIndex);
                                 gamePane.updateEducationItem(level.levelIndex);
                                 gamePane.notifyUpdate();
-                                // อัปเดตหน้าจอโดยไม่ต้องเปิดใหม่ (แก้กระพริบ)
+
                                 javafx.application.Platform.runLater(() -> {
-                                    this.run(); // วาดปุ่มใหม่
-                                    refreshUI.run(); // อัปเดต Text Status
+                                    this.run();
+                                    refreshUI.run();
                                 });
                             }
                         });

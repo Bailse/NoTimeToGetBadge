@@ -10,7 +10,7 @@ public class Book2Test {
     void book2Properties() {
         Book2 b = new Book2();
         assertEquals("Bachelor Book", b.getName());
-        assertEquals("book2.png", b.getImage());
+        assertEquals("Item/book2.png", b.getImage());
         assertEquals(Category.EDUCATION, b.getCategory());
     }
 }

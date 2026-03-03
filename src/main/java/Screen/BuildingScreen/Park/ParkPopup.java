@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 
 public class ParkPopup implements Shopable, Normal {
 
-    // Enum สำหรับกิจกรรมในสวนสาธารณะ
+
     private enum ParkAction implements ShopItem {
         WALK("WALK 🚶\n-7 ⚡", 0, "#00cc66", 7, 5,2),
         RELAX("RELAX 🍃\n-5 ⚡", 0, "#00cc66", 5, 5,0);
@@ -47,7 +47,7 @@ public class ParkPopup implements Shopable, Normal {
         @Override
         public void execute(GamePane gamePane) {
             BasePlayer p = gamePane.getPlayer();
-            // ถ้าค่า staminaCost เป็นบวก คือต้องใช้ค่าพลัง (เช็คว่าพอไหม)
+
             if (p.getStamina() >= staminaCost) {
                 p.setStamina(p.getStamina() - staminaCost);
                 p.setHappiness(p.getHappiness() + happinessGain);
@@ -64,26 +64,25 @@ public class ParkPopup implements Shopable, Normal {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
 
-        // Labels สำหรับแสดงสถานะ (Stamina, Edu, Money)
-        // ===== Labels สำหรับแสดงสถานะ =====
+
+
         Label staminaLabel = new Label("STAMINA: " + p.getStamina());
         Label happinessLabel = new Label("HAPPINESS: " + p.getHappiness());
         Label healthLabel = new Label("HEALTH: " + p.getHealth());
 
-        // ตกแต่ง Style
+
         staminaLabel.setStyle("-fx-text-fill: #00FFAA; -fx-font-size: 18px; -fx-font-weight: bold;");
         happinessLabel.setStyle("-fx-text-fill: #FF69B4; -fx-font-size: 18px; -fx-font-weight: bold;");
         healthLabel.setStyle("-fx-text-fill: #ff4d4d; -fx-font-size: 18px; -fx-font-weight: bold;");
 
-        // ฟังก์ชัน Refresh UI
+
         Runnable refreshUI = () -> {
             staminaLabel.setText("STAMINA: " + p.getStamina());
             happinessLabel.setText("HAPPINESS: " + p.getHappiness());
             healthLabel.setText("HEALTH: " + p.getHealth());
         };
 
-        // ใช้ createBaseLayout จาก Interface Normal
-        // ส่ง moneyLabel เป็นตัวสุดท้าย เพื่อให้มันไปปรากฏที่มุมซ้ายบน
+
         BorderPane root = popup.createBaseLayout(
                 stage, gamePane, "PARK", Color.web("#00cc66"),
                 null, null, null,
@@ -91,7 +90,7 @@ public class ParkPopup implements Shopable, Normal {
                 staminaLabel, happinessLabel,healthLabel
         );
 
-        // ส่วนปุ่มตรงกลาง
+
         HBox optionsBox = new HBox(20);
         optionsBox.setAlignment(Pos.CENTER);
         optionsBox.setPadding(new Insets(30));

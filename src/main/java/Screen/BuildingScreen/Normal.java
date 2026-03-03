@@ -23,7 +23,7 @@ public interface Normal {
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #16213e;");
 
-        // ===== HEADER =====
+
         Label title = new Label(titleText);
         title.setTextFill(titleColor);
         title.setStyle("-fx-font-size: 50px; -fx-font-family: 'Courier New'; -fx-font-weight: bold;");
@@ -32,7 +32,7 @@ public interface Normal {
         header.setPadding(new Insets(20));
         header.setStyle("-fx-background-color: #1a1a2e; -fx-border-color: " + toHex(titleColor) + "; -fx-border-width: 0 0 4 0;");
 
-        // ===== FOOTER =====
+
         Button exitBtn = new Button("EXIT");
         applyPixelStyle(exitBtn, "#ff4444");
         exitBtn.setPrefSize(120, 50);
@@ -47,8 +47,7 @@ public interface Normal {
         footer.setLeft(exitBtn);
         footer.setCenter(statsBox);
 
-        // ===== LOGIC: ตรวจสอบปุ่ม ACTION =====
-        // ถ้าส่ง actionBtnText มาเป็น null หรือ "" จะไม่สร้างปุ่มทางขวา
+
         if (actionBtnText != null && !actionBtnText.isEmpty()) {
             Button actionBtn = new Button(actionBtnText);
             applyPixelStyle(actionBtn, actionBtnColor);
@@ -78,7 +77,7 @@ public interface Normal {
         btn.setFont(Font.font("Courier New", 20));
         btn.setTextFill(Color.WHITE);
 
-        // ปรับเป็น 15 ตามคำขอเพื่อให้ปุ่มโค้งมนสวยงาม
+
         String normalStyle = "-fx-background-color: #0f3460; -fx-border-color: " + borderColor +
                 "; -fx-border-width: 4; -fx-background-radius: 15; -fx-border-radius: 15;";
 

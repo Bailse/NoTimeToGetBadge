@@ -17,7 +17,7 @@ public class BasePlayerProductionTest {
         public TestPlayer(int stamina, int money, int education, int health,
                           double moneyDiscount, double educationMultiply,
                           int healthDecrease, int staminaDecrease, int happiness) {
-            super(stamina, money, education, health, moneyDiscount, educationMultiply, healthDecrease, staminaDecrease, happiness);
+            super(stamina, money, education, health,  healthDecrease, staminaDecrease, happiness);
         }
     }
 
@@ -46,11 +46,7 @@ public class BasePlayerProductionTest {
         p.setHappiness(-5);
         assertEquals(0, p.getHappiness());
 
-        p.setMoneyDiscount(-0.5);
-        assertEquals(0.0, p.getMoneyDiscount());
 
-        p.setEducationMultiply(0.0);
-        assertEquals(0.0, p.getEducationMultiply());
     }
 
     @Test
@@ -75,23 +71,6 @@ public class BasePlayerProductionTest {
 
         // cost = staminaDecrease * 0.5 => 5
         assertEquals(before - 5, p.getStamina());
-    }
-
-    @Test
-    void studyIncreasesEducationAndDecreasesHealthWithClamp() {
-        TestPlayer p = new TestPlayer(0,0,0,1,1.0,2.0,10,0,0);
-
-        p.study(10); // gained = 10 * 2.0 = 20; health decreases by 10 -> clamp to 0
-        assertEquals(20, p.getEducation());
-        assertEquals(0, p.getHealth());
-    }
-
-    @Test
-    void buyItemAppliesDiscountAndNeverGoesNegative() {
-        TestPlayer p = new TestPlayer(0,30,0,0,0.5,1.0,0,0,0);
-
-        p.buyItem(100); // finalPrice=50 => money 30-50 -> clamp to 0
-        assertEquals(0, p.getMoney());
     }
 
     @Test

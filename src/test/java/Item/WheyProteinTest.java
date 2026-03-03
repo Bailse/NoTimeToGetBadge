@@ -10,7 +10,7 @@ public class WheyProteinTest {
     void wheyProteinProperties() {
         WheyProtein w = new WheyProtein();
         assertEquals("Whey Protein", w.getName());
-        assertEquals("WheyProtein.png", w.getImage());
+        assertEquals("Item/WheyProtein.png", w.getImage());
         assertEquals(Category.HEALTH, w.getCategory());
     }
 }

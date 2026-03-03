@@ -20,14 +20,14 @@ public class StatusTab extends VBox {
     private ImageView[] itemSlots;
 
     public StatusTab() {
-        // การตั้งค่า Layout หลัก (ขยายใหญ่ชนขอบ)
+
         setSpacing(15);
         setPadding(new Insets(20));
         setAlignment(Pos.TOP_CENTER);
         setPrefWidth(480);
         setStyle("-fx-background-color: #1a1a1a; -fx-border-color: #3d3d3d; -fx-border-width: 4;");
 
-        // --- ส่วน Title และ Avatar ---
+
         Label title = new Label("GAME STATUS");
         title.setFont(Font.font("Courier New", FontWeight.BLACK, 32));
         title.setTextFill(Color.WHITE);
@@ -44,7 +44,7 @@ public class StatusTab extends VBox {
         Region spacer = new Region();
         VBox.setVgrow(spacer, Priority.ALWAYS);
 
-        // --- ส่วน Equipment (3 ช่อง ขนาดใหญ่ 100x100) ---
+
         Label invTitle = new Label("> EQUIPMENT");
         invTitle.setFont(Font.font("Courier New", FontWeight.BOLD, 22));
         invTitle.setTextFill(Color.WHITE);
@@ -79,7 +79,7 @@ public class StatusTab extends VBox {
         if (p != null && p.getImagePath() != null) {
             try {
                 avatar.setImage(new Image(getClass().getResourceAsStream(p.getImagePath())));
-            } catch (Exception e) { /* default handle */ }
+            } catch (Exception e) {  }
         }
         avatar.setFitWidth(160);
         avatar.setFitHeight(160);
@@ -145,7 +145,7 @@ public class StatusTab extends VBox {
         if (itemManager == null) return;
 
         // รูปเงาจางๆ (Placeholders) เมื่อยังไม่มีของ
-        String[] placeholders = {"WheyProtein.png", "book1.png", "Vehicle.png"};
+        String[] placeholders = {"Item/WheyProtein.png", "Item/book1.png", "Item/Vehicle.png"};
 
 
         for (int i = 0; i < 3; i++) {
@@ -153,13 +153,13 @@ public class StatusTab extends VBox {
             ImageView slotView = itemSlots[i];
 
             if (item != null) {
-                // กรณีมีของในประเภทนั้น: แสดงรูปจริงและชัดเจน (Opacity 1.0)
+
                 try {
                     slotView.setImage(new Image(getClass().getResourceAsStream("/" + item.getImage())));
                     slotView.setOpacity(1.0);
                 } catch (Exception e) { /* image error */ }
             } else {
-                // กรณีไม่มีของ: แสดงรูป Placeholder แบบจางๆ (Opacity 0.2)
+
                 try {
                     slotView.setImage(new Image(getClass().getResourceAsStream("/" + placeholders[i])));
                     slotView.setOpacity(0.2);

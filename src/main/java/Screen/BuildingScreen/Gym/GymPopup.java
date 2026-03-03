@@ -102,7 +102,7 @@ public class GymPopup implements Shopable, Normal {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
 
-        // 1. สร้าง Labels
+
         Label staminaLabel = new Label();
         Label healthLabel = new Label();
         Label moneyLabel = new Label();
@@ -111,34 +111,34 @@ public class GymPopup implements Shopable, Normal {
         healthLabel.setStyle("-fx-text-fill: #ff4d4d; -fx-font-size: 18px;");
         moneyLabel.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 18px;");
 
-        // 2. กล่องใส่ปุ่ม
+
         HBox optionsBox = new HBox(20);
         optionsBox.setAlignment(Pos.CENTER);
         optionsBox.setPadding(new Insets(20));
 
-        // 3. ฟังก์ชัน Refresh UI (แบบไม่ปิดหน้าจอ)
+
         Runnable refreshUI = () -> {
-            // อัปเดตข้อความ Label
+
             staminaLabel.setText("STAMINA: " + p.getStamina());
             healthLabel.setText("HEALTH: " + p.getHealth());
             moneyLabel.setText("$" + p.getMoney());
 
-            // เคลียร์และสร้างปุ่มใหม่ในกล่องเดิม (ไม่กระพริบ)
+
             optionsBox.getChildren().clear();
             for (GymService service : GymService.values()) {
                 Button btn = popup.createShopButton(service, gamePane, null);
                 btn.setPrefSize(170, 140);
 
-                // เช็คสถานะ Sold Out
+
                 if (service.isUnique && service.isSoldOut) {
                     btn.setText("SOLD OUT");
                     btn.setDisable(true);
                     btn.setStyle("-fx-background-color: #333333; -fx-text-fill: #777777;");
                 } else {
-                    // Logic เมื่อคลิก: รัน Logic -> สั่ง Refresh UI ทันที
+
                     btn.setOnAction(e -> {
                         service.execute(gamePane);
-                        // ใช้คำสั่งนี้เพื่อบังคับ Update UI ในรอบถัดไปของ JavaFX
+
                         Platform.runLater(() -> {
                             staminaLabel.setText("STAMINA: " + p.getStamina());
                             healthLabel.setText("HEALTH: " + p.getHealth());
@@ -155,20 +155,20 @@ public class GymPopup implements Shopable, Normal {
             }
         };
 
-        // 4. Logic ปุ่ม WORK
+
         Runnable workAction = () -> {
             int staminaCost = (p instanceof GymBro) ? 7 : 10;
             int moneyGain = 200;
 
-            // 1. สั่งให้ทำงาน และเก็บผลลัพธ์ไว้
+
             boolean isSuccess = p.work(staminaCost, moneyGain);
 
             if (isSuccess) {
-                // 2. ถ้าทำงานสำเร็จ และเป็น GymBro ให้คำนวณโบนัส
+
                 if (p instanceof GymBro) {
                     String bonusStatus = ((GymBro) p).earnWorkBonus();
 
-                    // 3. จัดการ Toast ตามสถานะโบนัสที่ได้รับ
+
                     if (bonusStatus.equals("GYM_BONUS_ACTIVATED")) {
                         showToast("💪 GYMBRO BONUS: +$500", "gold", 300, 70,false);
                     }
@@ -179,14 +179,14 @@ public class GymPopup implements Shopable, Normal {
             refreshUI.run();
         };
 
-        // 5. ประกอบ Layout
+
         BorderPane root = popup.createBaseLayout(
                 stage, gamePane, "GYM", Color.web("#00FFAA"),
                 "WORK", "#00FFAA", workAction, refreshUI,
                 staminaLabel, healthLabel, moneyLabel
         );
 
-        refreshUI.run(); // เรียกครั้งแรกเพื่อเตรียมปุ่ม
+        refreshUI.run();
         root.setCenter(optionsBox);
 
         Scene scene = new Scene(root, 850, 520);

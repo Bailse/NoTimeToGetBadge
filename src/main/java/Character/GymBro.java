@@ -11,8 +11,6 @@ public class GymBro extends  BasePlayer{
                 500,
                 0,
                 25,
-                1.0,
-                1.0,
                 1,
                 2,
                 50
@@ -34,14 +32,14 @@ public class GymBro extends  BasePlayer{
             int bonusMoney = 500;
             this.setMoney(this.getMoney() + bonusMoney);
 
-            this.workCount = 0; // รีเซ็ตแต้ม
-            return "GYM_BONUS_ACTIVATED"; // สถานะเมื่อได้โบนัสใหญ่
+            this.workCount = 0;
+            return "GYM_BONUS_ACTIVATED";
         }
 
-        return "GYM_PROGRESS_" + this.workCount; // สถานะสะสมแต้มปกติ
+        return "GYM_PROGRESS_" + this.workCount;
     }
 
-    // เพิ่ม Getter ไว้ดึงค่าไปแสดงผลใน UI
+
     public int getWorkCount() {
         return workCount;
     }

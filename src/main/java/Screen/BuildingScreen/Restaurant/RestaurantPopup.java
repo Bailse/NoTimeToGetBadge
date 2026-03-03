@@ -61,7 +61,7 @@ public class RestaurantPopup implements Shopable, Normal {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setResizable(false);
 
-        // ===== 1. เตรียม Labels =====
+
         Label staminaLabel = new Label("STAMINA: " + p.getStamina());
         Label healthLabel = new Label("HEALTH: " + p.getHealth());
         Label moneyLabel = new Label("MONEY: " + p.getMoney());
@@ -70,39 +70,39 @@ public class RestaurantPopup implements Shopable, Normal {
         healthLabel.setStyle("-fx-text-fill: #ff4d4d; -fx-font-size: 18px;");
         moneyLabel.setStyle("-fx-text-fill: #FFD700; -fx-font-size: 18px;");
 
-        // ===== 2. Refresh UI Logic =====
+
         Runnable refreshUI = () -> {
             staminaLabel.setText("STAMINA: " + p.getStamina());
             healthLabel.setText("HEALTH: " + p.getHealth());
             moneyLabel.setText("MONEY: " + p.getMoney());
         };
 
-        // ===== 3. Work Action (ล้างจานในร้านอาหาร) =====
+
         Runnable workAction = () -> {
             int staminaCost = 10;
             int moneyGain = 200;
 
-            // 1. สั่งให้ทำงาน และเก็บผลลัพธ์ (boolean)
+
             p.work(staminaCost, moneyGain);
-            // 4. อัปเดต UI ตามปกติ
+
             gamePane.notifyUpdate();
             refreshUI.run();
         };
 
-        // ===== 4. สร้าง Layout หลักจาก Normal Interface =====
+
         BorderPane root = popup.createBaseLayout(
                 stage,
                 gamePane,
                 "RESTAURANT",
                 Color.ORANGE,
-                "WASH DISH",    // ปุ่มขวาล่าง เปลี่ยนเป็นชื่อเก๋ๆ ว่าล้างจาน
-                "#ffa500",      // สีส้ม
+                "WASH",
+                "#ffa500",
                 workAction,
                 refreshUI,
                 staminaLabel, healthLabel, moneyLabel
         );
 
-        // ===== 5. ส่วนตรงกลาง (เมนูอาหาร) =====
+
         HBox foodBox = new HBox(25);
         foodBox.setAlignment(Pos.CENTER);
         foodBox.setPadding(new Insets(40));

@@ -9,7 +9,7 @@ public class GameSessionTest {
 
     static class TestPlayer extends BasePlayer {
         public TestPlayer(int stamina) {
-            super(stamina, 0, 0, 0, 1.0, 1.0, 0, 0, 0);
+            super(stamina, 0, 0, 0, 0, 0, 0);
         }
     }
 

@@ -1,5 +1,6 @@
 package Screen;
 
+import Audio.SoundManager;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -15,7 +16,7 @@ import java.util.Objects;
 
 public class TitleScreen extends VBox {
 
-    private ScreenManager begin;
+    private final ScreenManager begin;
     private final Text title;
     private final Button start;
     private final Button how_to_play;
@@ -24,11 +25,9 @@ public class TitleScreen extends VBox {
     public TitleScreen(ScreenManager begin) {
         this.begin = begin;
         this.setPrefSize(1200, 1200);
-        // พื้นหลังสีเข้มสไตล์ Retro
-        //this.setStyle("-fx-background-color: #0d0d0d;");
-        //this.setBackground(new Background(getClass().getResourceAsStream("/")));
+        SoundManager.playBackground("background2.mp3");
 
-        Image image = new Image(Objects.requireNonNull(getClass().getResource("/tt4-2.png")).toExternalForm());
+        Image image = new Image(Objects.requireNonNull(getClass().getResource("/Screen/tt4-2.png")).toExternalForm());
 
         BackgroundSize backgroundSize = new BackgroundSize(
                 100, 100, true, true, true, false);
@@ -57,16 +56,16 @@ public class TitleScreen extends VBox {
         this.title.setTextAlignment(TextAlignment.CENTER);
         this.title.setLineSpacing(10);
 
-// เพิ่มขอบ
-        this.title.setStroke(Color.WHITE);   // สีขอบ
-        this.title.setStrokeWidth(2);        // ความหนาขอบ
 
-        // ===== การตกแต่งปุ่ม (Button Styling) =====
+        this.title.setStroke(Color.WHITE);
+        this.title.setStrokeWidth(2);
+
+
         this.start = createPixelButton("START GAME");
         this.how_to_play = createPixelButton("HOW TO PLAY");
         this.exit = createPixelButton("EXIT");
 
-        // ===== Event Handlers =====
+
         this.start.setOnAction(e -> begin.showChoose());
         this.how_to_play.setOnAction(e -> begin.showHowToPlay());
         this.exit.setOnAction(e -> begin.endGame());
@@ -101,7 +100,7 @@ public class TitleScreen extends VBox {
         btn.setMinWidth(250);
         btn.setPadding(new Insets(10, 20, 10, 20));
 
-        // เอฟเฟกต์เมื่อกด
+
         btn.setOnMousePressed(e -> btn.setTranslateY(2));
         btn.setOnMouseReleased(e -> btn.setTranslateY(-2));
 

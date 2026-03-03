@@ -1,5 +1,6 @@
 package Screen.Choosing;
 
+import Audio.SoundManager;
 import Logic.GameSession;
 import Screen.ScreenManager;
 import javafx.geometry.Insets;
@@ -20,13 +21,6 @@ import java.io.InputStream;
 
 import Character.*;
 
-/**
- * Character selection screen (polished UI).
- *
- * NOTE:
- * - This screen is intentionally UI-only (it does not modify other game logic),
- *   because the project constraint is to avoid changing any other parts.
- */
 public class ChoosingScreen extends BorderPane {
 
     private final String[] avatarPaths = new String[]{
@@ -56,11 +50,14 @@ public class ChoosingScreen extends BorderPane {
     private final Label selectedDesc = new Label();
 
     public ChoosingScreen(ScreenManager manager) {
+
+        SoundManager.playBackground("background2.mp3");
+
         setPrefSize(1200, 1200);
         setPadding(new Insets(18));
         setStyle("-fx-background-color: #161616; -fx-font-family: 'Segoe UI';");
 
-        // ===== Header + Name =====
+
         Label title = new Label("Create Character");
         title.setStyle("-fx-text-fill: white; -fx-font-size: 30px; -fx-font-weight: 900;");
 
@@ -72,7 +69,7 @@ public class ChoosingScreen extends BorderPane {
         top.setAlignment(Pos.CENTER_LEFT);
         setTop(top);
 
-        // ===== Avatar cards row =====
+
         HBox avatarsRow = new HBox(14);
         avatarsRow.setAlignment(Pos.CENTER);
         avatarsRow.setPadding(new Insets(10));
@@ -112,7 +109,7 @@ public class ChoosingScreen extends BorderPane {
             avatarsRow.getChildren().add(card);
         }
 
-        // ===== Description box =====
+
         selectedTitle.setStyle("-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: 900;");
         selectedDesc.setStyle("-fx-text-fill: #d6d6d6; -fx-font-size: 13px;");
         selectedDesc.setWrapText(true);
@@ -134,7 +131,7 @@ public class ChoosingScreen extends BorderPane {
 
         refreshDescription();
 
-        // ===== Bottom buttons =====
+
         Button back = new Button("Back");
         back.setOnAction(e -> manager.showTitle());
 
@@ -193,4 +190,5 @@ public class ChoosingScreen extends BorderPane {
         WritableImage placeholder = new WritableImage(1, 1);
         return new ImageView(placeholder);
     }
+
 }

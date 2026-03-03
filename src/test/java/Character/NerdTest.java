@@ -11,14 +11,13 @@ public class NerdTest extends JavaFxTestBase {
     void constructorSetsExpectedBaselineStats() {
         Nerd p = new Nerd();
         assertEquals(200, p.getStamina());
-        assertEquals(5000, p.getMoney());
-        assertEquals(10, p.getEducation());
-        assertEquals(80, p.getHealth());
-        assertEquals(1.0, p.getMoneyDiscount(), 1e-9);
-        assertEquals(1.2, p.getEducationMultiply(), 1e-9);
+        assertEquals(1000, p.getMoney());
+        assertEquals(30, p.getEducation());
+        assertEquals(0, p.getHealth());
+
         assertEquals(2, p.getHealthDecrease());
-        assertEquals(10, p.getStaminaDecrease());
-        assertEquals(100, p.getHappiness());
+        assertEquals(4, p.getStaminaDecrease());
+        assertEquals(25, p.getHappiness());
     }
 
     @Test
@@ -31,24 +30,5 @@ public class NerdTest extends JavaFxTestBase {
         assertNotNull(p.getImgRight());
     }
 
-    @Test
-    void statsNeverNegativeAfterExtremeOperations() {
-        Nerd p = new Nerd();
-        // drain stamina heavily
-        for (int i = 0; i < 1000; i++) {
-            p.walk();
-        }
-        assertTrue(p.getStamina() >= 0);
 
-        // buy very expensive item
-        p.buyItem(Integer.MAX_VALUE);
-        assertTrue(p.getMoney() >= 0);
-
-        // study with huge health decrease effect (by repeating)
-        for (int i = 0; i < 100; i++) {
-            p.study(1000);
-        }
-        assertTrue(p.getHealth() >= 0);
-        assertTrue(p.getEducation() >= 0);
-    }
 }

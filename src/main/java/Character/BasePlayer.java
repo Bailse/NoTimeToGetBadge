@@ -19,10 +19,8 @@ public abstract class BasePlayer {
     private int education;
     private int health;
     private int happiness;
-    private double moneyDiscount;      // เช่น 0.80
-    private double educationMultiply;  // เช่น 1.10
-    private int healthDecrease;        // ลด health เวลากิจกรรม
-    private int staminaDecrease;       // ลด stamina เวลาเดิน
+    private int healthDecrease;
+    private int staminaDecrease;
     private CharacterType type;
     private String imagePath;
     private Item itemManager;
@@ -30,22 +28,20 @@ public abstract class BasePlayer {
     private Image imgLeft;
     private Image imgRight;
     private Image imgUp;
+    private int maxUnlockedLevel = 0;
 
 
     public BasePlayer(int stamina, int money, int education, int health,
-                         double moneyDiscount, double educationMultiply,
                          int healthDecrease, int staminaDecrease , int happiness) {
 
         setStamina(stamina);
         setMoney(money);
         setEducation(education);
         setHealth(health);
-        setMoneyDiscount(moneyDiscount);
-        setEducationMultiply(educationMultiply);
         setHealthDecrease(healthDecrease);
         setStaminaDecrease(staminaDecrease);
         setHappiness(happiness);
-        
+
         this.itemManager = new Item();
     }
 
@@ -64,13 +60,10 @@ public abstract class BasePlayer {
         setStamina(getStamina() - cost);
     }
 
-    public void buyItem(int price) {
-        int finalPrice = (int)(price * getMoneyDiscount());
-        setMoney(getMoney() - finalPrice);
-    }
+
 
     // ==================== STAMINA ====================
-// เงื่อนไข: No Limit (แต่ไม่ให้ติดลบ)
+
     public int getStamina() {
         return stamina;
     }
@@ -86,7 +79,7 @@ public abstract class BasePlayer {
     }
 
     // ==================== MONEY ====================
-// เงื่อนไข: No Limit (แต่ไม่ให้ติดลบ)
+
     public int getMoney() {
         return money;
     }
@@ -94,15 +87,8 @@ public abstract class BasePlayer {
         this.money = Math.max(0, moneyValue);
     }
 
-    public double getMoneyDiscount() {
-        return moneyDiscount;
-    }
-    public void setMoneyDiscount(double value) {
-        moneyDiscount = (value <= 0) ? 0.0 : value;
-    }
-
     // ==================== EDUCATION ====================
-// เงื่อนไข: Cap 200
+
     public int getEducation() {
         return education;
     }
@@ -111,15 +97,8 @@ public abstract class BasePlayer {
         this.education = Math.max(0, Math.min(educationValue, 200));
     }
 
-    public double getEducationMultiply() {
-        return educationMultiply;
-    }
-    public void setEducationMultiply(double value) {
-        educationMultiply = (value <= 0) ? 0.0 : value;
-    }
-
     // ==================== HEALTH ====================
-// เงื่อนไข: Cap 200
+
     public int getHealth() {
         return health;
     }
@@ -136,12 +115,11 @@ public abstract class BasePlayer {
     }
 
     // =================== HAPPINESS ====================
-// เงื่อนไข: Cap 500
+
     public int getHappiness() {
         return happiness;
     }
     public void setHappiness(int happinessValue) {
-        // จำกัดช่วงให้อยู่ระหว่าง 0 ถึง 500
         this.happiness = Math.max(0, Math.min(happinessValue, 500));
     }
 
@@ -168,8 +146,7 @@ public abstract class BasePlayer {
         return itemManager;
     }
 
-    // ในไฟล์ Player.java
-    private int maxUnlockedLevel = 0; // 0=HighSchool, 1=Bachelor, 2=Master, 3=Doctorate
+
 
     public int getMaxUnlockedLevel() { return maxUnlockedLevel; }
     public void setMaxUnlockedLevel(int level) { this.maxUnlockedLevel = Math.max(level,0); }
@@ -211,25 +188,25 @@ public abstract class BasePlayer {
             this.stamina -= staminaCost;
             this.money += moneyGain;
             System.out.println("Working... Money: +" + moneyGain + " | Stamina: -" + staminaCost);
-            return true; // ทำงานสำเร็จ
+            return true;
         } else {
             System.out.println("Not enough stamina to work!");
-            return false; // พลังงานไม่พอ
+            return false;
         }
     }
 
     public String study(int eduGain, int staminaCost) {
-        // 1. เช็คว่า Education เต็มแล้วหรือยัง
+
         if (this.getEducation() >= 200) {
-            return "EDU_MAX"; // ส่งสถานะบอกว่าเรียนเต็มแล้ว
+            return "EDU_MAX";
         }
 
-        // 2. เช็คว่า Stamina พอหรือไม่
+
         if (getStamina() < staminaCost) {
-            return "NO_STAMINA"; // ส่งสถานะบอกว่าพลังงานไม่พอ
+            return "NO_STAMINA";
         }
 
-        // 3. ถ้าผ่านเงื่อนไข ให้ทำการเรียน (Logic การคำนวณ)
+
         setStamina(getStamina()-staminaCost);
         this.setEducation(this.getEducation() + eduGain);
 
@@ -237,19 +214,16 @@ public abstract class BasePlayer {
             this.setEducation(200);
         }
 
-//        this.health -= 5;
-//        this.happiness -= 5;
+
 
         setHealth(getHealth()-5);
         setHappiness(getHappiness()-5);
 
 
-//        // ป้องกันค่าติดลบ
-//        if (this.health < 0) this.health = 0;
-//        if (this.happiness < 0) this.happiness = 0;
+
 
         System.out.println("Studying... Edu +" + eduGain + " | Stamina -" + staminaCost);
-        return "SUCCESS"; // ส่งสถานะบอกว่าเรียนสำเร็จ
+        return "SUCCESS";
     }
 
 }
