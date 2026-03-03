@@ -74,19 +74,23 @@ public class GymPopup implements Shopable, Normal {
                     this.isSoldOut = true;
                 }
             } else {
-                if (p.getStamina() >= staminaCost) {
+                if (p.getStamina() >= staminaCost ) {
+                    if(p.getHealth() < 200) {
+                        int bonus = 0;
 
-                    int bonus = 0;
+                        if (p.getItemManager().getInventory().get(0) != null) {
+                            bonus = (healthGain * 20 / 100);
+                        }
 
-                    if(p.getItemManager().getInventory().get(0) != null){
-                         bonus = (healthGain*20/100);
+                        p.setMoney(p.getMoney() - price);
+                        p.setStamina(p.getStamina() - staminaCost);
+                        p.setHealth(p.getHealth() + healthGain + bonus);
+                    }else{
+                        showToast("💪 ULTRA INSTINCT HEALTH! (MAX)", "orange", 400, 50, true);
                     }
-
-                    p.setMoney(p.getMoney() - price);
-                    p.setStamina(p.getStamina() - staminaCost);
-                    p.setHealth(p.getHealth() + healthGain + bonus);
                 }
             }
+            gamePane.notifyUpdate();
         }
     }
 
