@@ -99,11 +99,11 @@ public class ChulaPopup implements Shopable, Normal {
 
                     if (status.equals("BONUS_ACTIVATED")) {
                         // โชว์ Toast ขนาดใหญ่ สีเขียวสว่าง สำหรับ Nerd Power
-                        showToast("🤓 NERD POWER! Bonus Edu +20 & Stamina +15", "#00FF7F", 500, 70,false);
+                        showToast("🤓 NERD POWER! Bonus Edu +20 ", "#00FF7F", 500, 70,false);
                     }
                 }
             }
-            String result = p.study(currentEduGain, 20); // สมมติค่า Edu+10, Stamina-20
+            String result = p.study(currentEduGain, 20);
 
             switch (result) {
                 case "EDU_MAX":

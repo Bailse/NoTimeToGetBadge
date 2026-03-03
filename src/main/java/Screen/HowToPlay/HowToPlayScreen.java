@@ -24,7 +24,7 @@ public class HowToPlayScreen extends BorderPane {
         try {
             Image bgImage = new Image(
                     Objects.requireNonNull(
-                            getClass().getResource("/tuntung.jpg")
+                            getClass().getResource("/h2p.png")
                     ).toExternalForm()
             );
 
@@ -44,13 +44,13 @@ public class HowToPlayScreen extends BorderPane {
         // ================= HEADER =================
         Label title = new Label("HOW TO PLAY");
 
-        title.setFont(Font.font("Garamond", FontWeight.BOLD, 55));
+        title.setFont(Font.font("Garamond", FontWeight.BOLD, 60));
         title.setTextFill(Color.WHITE);
         title.setStyle("-fx-effect: dropshadow(gaussian, black, 20, 0.6, 0, 0);");
 
         VBox header = new VBox(title);
         header.setAlignment(Pos.CENTER);
-        header.setPadding(new Insets(40));
+        header.setPadding(new Insets(50));
 
         // ================= CONTENT =================
         VBox contentBox = new VBox(35);
@@ -59,7 +59,7 @@ public class HowToPlayScreen extends BorderPane {
 
         contentBox.setStyle("""
             -fx-background-color: rgba(0,0,0,0.8);
-            -fx-border-color: #00ffff;
+            -fx-border-color: #000000;
             -fx-border-width: 2;
             -fx-background-radius: 20;
             -fx-border-radius: 20;
@@ -69,30 +69,33 @@ public class HowToPlayScreen extends BorderPane {
                 createSection("01. GAME OBJECTIVE",
                         "Compete to build the best life.\n\n" +
                                 "Increase your Education, Earn Money,\n" +
-                                "Maintain your Health and Stamina.\n\n" +
-                                "The first player to reach the victory condition wins!",
+                                "Maintain your Health and Stamina.\n\n" ,
                         "#ff00ff"),
 
                 createSection("02. CORE STATS",
-                        "• MONEY – Used to buy items and survive\n" +
-                                "• HEALTH – If it reaches 0, you lose\n" +
-                                "• EDUCATION – Unlocks better careers\n" +
+                        "• MONEY – Used to buy items to reduce your stamina or activity\n" +
+                                "• HEALTH – If it reaches 0, you may stress\n" +
+                                "• EDUCATION – study for gain education\n" +
                                 "• STAMINA – Required to perform actions",
                         "#00ff00"),
 
                 createSection("03. BUILDINGS & ACTIONS",
-                        "• WORK – Earn money but lose stamina\n" +
-                                "• UNIVERSITY – Increase education\n" +
-                                "• HOSPITAL – Restore health\n" +
-                                "• HOME – Recover stamina",
+                        "• gym – Earn money but lose stamina and do some workout\n" +
+                                "• University – Increase education\n" +
+                                "• Park – Increase do little workout or increase your status for free\n" +
+                                "• Travel – Increase your happiness but you need to pay some money\n" +
+                                "• Mall – Buy some item to help you to complete this game easy\n" +
+                                "• Restaurant – Buy some buy some food to get stamina and health but you need to pay\n" +
+                                "• Dome – Recover some health and happiness",
+
                         "#ffff00"),
 
                 createSection("04. ITEMS",
                         "You can buy special items:\n" +
-                                "• Vehicle – Move faster\n" +
+                                "• Vehicle – Move faster and spent less stamina\n" +
                                 "• Education Item – Boost knowledge gain\n" +
-                                "• Health Item – Increase max health\n" +
-                                "• Money Item – Increase income",
+                                "• Health Item – Increase health bonus \n"
+                                ,
                         "#00ffff"),
 
                 createSection("05. TURN SYSTEM",
@@ -102,8 +105,7 @@ public class HowToPlayScreen extends BorderPane {
                         "#ff4444"),
 
                 createSection("06. WIN CONDITION",
-                        "Reach the target Education or Money level\n" +
-                                "before your opponent.\n\n" +
+                        "Reach the target status to goal \n" +
                                 "Manage your life better than others!",
                         "#ffffff")
         );
@@ -131,13 +133,13 @@ public class HowToPlayScreen extends BorderPane {
             -fx-cursor: hand;
         """);
 
-        back.setOnMouseEntered(e ->
-                back.setStyle("-fx-background-color: #00ffff; -fx-text-fill: black; -fx-padding: 12 40 12 40; -fx-background-radius: 8;")
-        );
-
-        back.setOnMouseExited(e ->
-                back.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-padding: 12 40 12 40; -fx-background-radius: 8;")
-        );
+//        back.setOnMouseEntered(e ->
+//                back.setStyle("-fx-background-color: #00ffff; -fx-text-fill: black; -fx-padding: 12 40 12 40; -fx-background-radius: 8;")
+//        );
+//
+//        back.setOnMouseExited(e ->
+//                back.setStyle("-fx-background-color: white; -fx-text-fill: black; -fx-padding: 12 40 12 40; -fx-background-radius: 8;")
+//        );
 
         back.setOnAction(e -> manager.showTitle());
 

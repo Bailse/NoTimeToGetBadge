@@ -30,10 +30,10 @@ import Character.*;
 public class ChoosingScreen extends BorderPane {
 
     private final String[] avatarPaths = new String[]{
-            "/Annie_Zheng.jpg",
-            "/Huh.jpg",
-            "/Lily.jpg",
-            "/deku_nerd.jpg"
+            "/Avatar/Gymbro/GymBroPic.png",
+            "/Avatar/Nerd/NerdPic.png",
+            "/Avatar/Otaku/OtakuPic.png",
+            "/Avatar/Normal/NormalPic.png"
     };
 
     private final String[] archetypeNames = new String[]{
@@ -44,10 +44,10 @@ public class ChoosingScreen extends BorderPane {
     };
 
     private final String[] prosCons = new String[]{
-            "Pros:\n• Earn more from Work (+20%)\n• Faster commute (−10% travel time)\n\nCons:\n• Work drains a bit more Happiness",
-            "Pros:\n• Study gain boosted (+25%)\n• Study drains less Happiness\n\nCons:\n• Starts with a bit less Money",
-            "Pros:\n• Exercise health gain boosted (+25%)\n• Stress increases slower\n\nCons:\n• Party costs slightly more Money",
-            "Pros:\n• Relax/Happiness gain boosted (+25%)\n• Party costs less Money\n\nCons:\n• Starts with a bit more Stress"
+            "Pros:\n• Earn more money when It work at Gym \n • Start with health more than others \nCons:\n• Education need more stamina than others",
+            "Pros:\n• Study gain boosted \n Cons:\n• Start with less health \n • When walk stamina spent more than others",
+            "Pros:\n• Earn more money when It work at Mall \n• Start with money more than others \n\nCons:\n• Education and health less than others when start game",
+            "Pros:\n• He just chill guy\nCons:\n• Nothing because he just normal guy"
     };
 
     private int selectedIndex = 0;
@@ -80,10 +80,10 @@ public class ChoosingScreen extends BorderPane {
         StackPane[] cards = new StackPane[4];
 
         for (int i = 0; i < 4; i++) {
-            ImageView iv = safeAvatar(avatarPaths[i]);
-            iv.setFitWidth(120);
-            iv.setFitHeight(120);
-            iv.setPreserveRatio(true);
+            ImageView createImage = safeAvatar(avatarPaths[i]);
+            createImage.setFitWidth(120);
+            createImage.setFitHeight(120);
+            createImage.setPreserveRatio(true);
 
             Label aName = new Label(archetypeNames[i]);
             aName.setStyle("-fx-text-fill: white; -fx-font-size: 12px; -fx-font-weight: 900;");
@@ -91,7 +91,7 @@ public class ChoosingScreen extends BorderPane {
             aName.setMaxWidth(150);
             aName.setAlignment(Pos.CENTER);
 
-            VBox cardBox = new VBox(10, iv, aName);
+            VBox cardBox = new VBox(10, createImage, aName);
             cardBox.setAlignment(Pos.CENTER);
             cardBox.setPadding(new Insets(12));
 

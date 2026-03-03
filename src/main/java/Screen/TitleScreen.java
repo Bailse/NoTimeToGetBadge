@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 import java.util.Objects;
 
@@ -46,15 +47,19 @@ public class TitleScreen extends VBox {
 
         this.setSpacing(30);
         this.setAlignment(Pos.CENTER);
-        //this.setPadding(new Insets(50));
 
-        // ===== หัวข้อเกม (Title) =====
+
+
         this.title = new Text("NO TIME\nTO GET BADGE");
-        this.title.setFont(Font.font("Garamond", FontWeight.BLACK, 60));
-        this.title.setFill(Color.web("#00FF41")); // สีเขียวสไตล์ Matrix/Pixel
-        this.title.setStroke(Color.WHITE);
-        this.title.setStrokeWidth(1);
-        this.title.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+
+        this.title.setFont(Font.font("Helvetica", FontWeight.BOLD, 100));
+        this.title.setFill(Color.web("#222222"));
+        this.title.setTextAlignment(TextAlignment.CENTER);
+        this.title.setLineSpacing(10);
+
+// เพิ่มขอบ
+        this.title.setStroke(Color.WHITE);   // สีขอบ
+        this.title.setStrokeWidth(2);        // ความหนาขอบ
 
         // ===== การตกแต่งปุ่ม (Button Styling) =====
         this.start = createPixelButton("START GAME");

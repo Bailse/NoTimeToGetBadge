@@ -225,24 +225,28 @@ public abstract class BasePlayer {
         }
 
         // 2. เช็คว่า Stamina พอหรือไม่
-        if (this.stamina < staminaCost) {
+        if (getStamina() < staminaCost) {
             return "NO_STAMINA"; // ส่งสถานะบอกว่าพลังงานไม่พอ
         }
 
         // 3. ถ้าผ่านเงื่อนไข ให้ทำการเรียน (Logic การคำนวณ)
-        this.stamina -= staminaCost;
+        setStamina(getStamina()-staminaCost);
         this.setEducation(this.getEducation() + eduGain);
 
         if (this.getEducation() > 200) {
             this.setEducation(200);
         }
 
-        this.health -= 5;
-        this.happiness -= 5;
+//        this.health -= 5;
+//        this.happiness -= 5;
 
-        // ป้องกันค่าติดลบ
-        if (this.health < 0) this.health = 0;
-        if (this.happiness < 0) this.happiness = 0;
+        setHealth(getHealth()-5);
+        setHappiness(getHappiness()-5);
+
+
+//        // ป้องกันค่าติดลบ
+//        if (this.health < 0) this.health = 0;
+//        if (this.happiness < 0) this.happiness = 0;
 
         System.out.println("Studying... Edu +" + eduGain + " | Stamina -" + staminaCost);
         return "SUCCESS"; // ส่งสถานะบอกว่าเรียนสำเร็จ

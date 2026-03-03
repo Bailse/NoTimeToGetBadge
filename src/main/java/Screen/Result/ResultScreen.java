@@ -26,23 +26,20 @@ public class ResultScreen extends StackPane {
             "/UBadge.png"
     };
 
-    // ================= BADGE THRESHOLDS =================
-    // 🔥 แก้ตัวเลขตรงนี้ได้เลยในอนาคต
-
     // Money
-    private static final int MONEY_SSTAR = 10000;
-    private static final int MONEY_S = 5000;
+    private static final int MONEY_SSTAR = 5000;
+    private static final int MONEY_S = 3500;
 
     // Health
-    private static final int HEALTH_SSTAR = 90;
-    private static final int HEALTH_S = 70;
+    private static final int HEALTH_SSTAR = 150;
+    private static final int HEALTH_S = 100;
 
     // Education
-    private static final int EDUCATION_SSTAR = 90;
-    private static final int EDUCATION_S = 70;
+    private static final int EDUCATION_SSTAR = 150;
+    private static final int EDUCATION_S = 90;
 
     // Happiness
-    private static final int HAPPINESS_SSTAR = 90;
+    private static final int HAPPINESS_SSTAR = 145;
     private static final int HAPPINESS_S = 70;
 
     public ResultScreen(ScreenManager manager) {

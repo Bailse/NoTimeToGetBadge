@@ -1,5 +1,8 @@
 package Screen.BuildingScreen.Gym;
 
+import Item.HealthThing;
+import Item.Item;
+import Item.WheyProtein;
 import Logic.GameSession;
 import Screen.BuildingScreen.Mall.MallPopup;
 import Screen.BuildingScreen.ShopItem;
@@ -27,10 +30,10 @@ public class GymPopup implements Shopable, Normal {
         GymService.resetGymService();
     }
     private enum GymService implements ShopItem {
-        WORKOUT("WORK OUT", 25, "#e94560", 5, 5, false),
-        POWER("POWER", 100, "#e94560", 10, 15, false),
-        BEAST("BEAST", 250, "#e94560", 20, 40, false),
-        PROTEIN("WHEY\nPROTEIN", 90, "#e94560", 0, 0, true);
+        WORKOUT("WORK OUT", 250, "#e94560", 5, 10, false),
+        POWER("POWER", 500, "#e94560", 10, 25, false),
+        BEAST("BEAST", 1000, "#e94560", 20, 40, false),
+        PROTEIN("WHEY\nPROTEIN", 900, "#e94560", 0, 0, true);
 
         private final String name;
         private final int price;
@@ -72,9 +75,16 @@ public class GymPopup implements Shopable, Normal {
                 }
             } else {
                 if (p.getStamina() >= staminaCost) {
+
+                    int bonus = 0;
+
+                    if(p.getItemManager().getInventory().get(0) != null){
+                         bonus = (healthGain*20/100);
+                    }
+
                     p.setMoney(p.getMoney() - price);
                     p.setStamina(p.getStamina() - staminaCost);
-                    p.setHealth(p.getHealth() + healthGain);
+                    p.setHealth(p.getHealth() + healthGain + bonus);
                 }
             }
         }
@@ -143,7 +153,7 @@ public class GymPopup implements Shopable, Normal {
 
         // 4. Logic ปุ่ม WORK
         Runnable workAction = () -> {
-            int staminaCost = (p instanceof GymBro) ? 5 : 10;
+            int staminaCost = (p instanceof GymBro) ? 7 : 10;
             int moneyGain = 200;
 
             // 1. สั่งให้ทำงาน และเก็บผลลัพธ์ไว้
@@ -156,7 +166,7 @@ public class GymPopup implements Shopable, Normal {
 
                     // 3. จัดการ Toast ตามสถานะโบนัสที่ได้รับ
                     if (bonusStatus.equals("GYM_BONUS_ACTIVATED")) {
-                        showToast("💪 GYMBRO BONUS: +$20000", "gold", 300, 70,false);
+                        showToast("💪 GYMBRO BONUS: +$500", "gold", 300, 70,false);
                     }
                 }
             }

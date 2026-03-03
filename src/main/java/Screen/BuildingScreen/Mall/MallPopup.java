@@ -140,7 +140,7 @@ public class MallPopup implements Shopable, Normal {
 
                     // 4. แสดง Toast ตามสถานะโบนัสที่ได้รับ (ใช้สี Pink)
                     if (bonusStatus.equals("OTAKU_BONUS_ACTIVATED")) {
-                        showToast("🌸 OTAKU POWER! Bonus: +$20000", "pink", 450, 80,false);
+                        showToast("🌸 OTAKU POWER! Bonus: +$700", "pink", 450, 80,false);
                     }
                 }
             }

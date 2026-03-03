@@ -22,9 +22,9 @@ import static Screen.UI.ToastUtil.showToast;
 public class RestaurantPopup implements Shopable, Normal {
 
     private enum FoodMenu implements ShopItem {
-        PAD_THAI("PAD THAI", 80, "#FFD700", 20, 5),
-        KRAPAO("PAD KRAPAO", 120, "#FF4500", 35, 10),
-        TOM_YUM("TOM YUM KUNG", 250, "#FF0000", 60, 20);
+        PAD_THAI("PAD THAI", 200, "#FFD700", 5, 2),
+        KRAPAO("PAD KRAPAO", 350, "#FF4500", 10, 5),
+        TOM_YUM("TOM YUM KUNG", 500, "#FF0000", 15, 10);
 
         private final String name;
         private final int price;
@@ -49,6 +49,7 @@ public class RestaurantPopup implements Shopable, Normal {
             BasePlayer p = gamePane.getPlayer();
             p.setStamina((int)p.getStamina() + staminaGain);
             p.setHealth((int)p.getHealth() + healthGain);
+            p.setMoney((int)p.getMoney()-price);
         }
     }
 
