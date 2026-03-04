@@ -17,9 +17,14 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Popup screen for park activities (walk/relax).
+ */
 public class ParkPopup implements Shopable, Normal {
 
-
+    /**
+     * Actions the player can do in the park.
+     */
     private enum ParkAction implements ShopItem {
         WALK("WALK 🚶\n-7 ⚡", 0, "#00cc66", 7, 5,2),
         RELAX("RELAX 🍃\n-5 ⚡", 0, "#00cc66", 5, 5,0);
@@ -31,6 +36,9 @@ public class ParkPopup implements Shopable, Normal {
         private final int happinessGain;
         private final int healthGain;
 
+        /**
+         * Constructs a ParkAction object with the specified values.
+         */
         ParkAction(String name, int price, String color, int staminaCost, int happinessGain, int healthGain) {
             this.name = name;
             this.price = price;
@@ -40,10 +48,24 @@ public class ParkPopup implements Shopable, Normal {
             this.healthGain = healthGain;
         }
 
+        /**
+         * @return the display name shown on the button
+         */
         @Override public String getName() { return name; }
+
+        /**
+         * @return the price cost
+         */
         @Override public int getPrice() { return price; }
+
+        /**
+         * @return the button color (hex string)
+         */
         @Override public String getColor() { return color; }
 
+        /**
+         * Applies the selected park action to the player.
+         */
         @Override
         public void execute(GamePane gamePane) {
             BasePlayer p = gamePane.getPlayer();
@@ -56,6 +78,9 @@ public class ParkPopup implements Shopable, Normal {
         }
     }
 
+    /**
+     * Opens the popup window.
+     */
     public static void show(GamePane gamePane) {
         BasePlayer p = gamePane.getPlayer();
 

@@ -17,9 +17,15 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Popup screen for dormitory actions (sleep/relax).
+ */
+
 public class DomePopup implements Shopable, Normal {
 
-
+    /**
+     * Actions inside the dormitory.
+     */
     private enum DomeAction implements ShopItem {
         SLEEP("SLEEP 💤\n-10 ⚡", 0, "#ffaa00", 10, 10),  // เพิ่ม Stamina 40, เพิ่ม Happiness 5
         RELAX("RELAX 🎮\n-15 ⚡", 0, "#ff66ff", 15, 15); // เพิ่ม Stamina 15, เพิ่ม Happiness 15
@@ -30,6 +36,9 @@ public class DomePopup implements Shopable, Normal {
         private final int staminaCost;
         private final int happinessGain;
 
+        /**
+         * Constructs a DomeAction object with the specified values.
+         */
         DomeAction(String name, int price, String color, int staminaCost, int happinessGain) {
             this.name = name;
             this.price = price;
@@ -38,21 +47,33 @@ public class DomePopup implements Shopable, Normal {
             this.happinessGain = happinessGain;
         }
 
+        /**
+         * @return the display name shown on the button
+         */
         @Override
         public String getName() {
             return name;
         }
 
+        /**
+         * @return the price cost
+         */
         @Override
         public int getPrice() {
             return price;
         }
 
+        /**
+         * @return the button color (hex string)
+         */
         @Override
         public String getColor() {
             return color;
         }
 
+        /**
+         * Applies the selected dormitory action to the player.
+         */
         @Override
         public void execute(GamePane gamePane) {
             BasePlayer p = gamePane.getPlayer();
@@ -72,6 +93,9 @@ public class DomePopup implements Shopable, Normal {
         }
     }
 
+    /**
+     * Opens the popup window.
+     */
     public static void show(GamePane gamePane) {
         BasePlayer p = gamePane.getPlayer();
 

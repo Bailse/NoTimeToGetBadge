@@ -19,8 +19,14 @@ import javafx.stage.Stage;
 
 import static Screen.UI.ToastUtil.showToast;
 
+/**
+ * Popup screen for studying and unlocking education levels.
+ */
 public class ChulaPopup implements Shopable, Normal {
 
+    /**
+     * Education levels that can be unlocked by paying money.
+     */
     private enum StudyLevel implements ShopItem {
         HIGH_SCHOOL("High School", 0, "#ff66ff", 2, 0),
         BACHELOR("Bachelor's\nDegree", 500, "#ff66ff", 5, 1),
@@ -33,6 +39,9 @@ public class ChulaPopup implements Shopable, Normal {
         private final int eduGain;
         private final int levelIndex;
 
+        /**
+         * Constructs a StudyLevel object with the specified values.
+         */
         StudyLevel(String name, int price, String color, int eduGain, int levelIndex) {
             this.name = name;
             this.price = price;
@@ -41,26 +50,40 @@ public class ChulaPopup implements Shopable, Normal {
             this.levelIndex = levelIndex;
         }
 
+        /**
+         * @return the display name shown on the button
+         */
         @Override
         public String getName() {
             return name;
         }
 
+        /**
+         * @return the price cost
+         */
         @Override
         public int getPrice() {
             return price;
         }
 
+        /**
+         * @return the button color (hex string)
+         */
         @Override
         public String getColor() {
             return color;
         }
 
+        /**
+         * Buttons are handled by the popup logic.
+         */
         @Override
         public void execute(GamePane gamePane) {
         }
     }
-
+    /**
+     * Opens the popup window.
+     */
     public static void show(GamePane gamePane) {
         BasePlayer p = gamePane.getPlayer();
 

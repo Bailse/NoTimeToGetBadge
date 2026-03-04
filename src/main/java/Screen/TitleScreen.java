@@ -14,6 +14,10 @@ import javafx.scene.text.TextAlignment;
 
 import java.util.Objects;
 
+/**
+ * The main title screen of the game.
+ * It shows the game name and basic menu buttons (Start, How To Play, Exit).
+ */
 public class TitleScreen extends VBox {
 
     private final ScreenManager begin;
@@ -22,6 +26,9 @@ public class TitleScreen extends VBox {
     private final Button how_to_play;
     private final Button exit;
 
+    /**
+     * Creates the title screen UI and sets background, music, and button actions.
+     */
     public TitleScreen(ScreenManager begin) {
         this.begin = begin;
         this.setPrefSize(1200, 1200);
@@ -73,6 +80,9 @@ public class TitleScreen extends VBox {
         this.getChildren().addAll(title, start, how_to_play, exit);
     }
 
+    /**
+     * Creates a pixel-style button with basic styling and click animation.
+     */
     private Button createPixelButton(String text) {
         Button btn = new Button(text);
 
