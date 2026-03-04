@@ -1,0 +1,116 @@
+@startuml
+class Screen.BuildingScreen.Restaurant.Restaurant {
++ <<Create>> Restaurant()
++ void interact(GamePaneImage)
+}
+
+class Screen.BuildingScreen.Travel.Travel {
++ <<Create>> Travel()
++ void interact(GamePaneImage)
+}
+
+class Screen.BuildingScreen.Restaurant.RestaurantPopup {
++ {static} void show(GamePaneImage)
+}
+
+enum Screen.BuildingScreen.Restaurant.FoodMenu {
++  PAD_THAI
++  KRAPAO
++  TOM_YUM
+- String name
+- int price
+- String color
+- int staminaGain
+- int healthGain
+~ <<Create>> FoodMenu(String,int,String,int,int)
++ String getName()
++ int getPrice()
++ String getColor()
++ void execute(GamePaneImage)
+}
+
+
+class Screen.BuildingScreen.Park.Park {
++ <<Create>> Park()
++ void interact(GamePaneImage)
+}
+
+interface Screen.BuildingScreen.Normal {
+~ BorderPane createBaseLayout(Stage,GamePaneImage,String,Color,String,String,Runnable,Runnable,Label)
+- String toHex(Color)
+~ void applyPixelStyle(Button,String)
+}
+
+interface Screen.BuildingScreen.ShopItem {
+~ String getName()
+~ int getPrice()
+~ String getColor()
+~ void execute(GamePaneImage)
+}
+
+class Screen.BuildingScreen.Park.ParkPopup {
++ {static} void show(GamePaneImage)
+}
+
+enum Screen.BuildingScreen.Park.ParkAction {
++  WALK
++  RELAX
+- String name
+- int price
+- String color
+- int staminaCost
+- int happinessGain
+- int healthGain
+~ <<Create>> ParkAction(String,int,String,int,int,int)
++ String getName()
++ int getPrice()
++ String getColor()
++ void execute(GamePaneImage)
+}
+
+
+abstract class Screen.BuildingScreen.Building {
+# String name
++ <<Create>> Building(String)
++ {abstract}void interact(GamePaneImage)
+}
+
+
+interface Screen.BuildingScreen.Shopable {
+~ Button createShopButton(ShopItem,GamePaneImage,Runnable)
+}
+
+class Screen.BuildingScreen.Travel.TravelPopup {
++ {static} void show(GamePaneImage)
+}
+
+enum Screen.BuildingScreen.Travel.Destination {
++  BEACH
++  JAPAN
++  PARIS
+- String name
+- int price
+- String color
+- int staminaCost
+- int happinessGain
+~ <<Create>> Destination(String,int,String,int,int)
++ String getName()
++ int getPrice()
++ String getColor()
++ void execute(GamePaneImage)
+}
+
+
+
+
+Screen.BuildingScreen.Building <|-- Screen.BuildingScreen.Restaurant.Restaurant
+Screen.BuildingScreen.Building <|-- Screen.BuildingScreen.Travel.Travel
+Screen.BuildingScreen.Shopable <|.. Screen.BuildingScreen.Restaurant.RestaurantPopup
+Screen.BuildingScreen.Normal <|.. Screen.BuildingScreen.Restaurant.RestaurantPopup
+Screen.BuildingScreen.Building <|-- Screen.BuildingScreen.Park.Park
+Screen.BuildingScreen.Shopable <|.. Screen.BuildingScreen.Park.ParkPopup
+Screen.BuildingScreen.Normal <|.. Screen.BuildingScreen.Park.ParkPopup
+Screen.BuildingScreen.Normal <|-- Screen.BuildingScreen.Shopable
+Screen.BuildingScreen.Shopable <|.. Screen.BuildingScreen.Travel.TravelPopup
+Screen.BuildingScreen.Normal <|.. Screen.BuildingScreen.Travel.TravelPopup
+@enduml

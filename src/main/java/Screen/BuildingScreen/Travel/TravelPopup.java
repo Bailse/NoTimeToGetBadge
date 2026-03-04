@@ -1,7 +1,7 @@
 package Screen.BuildingScreen.Travel;
 
 
-import Logic.GamePane;
+import Logic.GamePaneImage;
 import Character.BasePlayer;
 import Screen.BuildingScreen.Normal;
 import Screen.BuildingScreen.ShopItem;
@@ -68,8 +68,8 @@ public class TravelPopup implements Shopable, Normal {
          * Applies the travel action to the player if the player has enough stamina and money.
          */
         @Override
-        public void execute(GamePane gamePane) {
-            BasePlayer p = gamePane.getPlayer();
+        public void execute(GamePaneImage gamePane) {
+            BasePlayer p = gamePane.getPlayerImage();
 
             if(p.getStamina() >= staminaCost && p.getMoney() >= price){
                 if(p.getHappiness() < 500){
@@ -92,8 +92,8 @@ public class TravelPopup implements Shopable, Normal {
     /**
      * Opens the travel popup window and allows the player to select a destination.
      */
-    public static void show(GamePane gamePane) {
-        BasePlayer p = gamePane.getPlayer();
+    public static void show(GamePaneImage gamePane) {
+        BasePlayer p = gamePane.getPlayerImage();
 
         TravelPopup popup = new TravelPopup();
         Stage stage = new Stage();

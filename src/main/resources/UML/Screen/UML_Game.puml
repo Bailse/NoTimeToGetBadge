@@ -1,0 +1,38 @@
+@startuml
+class Screen.Game.StatusTab {
+- ProgressBar staminaBar
+- Label staminaLabel
+- ImageView[] itemSlots
+- StackPane createAvatarSection()
+- VBox createBar(String,String)
++ void updateStatus()
+- void updateInventoryDisplay(Item)
+- void animateBar(ProgressBar,double)
+}
+
+
+class Screen.Game.Gamebar {
+- Button go_back
+- Button end_round
+- Button action
+- Button musicToggle
+- Label roundLabel
++ void updateRound(int,int)
++ Button getGo_back()
++ Button getEnd_round()
++ Button getAction()
++ void setActionVisible(boolean)
++ void setOnActionClick(Runnable)
+}
+
+
+class Screen.Game.GameScreen {
+- void handleEndRound(ScreenManager,Gamebar,GamePaneImage,StatusTab)
+}
+
+
+
+Screen.Game.VBox <|-- Screen.Game.StatusTab
+javafx.scene.layout.BorderPane <|-- Screen.Game.Gamebar
+Screen.Game.VBox <|-- Screen.Game.GameScreen
+@enduml

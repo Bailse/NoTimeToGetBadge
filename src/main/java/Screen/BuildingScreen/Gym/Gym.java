@@ -1,6 +1,6 @@
 package Screen.BuildingScreen.Gym;
 
-import Logic.GamePane;
+import Logic.GamePaneImage;
 import Screen.BuildingScreen.Building;
 
 
@@ -21,7 +21,7 @@ public class Gym extends Building {
      * Opens the Gym popup screen.
      */
     @Override
-    public void interact(GamePane gamePane) {
+    public void interact(GamePaneImage gamePane) {
         GymPopup.show(gamePane);
     }
 }

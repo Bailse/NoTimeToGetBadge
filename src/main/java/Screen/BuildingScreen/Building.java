@@ -1,6 +1,6 @@
 package Screen.BuildingScreen;
 
-import Logic.GamePane;
+import Logic.GamePaneImage;
 
 /**
  * Base class for all buildings in the game.
@@ -19,5 +19,5 @@ public abstract class Building {
     /**
      * Called when the player interacts with this building.
      */
-    public abstract void interact(GamePane gamePane);
+    public abstract void interact(GamePaneImage gamePane);
 }

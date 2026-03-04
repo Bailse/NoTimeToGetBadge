@@ -1,15 +1,10 @@
+/**
+ * Package for all character class
+ */
 package Character;
 
 import Item.Item;
-import Logic.GameSession;
-import Screen.BuildingScreen.Chula.ChulaPopup;
-import Screen.ScreenManager;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 /**
  * this class is the baseClass for PlayerType like Gymbro , Nerd , NormalGuy , Otaku

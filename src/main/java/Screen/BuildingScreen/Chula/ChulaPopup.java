@@ -1,7 +1,7 @@
 package Screen.BuildingScreen.Chula;
 
+import Logic.GamePaneImage;
 import Screen.BuildingScreen.ShopItem;
-import Logic.GamePane;
 import Logic.GameSession;
 import Character.*;
 import Screen.BuildingScreen.Normal;
@@ -78,14 +78,14 @@ public class ChulaPopup implements Shopable, Normal {
          * Buttons are handled by the popup logic.
          */
         @Override
-        public void execute(GamePane gamePane) {
+        public void execute(GamePaneImage gamePane) {
         }
     }
     /**
      * Opens the Chula window and allows the player to purchase an education level.
      */
-    public static void show(GamePane gamePane) {
-        BasePlayer p = gamePane.getPlayer();
+    public static void show(GamePaneImage gamePane) {
+        BasePlayer p = gamePane.getPlayerImage();
 
         ChulaPopup popup = new ChulaPopup();
         Stage stage = new Stage();

@@ -1,0 +1,120 @@
+@startuml
+class Screen.BuildingScreen.Mall.MallPopup {
++ {static} void resetAllMallItems()
++ {static} void show(GamePaneImage)
+}
+
+enum Screen.BuildingScreen.Mall.MallItem {
++  PILLOW
++  TUNG_BED
++  CAR
+- String name
+- int price
+- String color
+- int healthGain
+- boolean isUnique
+- boolean soldOut
++ String getName()
++ int getPrice()
++ String getColor()
++ {static} void resetMallItems()
++ void execute(GamePaneImage)
+}
+
+
+class Screen.BuildingScreen.Gym.Gym {
++ void interact(GamePaneImage)
+}
+
+class Screen.BuildingScreen.Chula.ChulaPopup {
++ {static} void show(GamePaneImage)
+}
+
+enum Screen.BuildingScreen.Chula.StudyLevel {
++  HIGH_SCHOOL
++  BACHELOR
++  MASTER
++  DOCTORATE
+- String name
+- int price
+- String color
+- int eduGain
+- int levelIndex
++ String getName()
++ int getPrice()
++ String getColor()
++ void execute(GamePaneImage)
+}
+
+
+class Screen.BuildingScreen.Gym.GymPopup {
++ {static} void resetAllGymService()
++ {static} void show(GamePaneImage)
+}
+
+enum Screen.BuildingScreen.Gym.GymService {
++  WORKOUT
++  POWER
++  BEAST
++  PROTEIN
+- String name
+- int price
+- String color
+- int staminaCost
+- int healthGain
+- boolean isUnique
+- boolean isSoldOut
++ String getName()
++ int getPrice()
++ String getColor()
++ {static} void resetGymService()
++ void execute(GamePaneImage)
+}
+
+
+class Screen.BuildingScreen.Mall.Mall {
++ void interact(GamePaneImage)
+}
+
+class Screen.BuildingScreen.Dome.Dome {
++ void interact(GamePaneImage)
+}
+
+class Screen.BuildingScreen.Chula.Chula {
++ void interact(GamePaneImage)
+}
+
+class Screen.BuildingScreen.Dome.DomePopup {
++ {static} void show(GamePaneImage)
+}
+
+enum Screen.BuildingScreen.Dome.DomeAction {
++  SLEEP
++  RELAX
+- String name
+- int price
+- String color
+- int staminaCost
+- int happinessGain
++ String getName()
++ int getPrice()
++ String getColor()
++ void execute(GamePaneImage)
+}
+
+
+
+
+Screen.BuildingScreen.Shopable <|.. Screen.BuildingScreen.Mall.MallPopup
+Screen.BuildingScreen.Normal <|.. Screen.BuildingScreen.Mall.MallPopup
+Screen.BuildingScreen.Building <|-- Screen.BuildingScreen.Gym.Gym
+Screen.BuildingScreen.Shopable <|.. Screen.BuildingScreen.Chula.ChulaPopup
+Screen.BuildingScreen.Normal <|.. Screen.BuildingScreen.Chula.ChulaPopup
+Screen.BuildingScreen.Shopable <|.. Screen.BuildingScreen.Gym.GymPopup
+Screen.BuildingScreen.Normal <|.. Screen.BuildingScreen.Gym.GymPopup
+Screen.BuildingScreen.Building <|-- Screen.BuildingScreen.Mall.Mall
+Screen.BuildingScreen.Building <|-- Screen.BuildingScreen.Dome.Dome
+Screen.BuildingScreen.Building <|-- Screen.BuildingScreen.Chula.Chula
+Screen.BuildingScreen.Shopable <|.. Screen.BuildingScreen.Dome.DomePopup
+Screen.BuildingScreen.Normal <|.. Screen.BuildingScreen.Dome.DomePopup
+@enduml

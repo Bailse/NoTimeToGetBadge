@@ -1,12 +1,7 @@
 package Screen.BuildingScreen.Gym;
 
-import Item.HealthThing;
-import Item.Item;
-import Item.WheyProtein;
-import Logic.GameSession;
-import Screen.BuildingScreen.Mall.MallPopup;
 import Screen.BuildingScreen.ShopItem;
-import Logic.GamePane;
+import Logic.GamePaneImage;
 import Character.BasePlayer;
 import Character.GymBro;
 import Screen.BuildingScreen.Normal;
@@ -94,8 +89,8 @@ public class GymPopup implements Shopable, Normal {
          * Applies the selected gym service to the player.
          */
         @Override
-        public void execute(GamePane gamePane) {
-            BasePlayer p = gamePane.getPlayer();
+        public void execute(GamePaneImage gamePane) {
+            BasePlayer p = gamePane.getPlayerImage();
             if (p.getMoney() < this.price) return;
 
             if (this == PROTEIN) {
@@ -128,8 +123,8 @@ public class GymPopup implements Shopable, Normal {
     /**
      * Opens the travel gym window and allows the player to purchase  a unique protein item.
      */
-    public static void show(GamePane gamePane) {
-        BasePlayer p = gamePane.getPlayer();
+    public static void show(GamePaneImage gamePane) {
+        BasePlayer p = gamePane.getPlayerImage();
 
         GymPopup popup = new GymPopup();
         Stage stage = new Stage();

@@ -1,0 +1,93 @@
+@startuml
+class Logic.GamePaneImage {
+- MapCreate MapCreate
+- int TILE_SIZE
+- boolean[][] clickable
+- Image imgDown
+- Image imgLeft
+- Image imgRight
+- Image imgUp
+- BasePlayer playerType
+- Runnable onReachBuilding
+- Runnable onLeaveBuilding
+- Runnable onStatusChange
+- int playerRow
+- int playerCol
+- ImageView playerImage
+- boolean isMoving
+- Building[][] bmap
+- int[][] map
++ <<Create>> GamePaneImage()
++ <<Create>> GamePaneImage(String)
+- void drawMap()
+- List<int[]> findPath(int,int,int,int)
+- void clickablePath()
+- void walkPath(List<int[]>)
++ boolean CheckPlayer()
++ void resetPlayerToStart()
++ boolean isPlayerMoving()
++ void addItem(String)
++ void updateEducationItem(int)
+- void updatePlayerPosition()
++ Building getCurrentBuilding()
++ void setImgDown()
++ void notifyUpdate()
++ void setOnReachBuilding(Runnable)
++ void setOnLeaveBuilding(Runnable)
++ void setOnStatusChange(Runnable)
++ void setImgLeft()
++ void setImgRight()
++ void setImgUp()
++ BasePlayer getPlayerImage()
+}
+
+
+class Logic.GameSession {
+- {static} BasePlayer player
+- {static} int MAX_ROUNDS
+- {static} int round
+- {static} int initialStamina
++ {static} void setBasePlayer(BasePlayer)
++ {static} BasePlayer getPlayer()
++ {static} int getRound()
++ {static} int getMaxRounds()
++ {static} int getInitialStamina()
++ {static} void advanceRound()
++ {static} boolean isLastRound()
+}
+
+
+class Logic.MapCreate {
+- ImageView choosing
+- Image wallImage
+- Image streetImage90
+- Image streetImage180
+- Image floorImage
+- Image domeleft
+- Image domeright
+- Image gymTop
+- Image gymMid
+- Image gymBot
+- Image Uni1
+- Image Uni2
+- Image resLeft
+- Image resRight
+- Image traveLeft
+- Image traveRight
+- Image parkLeft
+- Image parkRight
+- Image mallTop
+- Image mallMid
+- Image mallBot
+- Image water
+- Image watertop
+- Image flower
++ <<Create>> MapCreate(int)
++ ImageView getChoosing()
+}
+
+
+
+
+javafx.scene.layout.Pane <|-- Logic.GamePaneImage
+@enduml

@@ -1,6 +1,6 @@
 package Screen.BuildingScreen.Chula;
 
-import Logic.GamePane;
+import Logic.GamePaneImage;
 import Screen.BuildingScreen.Building;
 
 /**
@@ -20,7 +20,7 @@ public class Chula extends Building {
      * Opens the Chula popup screen.
      */
     @Override
-    public void interact(GamePane gamePane) {
+    public void interact(GamePaneImage gamePane) {
         ChulaPopup.show(gamePane);
     }
 }

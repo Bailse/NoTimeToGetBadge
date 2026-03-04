@@ -1,0 +1,10 @@
+@startuml
+class Screen.HowToPlay.HowToPlayScreen {
++ <<Create>> HowToPlayScreen(ScreenManager)
+- VBox createSection(String,String,String)
+}
+
+
+
+Screen.HowToPlay.BorderPane <|-- Screen.HowToPlay.HowToPlayScreen
+@enduml

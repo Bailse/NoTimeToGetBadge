@@ -1,6 +1,6 @@
 package Screen.BuildingScreen.Mall;
 
-import Logic.GamePane;
+import Logic.GamePaneImage;
 import Screen.BuildingScreen.Building;
 
 /**
@@ -21,7 +21,7 @@ public class Mall extends Building {
      * Opens the Mall popup screen.
      */
     @Override
-    public void interact(GamePane gamePane) {
+    public void interact(GamePaneImage gamePane) {
         MallPopup.show(gamePane);
     }
 }
