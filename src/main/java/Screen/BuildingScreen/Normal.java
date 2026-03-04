@@ -14,8 +14,15 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/**
+ * Helper interface that provides common UI building methods.
+ */
 public interface Normal {
 
+    /**
+     * Creates a base popup layout with a title header and a footer area.
+     * The footer can show an EXIT button, optional action button, and player stats labels.
+     */
     default BorderPane createBaseLayout(Stage stage, GamePane gamePane, String titleText, Color titleColor,
                                         String actionBtnText, String actionBtnColor, Runnable actionEffect,
                                         Runnable refreshUI, Label... statsLabels) {
@@ -69,10 +76,17 @@ public interface Normal {
         return root;
     }
 
+    /**
+     * Converts a JavaFX {@link Color} to a hex string like {@code #RRGGBB}.
+     */
     private String toHex(Color color) {
         return String.format("#%02X%02X%02X", (int)(color.getRed()*255), (int)(color.getGreen()*255), (int)(color.getBlue()*255));
     }
 
+    /**
+     * Applies a simple pixel-style look to a JavaFX {@link Button}.
+     * It also adds hover and press animations.
+     */
     default void applyPixelStyle(Button btn, String borderColor) {
         btn.setFont(Font.font("Courier New", 20));
         btn.setTextFill(Color.WHITE);

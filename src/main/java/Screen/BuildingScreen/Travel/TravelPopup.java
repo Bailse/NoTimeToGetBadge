@@ -17,9 +17,14 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Popup screen for traveling to destinations.
+ */
 public class TravelPopup implements Shopable, Normal {
 
-
+    /**
+     * Travel destinations that the player can choose from.
+     */
     private enum Destination implements ShopItem {
 
         BEACH("BEACH 🌊", 1000, "#00ccff", 20, 20),
@@ -32,6 +37,9 @@ public class TravelPopup implements Shopable, Normal {
         private final int staminaCost;
         private final int happinessGain;
 
+        /**
+         * Constructs a Destination object with the specified values.
+         */
         Destination(String name, int price, String color, int staminaCost, int happinessGain) {
             this.name = name;
             this.price = price;
@@ -40,10 +48,25 @@ public class TravelPopup implements Shopable, Normal {
             this.staminaCost = staminaCost;
         }
 
+        /**
+         * @return the display name shown on the button
+         */
         @Override public String getName() { return name; }
+
+        /**
+         * @return the price cost
+         */
         @Override public int getPrice() { return price; }
+
+        /**
+         * @return the button color (hex string)
+         */
         @Override public String getColor() { return color; }
 
+
+        /**
+         * Applies the travel action to the player if the player has enough stamina and money.
+         */
         @Override
         public void execute(GamePane gamePane) {
             BasePlayer p = gamePane.getPlayer();
@@ -66,6 +89,9 @@ public class TravelPopup implements Shopable, Normal {
         }
     }
 
+    /**
+     * Opens the travel popup window and allows the player to select a destination.
+     */
     public static void show(GamePane gamePane) {
         BasePlayer p = gamePane.getPlayer();
 

@@ -25,10 +25,21 @@ import javafx.stage.Stage;
 
 import static Screen.UI.ToastUtil.showToast;
 
+/**
+ * Popup screen for gym services (workouts and a unique protein item).
+ */
 public class GymPopup implements Shopable, Normal {
+
+    /**
+     * Resets the sold-out state for all gym services.
+     */
     public static void resetAllGymService() {
         GymService.resetGymService();
     }
+
+    /**
+     * Gym services/items that the player can buy.
+     */
     private enum GymService implements ShopItem {
         WORKOUT("WORK OUT", 250, "#e94560", 5, 10, false),
         POWER("POWER", 500, "#e94560", 10, 25, false),
@@ -43,6 +54,9 @@ public class GymPopup implements Shopable, Normal {
         private final boolean isUnique;
         private boolean isSoldOut = false;
 
+        /**
+         * Constructs a GymService object with the specified values.
+         */
         GymService(String name, int price, String color, int staminaCost, int healthGain, boolean isUnique) {
             this.name = name;
             this.price = price;
@@ -52,16 +66,33 @@ public class GymPopup implements Shopable, Normal {
             this.isUnique = isUnique;
         }
 
+        /**
+         * get name
+         */
         @Override public String getName() { return name; }
+
+        /**
+         * @return the price cost
+         */
         @Override public int getPrice() { return price; }
+
+        /**
+         * @return the button color (hex string)
+         */
         @Override public String getColor() { return color; }
 
+        /**
+         * Marks every service as available again (not sold out).
+         */
         public static void resetGymService() {
             for (GymService item : GymService.values()) {
                 item.isSoldOut = false;
             }
         }
 
+        /**
+         * Applies the selected gym service to the player.
+         */
         @Override
         public void execute(GamePane gamePane) {
             BasePlayer p = gamePane.getPlayer();
@@ -94,6 +125,9 @@ public class GymPopup implements Shopable, Normal {
         }
     }
 
+    /**
+     * Opens the travel gym window and allows the player to purchase  a unique protein item.
+     */
     public static void show(GamePane gamePane) {
         BasePlayer p = gamePane.getPlayer();
 

@@ -21,10 +21,21 @@ import javafx.stage.Stage;
 
 import static Screen.UI.ToastUtil.showToast;
 
+/**
+ * Popup screen for buying mall items and working for money.
+ */
 public class MallPopup implements Shopable, Normal {
+
+    /**
+     * Resets the sold-out state for all mall items.
+     */
     public static void resetAllMallItems() {
         MallItem.resetMallItems();
     }
+
+    /**
+     * Items that can be bought in the mall.
+     */
     private enum MallItem implements ShopItem {
         PILLOW("PILLOW", 250, "#00ffff",  10, false),
         TUNG_BED("BED SET", 700, "#ffd700",  20, false),
@@ -37,6 +48,9 @@ public class MallPopup implements Shopable, Normal {
         private final boolean isUnique;
         private boolean soldOut = false;
 
+        /**
+         * Constructs a MallItem object with the specified values.
+         */
         MallItem(String name, int price, String color, int healthGain, boolean isUnique) {
             this.name = name;
             this.price = price;
@@ -46,16 +60,33 @@ public class MallPopup implements Shopable, Normal {
             this.isUnique = isUnique;
         }
 
+        /**
+         * @return the display name shown on the button
+         */
         @Override public String getName() { return name; }
+
+        /**
+         * @return the price cost
+         */
         @Override public int getPrice() { return price; }
+
+        /**
+         * @return the button color (hex string)
+         */
         @Override public String getColor() { return color; }
 
+        /**
+         * Marks every item as available again (not sold out).
+         */
         public static void resetMallItems() {
             for (MallItem item : MallItem.values()) {
                 item.soldOut = false;
             }
         }
 
+        /**
+         * Applies the selected mall item to the player.
+         */
         @Override
         public void execute(GamePane gamePane) {
             BasePlayer player = gamePane.getPlayer();
@@ -75,6 +106,9 @@ public class MallPopup implements Shopable, Normal {
         }
     }
 
+    /**
+     * Opens the mall popup window and allows the player to buy an item.
+     */
     public static void show(GamePane gamePane) {
         BasePlayer p = gamePane.getPlayer();
         MallPopup popup = new MallPopup();

@@ -19,8 +19,14 @@ import javafx.stage.Stage;
 
 import static Screen.UI.ToastUtil.showToast;
 
+/**
+ * Popup screen for buying food and working at the restaurant.
+ */
 public class RestaurantPopup implements Shopable, Normal {
 
+    /**
+     * Food options that the player can buy.
+     */
     private enum FoodMenu implements ShopItem {
         PAD_THAI("PAD THAI", 200, "#FFD700", 5, 2),
         KRAPAO("PAD KRAPAO", 350, "#FF4500", 10, 5),
@@ -32,6 +38,9 @@ public class RestaurantPopup implements Shopable, Normal {
         private final int staminaGain;
         private final int healthGain;
 
+        /**
+         * Constructs a FoodMenu object with the specified values.
+         */
         FoodMenu(String name, int price, String color, int staminaGain, int healthGain) {
             this.name = name;
             this.price = price;
@@ -40,10 +49,24 @@ public class RestaurantPopup implements Shopable, Normal {
             this.healthGain = healthGain;
         }
 
+        /**
+         * @return the display name shown on the button
+         */
         @Override public String getName() { return name; }
+
+        /**
+         * @return the price cost
+         */
         @Override public int getPrice() { return price; }
+
+        /**
+         * @return the button color (hex string)
+         */
         @Override public String getColor() { return color; }
 
+        /**
+         * Applies the food effect to the player (cost money, gain stamina/health).
+         */
         @Override
         public void execute(GamePane gamePane) {
             BasePlayer p = gamePane.getPlayer();
@@ -53,6 +76,9 @@ public class RestaurantPopup implements Shopable, Normal {
         }
     }
 
+    /**
+     * Opens the Restaurant popup window and allows the player to purchase a food.
+     */
     public static void show(GamePane gamePane) {
         BasePlayer p = gamePane.getPlayer();
 
