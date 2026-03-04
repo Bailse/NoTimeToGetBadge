@@ -6,7 +6,7 @@ import Logic.GameSession;
 import Screen.BuildingScreen.Building;
 import Screen.BuildingScreen.Gym.GymPopup;
 import Screen.BuildingScreen.Mall.MallPopup;
-import Screen.ScreenManager;
+import Screen.UI.ScreenManager;
 import Audio.SoundManager;
 import javafx.scene.layout.*;
 /**

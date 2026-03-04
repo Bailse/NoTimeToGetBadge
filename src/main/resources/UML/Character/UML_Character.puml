@@ -1,0 +1,91 @@
+@startuml
+abstract class Character.BasePlayer {
+- CharacterType characterType
+- int stamina
+- int money
+- int education
+- int health
+- int happiness
+- int healthDecrease
+- int staminaDecrease
+- CharacterType type
+- String imagePath
+- Item itemManager
+- Image imgDown
+- Image imgLeft
+- Image imgRight
+- Image imgUp
+- int maxUnlockedLevel
++ void walk()
++ int getStamina()
++ void setStamina(int)
++ int getStaminaDecrease()
++ void setStaminaDecrease(int)
++ int getMoney()
++ void setMoney(int)
++ int getEducation()
++ void setEducation(int)
++ int getHealth()
++ void setHealth(int)
++ int getHealthDecrease()
++ void setHealthDecrease(int)
++ int getHappiness()
++ void setHappiness(int)
++ CharacterType getType()
++ void setType(CharacterType)
++ String getImagePath()
++ void setImagePath(String)
++ Item getItemManager()
++ int getMaxUnlockedLevel()
++ void setMaxUnlockedLevel(int)
++ Image getImgDown()
++ void setImgDown(Image)
++ Image getImgLeft()
++ void setImgLeft(Image)
++ Image getImgRight()
++ void setImgRight(Image)
++ Image getImgUp()
++ void setImgUp(Image)
++ boolean work(int,int)
++ String study(int,int)
+}
+
+
+class Character.PlayerCreate {
++ {static} BasePlayer create(CharacterType)
+}
+
+class Character.Otaku {
+- int workCount
++ String earnWorkBonus()
+}
+
+
+enum Character.CharacterType {
++  GYMBRO
++  NERD
++  OTAKU
++  NORMAL
+}
+
+class Character.GymBro {
+- int workCount
++ String earnWorkBonus()
+}
+
+
+class Character.NormalGuy {
+}
+class Character.Nerd {
+- int studyCount
++ String earnStudyBonus()
+}
+
+
+
+
+Character.BasePlayer <|-- Character.Otaku
+Character.BasePlayer <|-- Character.GymBro
+Character.BasePlayer <|-- Character.NormalGuy
+Character.BasePlayer <|-- Character.Nerd
+@enduml

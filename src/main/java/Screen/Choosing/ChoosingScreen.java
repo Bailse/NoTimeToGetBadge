@@ -2,7 +2,7 @@ package Screen.Choosing;
 
 import Audio.SoundManager;
 import Logic.GameSession;
-import Screen.ScreenManager;
+import Screen.UI.ScreenManager;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

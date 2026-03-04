@@ -1,7 +1,7 @@
 package Main;
 
 import Audio.SoundManager;
-import Screen.ScreenManager;
+import Screen.UI.ScreenManager;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;

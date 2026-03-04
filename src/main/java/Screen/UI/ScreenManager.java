@@ -1,4 +1,4 @@
-package Screen;
+package Screen.UI;
 
 import Screen.Choosing.ChoosingScreen;
 import Screen.Game.GameScreen;

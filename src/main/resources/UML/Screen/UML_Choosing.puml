@@ -1,0 +1,19 @@
+@startuml
+class Screen.Choosing.ChoosingScreen {
+- String[] avatarPaths
+- String[] archetypeNames
+- String[] prosCons
+- int selectedIndex
+- Label selectedTitle
+- Label selectedDesc
++ <<Create>> ChoosingScreen(ScreenManager)
+- void refreshDescription()
+- String cardStyle(boolean)
+- ImageView safeAvatar(String)
+}
+
+
+
+
+javafx.scene.layout.BorderPane <|-- Screen.Choosing.ChoosingScreen
+@enduml

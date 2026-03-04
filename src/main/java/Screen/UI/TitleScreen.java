@@ -1,4 +1,4 @@
-package Screen;
+package Screen.UI;
 
 import Audio.SoundManager;
 import javafx.geometry.Insets;

@@ -1,0 +1,20 @@
+@startuml
+class Screen.Result.ResultScreen {
+- String[] Badge
+- {static} int MONEY_SSTAR
+- {static} int MONEY_S
+- {static} int HEALTH_SSTAR
+- {static} int HEALTH_S
+- {static} int EDUCATION_SSTAR
+- {static} int EDUCATION_S
+- {static} int HAPPINESS_SSTAR
+- {static} int HAPPINESS_S
+- HBox createStatusRow(String,int)
+- ImageView createBadge(String,int)
+}
+
+
+
+
+Screen.Result.StackPane <|-- Screen.Result.ResultScreen
+@enduml

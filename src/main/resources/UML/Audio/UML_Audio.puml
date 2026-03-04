@@ -1,0 +1,12 @@
+@startuml
+class Audio.SoundManager {
+- {static} MediaPlayer backgroundPlayer
+- {static} boolean muted
++ {static} void playBackground(String)
++ {static} void stopBackground()
++ {static} void toggleMute()
++ {static} boolean isMuted()
+}
+
+
+@enduml

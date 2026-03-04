@@ -1,0 +1,10 @@
+@startuml
+class Main.main {
++ void start(Stage)
++ {static} void main(String[])
+}
+
+
+
+javafx.application.Application <|-- Main.main
+@enduml

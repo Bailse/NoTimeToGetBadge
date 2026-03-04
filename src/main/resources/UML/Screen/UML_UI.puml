@@ -1,0 +1,43 @@
+@startuml
+class Screen.UI.ToastUtil {
+- {static} Stage currentToastStage
+- {static} javafx.animation.FadeTransition currentFade
++ {static} void showToast(String,String,double,double,boolean)
+}
+
+
+class Screen.UI.UIUtil {
+- {static} Font pixelFont
++ {static} Font getPixelFont(double)
+}
+
+
+class Screen.TitleScreen {
+- ScreenManager begin
+- Text title
+- Button start
+- Button how_to_play
+- Button exit
++ <<Create>> TitleScreen(ScreenManager)
+- Button createPixelButton(String)
+}
+
+
+class Screen.ScreenManager {
+- Stage stage
++ <<Create>> ScreenManager(Stage)
++ void showTitle()
++ void showChoose()
++ void endGame()
++ void showGame()
++ Stage getStage()
++ void setStage(Stage)
++ void showHowToPlay()
++ void showResult()
+}
+
+
+
+
+Screen.VBox <|-- Screen.TitleScreen
+@enduml

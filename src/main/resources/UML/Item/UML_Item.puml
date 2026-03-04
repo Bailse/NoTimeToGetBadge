@@ -1,0 +1,78 @@
+@startuml
+class Item.HealthThing {
++ <<Create>> HealthThing(String,String)
+}
+
+class Item.Book2 {
++ <<Create>> Book2()
+}
+
+class Item.WheyProtein {
++ <<Create>> WheyProtein()
+}
+
+enum Item.Category {
++  EDUCATION
++  HEALTH
++  VEHICLE
++ String[] value()
++ Class<? extends Annotation> annotationType()
+}
+
+
+class Item.Book3 {
++ <<Create>> Book3()
+}
+
+class Item.Item {
+- ArrayList<BaseItem> inventory
++ <<Create>> Item()
++ void addItem(BaseItem)
++ ArrayList<BaseItem> getInventory()
+}
+
+
+class Item.Book4 {
++ <<Create>> Book4()
+}
+
+class Item.Vehicle {
++ <<Create>> Vehicle()
+}
+
+class Item.BaseItem {
+- String name
+- String image
+- boolean active
+- Category category
++ <<Create>> BaseItem(String,String,Category)
++ String getName()
++ void setName(String)
++ String getImage()
++ void setImage(String)
++ boolean isActive()
++ void setActive(boolean)
++ Category getCategory()
++ void setCategory(Category)
+}
+
+
+class Item.Book1 {
++ <<Create>> Book1()
+}
+
+class Item.EducationThing {
++ <<Create>> EducationThing(String,String)
+}
+
+
+
+Item.BaseItem <|-- Item.HealthThing
+Item.EducationThing <|-- Item.Book2
+Item.HealthThing <|-- Item.WheyProtein
+Item.EducationThing <|-- Item.Book3
+Item.EducationThing <|-- Item.Book4
+Item.BaseItem <|-- Item.Vehicle
+Item.EducationThing <|-- Item.Book1
+Item.BaseItem <|-- Item.EducationThing
+@enduml
