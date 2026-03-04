@@ -94,7 +94,7 @@ public class DomePopup implements Shopable, Normal {
     }
 
     /**
-     * Opens the dOME popup window and allows the player to sleep or relax.
+     * Opens the dome popup window and allows the player to sleep or relax.
      */
     public static void show(GamePane gamePane) {
         BasePlayer p = gamePane.getPlayer();
