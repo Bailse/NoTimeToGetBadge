@@ -21,6 +21,10 @@ import java.io.InputStream;
 
 import Character.*;
 
+/**
+ * Screen for ChoosingScreen
+ */
+
 public class ChoosingScreen extends BorderPane {
 
     private final String[] avatarPaths = new String[]{
@@ -48,6 +52,12 @@ public class ChoosingScreen extends BorderPane {
 
     private final Label selectedTitle = new Label();
     private final Label selectedDesc = new Label();
+
+    /**
+     * constructor that initialize object in ChoosingScreen
+     *
+     */
+
 
     public ChoosingScreen(ScreenManager manager) {
 

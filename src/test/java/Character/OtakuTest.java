@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Test;
 import testsupport.JavaFxTestBase;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Test Class for checking Otaku method
+ */
 public class OtakuTest extends JavaFxTestBase {
 
     @Test

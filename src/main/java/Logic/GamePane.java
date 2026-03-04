@@ -21,6 +21,9 @@ import java.util.*;
 import Character.BasePlayer;
 import Logic.MapCreate;
 
+/**
+ * this clas this for setup game logic and map logic
+ */
 public class GamePane extends Pane {
 
     private MapCreate MapCreate;
@@ -49,19 +52,21 @@ public class GamePane extends Pane {
             {1,14,3,0,5,0,0,3,3,0,0,0,8,3,0,1},
             {1,0,3,0,0,0,15,3,3,16,0,0,0,3,23,1},
             {1,0,3,4,4,4,4,4,4,4,4,4,4,3,24,1},
-            {1,0,3,0,0,18,17,3,3,19,20,0,0,3,25,1},
+            {1,0,3,0,0,18,17,3,3,21,22,0,0,3,25,1},
             {1,0,3,0,0,0,0,3,3,0,8,0,0,3,0,1},
             {1,0,3,0,0,0,0,3,3,0,0,0,0,3,0,1},
             {1,0,3,0,0,8,0,3,3,0,0,8,0,3,0,1},
             {1,0,3,0,0,0,0,3,3,0,0,0,0,3,0,1},
             {1,0,3,0,8,0,0,3,3,0,0,0,0,3,0,1},
             {1,0,3,4,4,4,4,4,4,4,4,4,4,3,0,1},
-            {1,0,0,0,0,0,0,21,22,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,19,20,0,0,0,0,0,0,1},
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 
     };
 
-
+    /**
+     * constructor class to initialize playerPosition , player Image , map Image , map Location , map Logic
+     */
     public GamePane() {
 
         setImgLeft();
@@ -107,6 +112,7 @@ public class GamePane extends Pane {
         bmap[9][6] = new Restaurant();
         bmap[9][5] = new Restaurant();
         bmap[9][9] = new Park();
+        bmap[9][10] = new Park();
         bmap[8][14] = new Mall();
         bmap[7][14] = new Mall();
         bmap[9][14] = new Mall();
@@ -116,6 +122,11 @@ public class GamePane extends Pane {
 
     // set player when start game //
 
+    /**
+     * set Player image when and is start
+     *
+     */
+
     public GamePane(String avatarPath){
         this();
         if(avatarPath != null){
@@ -123,11 +134,19 @@ public class GamePane extends Pane {
         }
     }
 
+    /**
+     * get currentBuilding to get type of building
+     *
+     */
 
     public Building getCurrentBuilding() {
         return bmap[playerRow][playerCol];
     }
 
+    /**
+     * Draw map and set logic to each TILE
+     *
+     */
 
     private void drawMap() {
 
@@ -169,6 +188,9 @@ public class GamePane extends Pane {
         }
     }
 
+    /**
+     * this method is find the best path by using BFS to find right path that use less stamina
+     */
 
     private List<int[]> findPath(int startR, int startC, int targetR, int targetC) {
 
@@ -222,6 +244,11 @@ public class GamePane extends Pane {
         return path;
     }
 
+
+    /**
+     * initialize clickable path to control map which TILE you can click
+     */
+
     private void clickablePath(){
 
         this.clickable = new boolean[map.length][map[0].length];
@@ -245,6 +272,10 @@ public class GamePane extends Pane {
         }
     }
 
+    /**
+     * set Image when player move from TILE to other TILE and set animation to moving
+     * and use method walk from baseCharacter to walk
+     */
 
     private void walkPath(List<int[]> path) {
 
@@ -319,6 +350,11 @@ public class GamePane extends Pane {
         move.play();
     }
 
+    /**
+     * check player if player stand on buliding the action button will active
+     *
+     */
+
     public boolean CheckPlayer(){
 
         if(this.map[playerRow][playerCol] >= 10){
@@ -327,7 +363,10 @@ public class GamePane extends Pane {
         return false;
     }
 
-
+    /**
+     * reset position player when player use this method
+     *
+     */
     public void resetPlayerToStart() {
         isMoving = false;
 
@@ -342,16 +381,27 @@ public class GamePane extends Pane {
             onLeaveBuilding.run();
         }
     }
+    /**
+     * check if player moving
+     */
 
     public boolean isPlayerMoving() {
         return isMoving;
     }
 
+    /**
+     * set player imageDown from gameSession
+     */
 
     public void setImgDown() {
         this.imgDown = playerType.getImgDown();
 
     }
+
+    /**
+     * run notifyUpdate thread
+     */
+
 
     public void notifyUpdate() {
         if (onStatusChange != null) {
@@ -359,35 +409,56 @@ public class GamePane extends Pane {
         }
     }
 
+    /**
+     * set action button to Enable
+     */
+
     public void setOnReachBuilding(Runnable r) {
         this.onReachBuilding = r;
     }
 
+    /**
+     * set action button to Disable
+     */
     public void setOnLeaveBuilding(Runnable r) {
         this.onLeaveBuilding = r;
     }
 
+    /**
+     * set status thread change while doing action
+     */
+
     public void setOnStatusChange(Runnable r) {
         this.onStatusChange = r;
     }
-
+    /**
+     * set player imageLeft from gameSession
+     */
 
     public void setImgLeft() {
         this.imgLeft = playerType.getImgLeft();
     }
-
+    /**
+     * set player imageRight from gameSession
+     */
     public void setImgRight() {
         this.imgRight = playerType.getImgRight();
     }
-
+    /**
+     * set player imageUp from gameSession
+     */
     public void setImgUp() {
         this.imgUp = playerType.getImgUp();
     }
-
+    /**
+     * get Player from GameSession
+     */
     public BasePlayer getPlayer() {
         return GameSession.getPlayer();
     }
-
+    /**
+     * add item to player
+     */
     public void addItem(String itemName) {
 
         if (getPlayer() == null) return;
@@ -402,7 +473,9 @@ public class GamePane extends Pane {
         if (onStatusChange != null) onStatusChange.run();
 
     }
-
+    /**
+     * update item on status bar that change to active or upgrade (education thing)
+     */
     public void updateEducationItem(int level) {
         BasePlayer p = GameSession.getPlayer();
         if (p == null) return;
@@ -420,6 +493,10 @@ public class GamePane extends Pane {
 
         if (onStatusChange != null) onStatusChange.run();
     }
+
+    /**
+     * update playerPosition
+     */
 
     private void updatePlayerPosition() {
         double offsetX = (TILE_SIZE - player.getFitWidth()) / 2.0;

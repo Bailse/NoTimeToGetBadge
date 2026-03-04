@@ -18,6 +18,10 @@ import javafx.scene.text.FontWeight;
 import java.util.Objects;
 import Character.BasePlayer;
 
+/**
+ * Result Screen show when game end
+ */
+
 public class ResultScreen extends StackPane {
 
     private final String[] Badge = new String[]{
@@ -41,7 +45,9 @@ public class ResultScreen extends StackPane {
     // Happiness
     private static final int HAPPINESS_SSTAR = 145;
     private static final int HAPPINESS_S = 70;
-
+    /**
+     * constructor initialize object in ResultScreen
+     */
     public ResultScreen(ScreenManager manager) {
 
         SoundManager.stopBackground();
@@ -180,6 +186,10 @@ public class ResultScreen extends StackPane {
     }
 
     // ================= STATUS ROW =================
+
+    /**
+     * Create status row for using in screen
+     */
     private HBox createStatusRow(String name, int value) {
 
         Label statLabel = new Label(name + " : " + value);
@@ -198,6 +208,10 @@ public class ResultScreen extends StackPane {
     }
 
     // ================= BADGE LOGIC =================
+    /**
+     * Create Badge picture for every status
+     */
+
     private ImageView createBadge(String statName, int value) {
 
         String path;

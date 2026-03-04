@@ -12,13 +12,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.*;
 import javafx.util.Duration;
-
+/**
+ * StatusTab on Right screen to see status of this game
+ */
 public class StatusTab extends VBox {
 
     private ProgressBar staminaBar, healthBar, educationBar, moneyBar,happinessBar;
     private Label staminaLabel, healthLabel, educationLabel, moneyLabel,happinessLabel;
     private ImageView[] itemSlots;
-
+    /**
+     * constructor initialize object in StatusTab and update StatusTab when action
+     */
     public StatusTab() {
 
         setSpacing(15);
@@ -72,6 +76,11 @@ public class StatusTab extends VBox {
         updateStatus();
     }
 
+    /**
+     * show avatar image on right screen
+     *
+     */
+
     private StackPane createAvatarSection() {
         StackPane pane = new StackPane();
         ImageView avatar = new ImageView();
@@ -92,7 +101,10 @@ public class StatusTab extends VBox {
         pane.getChildren().addAll(border, avatar);
         return pane;
     }
-
+    /**
+     * for create bar on every status
+     *
+     */
     private VBox createBar(String name, String color) {
         Label nLabel = new Label("> " + name);
         nLabel.setTextFill(Color.WHITE);
@@ -118,7 +130,10 @@ public class StatusTab extends VBox {
 
         return box;
     }
-
+    /**
+     * for update status bar for every status
+     *
+     */
     public void updateStatus() {
         BasePlayer player = GameSession.getPlayer();
         if (player == null) return;
@@ -140,6 +155,11 @@ public class StatusTab extends VBox {
 
         updateInventoryDisplay(player.getItemManager());
     }
+
+    /**
+     * for update Inventory Display bar for every Item
+     *
+     */
 
     private void updateInventoryDisplay(Item itemManager) {
         if (itemManager == null) return;
@@ -167,6 +187,12 @@ public class StatusTab extends VBox {
             }
         }
     }
+
+    /**
+     * for control increase and decrease bar on status tab
+     * @param bar
+     * @param newValue
+     */
 
     private void animateBar(ProgressBar bar, double newValue) {
         Timeline tl = new Timeline(new KeyFrame(Duration.millis(300), new KeyValue(bar.progressProperty(), newValue)));

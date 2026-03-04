@@ -9,6 +9,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * Gamebar on top screen to use method of this game
+ */
+
+
 public class Gamebar extends BorderPane {
 
     private Button go_back;
@@ -16,6 +21,10 @@ public class Gamebar extends BorderPane {
     private Button action;
     private Button musicToggle;
     private Label roundLabel;
+
+    /**
+     * constructor initialize object in Gamebar
+     */
 
     public Gamebar(){
 
@@ -46,26 +55,47 @@ public class Gamebar extends BorderPane {
         centerBox.setAlignment(Pos.CENTER);
         setCenter(centerBox);
     }
-
+    /**
+     * update game round when endRound
+     */
     public void updateRound(int current, int max){
         roundLabel.setText("Round: " + current + "/" + max);
     }
 
+    /**
+     * get go_back button
+     */
     public Button getGo_back() {
         return go_back;
     }
+
+    /**
+     * get End_round button
+     */
 
     public Button getEnd_round() {
         return end_round;
     }
 
+    /**
+     * get Action button
+     */
+
     public Button getAction() {
         return action;
     }
 
+    /**
+     * set ActionVisible button
+     */
+
     public void setActionVisible(boolean visible){
         action.setDisable(!visible);
     }
+
+    /**
+     * set thread Action button
+     */
 
     public void setOnActionClick(Runnable r) {
         action.setOnAction(e -> r.run());

@@ -2,6 +2,10 @@ package Logic;
 
 import Character.BasePlayer;
 
+/**
+ * this class connect between PlayerCreate and GamePane
+ */
+
 public class GameSession {
 
     private static BasePlayer player;
@@ -13,29 +17,45 @@ public class GameSession {
     // ===== Player baseline =====
     private static int initialStamina = 0;
 
+    /**
+     * set BasePlayer and set round of this game
+     */
+
     public static void setBasePlayer(BasePlayer p){
         player = p;
         round = 1;
         initialStamina = (p != null) ? p.getStamina() : 0;
     }
-
+    /**
+     * get BasePlayer
+     */
     public static BasePlayer getPlayer(){
         return player;
     }
 
+    /**
+     * get Round
+     */
+
     public static int getRound(){
         return round;
     }
-
+    /**
+     * get getMaxRound
+     */
     public static int getMaxRounds(){
         return MAX_ROUNDS;
     }
-
+    /**
+     * get initialStamina
+     */
     public static int getInitialStamina(){
         return initialStamina;
     }
 
-
+    /**
+     * check condition round
+     */
 
     public static void advanceRound(){
         if(round < MAX_ROUNDS){
@@ -43,6 +63,9 @@ public class GameSession {
         }
     }
 
+    /**
+     * check last round
+     */
 
     public static boolean isLastRound(){
         return round >= MAX_ROUNDS;

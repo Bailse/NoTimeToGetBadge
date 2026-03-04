@@ -7,12 +7,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * "Production-grade" unit tests for BasePlayer logic.
- * Uses a lightweight test subclass to avoid UI concerns.
+ * Test Class for checking basePlayer
  */
 public class BasePlayerProductionTest {
 
-    /** Minimal player for deterministic logic testing. */
+
+
     static class TestPlayer extends BasePlayer {
         public TestPlayer(int stamina, int money, int education, int health,
                           double moneyDiscount, double educationMultiply,
@@ -72,6 +72,7 @@ public class BasePlayerProductionTest {
         // cost = staminaDecrease * 0.5 => 5
         assertEquals(before - 5, p.getStamina());
     }
+
 
     @Test
     void maxUnlockedLevelNeverNegative() {

@@ -10,8 +10,15 @@ import Screen.ScreenManager;
 import Audio.SoundManager;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.*;
-
+/**
+ * GameScreen set Layer and placing of this game
+ */
 public class GameScreen extends VBox {
+
+    /**
+     * constructor initialize object in GameScreen and update gameScreen when action
+     */
+
 
     public GameScreen(ScreenManager game) {
         GymPopup.resetAllGymService();
@@ -84,7 +91,9 @@ public class GameScreen extends VBox {
 
         getChildren().add(mainArea);
     }
-
+    /**
+     * Control Screen when logic is active
+     */
     private void handleEndRound(ScreenManager game, Gamebar topbar, GamePane gamePane, StatusTab statusTab){
         BasePlayer player = GameSession.getPlayer();
         if(player == null) return;

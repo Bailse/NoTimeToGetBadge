@@ -7,9 +7,15 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * Main class to start application
+ */
 
 public class main extends Application {
 
+    /**
+     * initialize start screen to begin game
+     */
     @Override
     public void start(Stage TitleStage) throws Exception {
 
