@@ -19,10 +19,9 @@ import javafx.scene.image.ImageView;
 import java.util.*;
 
 import Character.BasePlayer;
-import Logic.MapCreate;
 
 /**
- * this clas this for setup game logic and map logic
+ * this class this for setup game logic and map logic
  */
 public class GamePane extends Pane {
 
@@ -39,7 +38,7 @@ public class GamePane extends Pane {
     private Runnable onStatusChange;
     private int playerRow = 2;
     private int playerCol = 7;
-    private ImageView player;
+    private ImageView playerImage;
     private boolean isMoving = false;
     private Building[][] bmap;
     private int[][] map = {
@@ -82,21 +81,21 @@ public class GamePane extends Pane {
 
         drawMap();
 
-        BasePlayer sessionPlayer = GameSession.getPlayer();
+        
 
-        if(sessionPlayer != null && sessionPlayer.getImagePath() != null){
-            player = new ImageView(imgDown);
+        if(playerType != null && playerType.getImagePath() != null){
+            playerImage = new ImageView(imgDown);
 
         }else{
-            player = new ImageView(imgDown);
+            playerImage = new ImageView(imgDown);
         }
-        player.setFitWidth(TILE_SIZE+20);
-        player.setFitHeight(TILE_SIZE+20);
+        playerImage.setFitWidth(TILE_SIZE+20);
+        playerImage.setFitHeight(TILE_SIZE+20);
 
         updatePlayerPosition();
 
 
-        this.getChildren().add(player);
+        this.getChildren().add(playerImage);
 
         clickablePath();
 
@@ -130,7 +129,7 @@ public class GamePane extends Pane {
     public GamePane(String avatarPath){
         this();
         if(avatarPath != null){
-            player.setImage(imgDown);
+            playerImage.setImage(imgDown);
         }
     }
 
@@ -286,22 +285,22 @@ public class GamePane extends Pane {
         int[] next = path.remove(0);
 
         if (next[0] > playerRow) {
-            player.setImage(imgDown);
+            playerImage.setImage(imgDown);
         } else if (next[0] < playerRow) {
-            player.setImage(imgUp);
+            playerImage.setImage(imgUp);
         } else if (next[1] > playerCol) {
-            player.setImage(imgRight);
+            playerImage.setImage(imgRight);
         } else if (next[1] < playerCol) {
-            player.setImage(imgLeft);
+            playerImage.setImage(imgLeft);
         }
 
 
         TranslateTransition move = new TranslateTransition();
-        move.setNode(player);
+        move.setNode(playerImage);
         move.setDuration(Duration.seconds(0.15));
 
-        double offsetX = (TILE_SIZE - player.getFitWidth()) / 2.0;
-        double offsetY = (TILE_SIZE - player.getFitHeight()) / 2.0;
+        double offsetX = (TILE_SIZE - playerImage.getFitWidth()) / 2.0;
+        double offsetY = (TILE_SIZE - playerImage.getFitHeight()) / 2.0;
         
         move.setToX(next[1] * TILE_SIZE + offsetX);
         move.setToY(next[0] * TILE_SIZE + offsetY);
@@ -373,7 +372,7 @@ public class GamePane extends Pane {
         playerRow = 2;
         playerCol = 7;
 
-        if (player != null) {
+        if (playerImage != null) {
             updatePlayerPosition();
         }
 
@@ -453,7 +452,7 @@ public class GamePane extends Pane {
     /**
      * get Player from GameSession
      */
-    public BasePlayer getPlayer() {
+    public BasePlayer getPlayerImage() {
         return GameSession.getPlayer();
     }
     /**
@@ -461,13 +460,13 @@ public class GamePane extends Pane {
      */
     public void addItem(String itemName) {
 
-        if (getPlayer() == null) return;
+        if (getPlayerImage() == null) return;
 
         if (itemName.equals("Whey Protein")) {
-            getPlayer().getItemManager().addItem(new Item.WheyProtein());
+            getPlayerImage().getItemManager().addItem(new Item.WheyProtein());
         }
         else if(itemName.equals("CAR")){
-            getPlayer().getItemManager().addItem(new Item.Vehicle());
+            getPlayerImage().getItemManager().addItem(new Item.Vehicle());
         }
 
         if (onStatusChange != null) onStatusChange.run();
@@ -499,11 +498,11 @@ public class GamePane extends Pane {
      */
 
     private void updatePlayerPosition() {
-        double offsetX = (TILE_SIZE - player.getFitWidth()) / 2.0;
-        double offsetY = (TILE_SIZE - player.getFitHeight()) / 2.0;
+        double offsetX = (TILE_SIZE - playerImage.getFitWidth()) / 2.0;
+        double offsetY = (TILE_SIZE - playerImage.getFitHeight()) / 2.0;
 
-        player.setTranslateX(playerCol * TILE_SIZE + offsetX);
-        player.setTranslateY(playerRow * TILE_SIZE + offsetY);
+        playerImage.setTranslateX(playerCol * TILE_SIZE + offsetX);
+        playerImage.setTranslateY(playerRow * TILE_SIZE + offsetY);
     }
     
 
