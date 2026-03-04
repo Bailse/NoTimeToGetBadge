@@ -17,7 +17,7 @@ public class Chula extends Building {
     }
 
     /**
-     * Opens the popup screen for this building.
+     * Opens the Chula popup screen.
      */
     @Override
     public void interact(GamePane gamePane) {

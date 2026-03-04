@@ -18,7 +18,7 @@ public class Dome extends Building {
     }
 
     /**
-     * Opens the popup screen for this building.
+     * Opens the Dome popup screen.
      */
     @Override
     public void interact(GamePane gamePane) {

@@ -77,7 +77,7 @@ public class RestaurantPopup implements Shopable, Normal {
     }
 
     /**
-     * Opens the popup window.
+     * Opens the Restaurant popup window and allows the player to purchase a food.
      */
     public static void show(GamePane gamePane) {
         BasePlayer p = gamePane.getPlayer();

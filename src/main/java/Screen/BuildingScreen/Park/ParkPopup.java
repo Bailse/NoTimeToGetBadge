@@ -79,7 +79,7 @@ public class ParkPopup implements Shopable, Normal {
     }
 
     /**
-     * Opens the popup window.
+     * Opens the park popup window and allows the player to walk or relax.
      */
     public static void show(GamePane gamePane) {
         BasePlayer p = gamePane.getPlayer();

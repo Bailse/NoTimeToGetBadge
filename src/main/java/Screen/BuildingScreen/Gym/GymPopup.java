@@ -126,7 +126,7 @@ public class GymPopup implements Shopable, Normal {
     }
 
     /**
-     * Opens the popup window.
+     * Opens the travel gym window and allows the player to purchase  a unique protein item.
      */
     public static void show(GamePane gamePane) {
         BasePlayer p = gamePane.getPlayer();

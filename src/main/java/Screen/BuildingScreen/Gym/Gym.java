@@ -18,7 +18,7 @@ public class Gym extends Building {
     }
 
     /**
-     * Opens the popup screen for this building.
+     * Opens the Gym popup screen.
      */
     @Override
     public void interact(GamePane gamePane) {

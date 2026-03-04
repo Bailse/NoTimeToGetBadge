@@ -107,7 +107,7 @@ public class MallPopup implements Shopable, Normal {
     }
 
     /**
-     * Opens the popup window.
+     * Opens the mall popup window and allows the player to buy an item.
      */
     public static void show(GamePane gamePane) {
         BasePlayer p = gamePane.getPlayer();
