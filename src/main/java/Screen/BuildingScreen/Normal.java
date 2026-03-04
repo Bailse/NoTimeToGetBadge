@@ -1,6 +1,6 @@
 package Screen.BuildingScreen;
 
-import Logic.GamePane;
+import Logic.GamePaneImage;
 import javafx.animation.ScaleTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -23,7 +23,7 @@ public interface Normal {
      * Creates a base popup layout with a title header and a footer area.
      * The footer can show an EXIT button, optional action button, and player stats labels.
      */
-    default BorderPane createBaseLayout(Stage stage, GamePane gamePane, String titleText, Color titleColor,
+    default BorderPane createBaseLayout(Stage stage, GamePaneImage gamePane, String titleText, Color titleColor,
                                         String actionBtnText, String actionBtnColor, Runnable actionEffect,
                                         Runnable refreshUI, Label... statsLabels) {
 

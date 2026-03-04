@@ -1,3 +1,6 @@
+/**
+ * Package for all character class
+ */
 package Character;
 
 import Item.Item;

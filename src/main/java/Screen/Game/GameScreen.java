@@ -1,14 +1,13 @@
 package Screen.Game;
 
 import Character.BasePlayer;
-import Logic.GamePane;
+import Logic.GamePaneImage;
 import Logic.GameSession;
 import Screen.BuildingScreen.Building;
 import Screen.BuildingScreen.Gym.GymPopup;
 import Screen.BuildingScreen.Mall.MallPopup;
 import Screen.ScreenManager;
 import Audio.SoundManager;
-import javafx.scene.control.Alert;
 import javafx.scene.layout.*;
 /**
  * GameScreen set Layer and placing of this game
@@ -52,7 +51,7 @@ public class GameScreen extends VBox {
         mainArea.getRowConstraints().add(row);
 
         // GamePane (map)
-        GamePane gamePane = new GamePane(GameSession.getPlayer() != null ? GameSession.getPlayer().getImagePath() : null);
+        GamePaneImage gamePane = new GamePaneImage(GameSession.getPlayer() != null ? GameSession.getPlayer().getImagePath() : null);
 
         // Status
         VBox statusArea = new VBox();
@@ -94,7 +93,7 @@ public class GameScreen extends VBox {
     /**
      * Control Screen when logic is active
      */
-    private void handleEndRound(ScreenManager game, Gamebar topbar, GamePane gamePane, StatusTab statusTab){
+    private void handleEndRound(ScreenManager game, Gamebar topbar, GamePaneImage gamePane, StatusTab statusTab){
         BasePlayer player = GameSession.getPlayer();
         if(player == null) return;
 

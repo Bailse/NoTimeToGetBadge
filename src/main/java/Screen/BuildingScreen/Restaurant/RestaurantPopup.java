@@ -1,8 +1,7 @@
 package Screen.BuildingScreen.Restaurant;
 
-import Logic.GameSession;
+import Logic.GamePaneImage;
 import Screen.BuildingScreen.ShopItem;
-import Logic.GamePane;
 import Character.BasePlayer;
 import Screen.BuildingScreen.Normal;
 import Screen.BuildingScreen.Shopable;
@@ -16,8 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import static Screen.UI.ToastUtil.showToast;
 
 /**
  * Popup screen for buying food and working at the restaurant.
@@ -68,8 +65,8 @@ public class RestaurantPopup implements Shopable, Normal {
          * Applies the food effect to the player (cost money, gain stamina/health).
          */
         @Override
-        public void execute(GamePane gamePane) {
-            BasePlayer p = gamePane.getPlayer();
+        public void execute(GamePaneImage gamePane) {
+            BasePlayer p = gamePane.getPlayerImage();
             p.setStamina((int)p.getStamina() + staminaGain);
             p.setHealth((int)p.getHealth() + healthGain);
             p.setMoney((int)p.getMoney()-price);
@@ -79,8 +76,8 @@ public class RestaurantPopup implements Shopable, Normal {
     /**
      * Opens the Restaurant popup window and allows the player to purchase a food.
      */
-    public static void show(GamePane gamePane) {
-        BasePlayer p = gamePane.getPlayer();
+    public static void show(GamePaneImage gamePane) {
+        BasePlayer p = gamePane.getPlayerImage();
 
         RestaurantPopup popup = new RestaurantPopup();
         Stage stage = new Stage();

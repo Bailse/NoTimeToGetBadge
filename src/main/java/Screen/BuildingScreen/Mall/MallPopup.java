@@ -1,9 +1,8 @@
 package Screen.BuildingScreen.Mall;
 
 import Character.BasePlayer;
-import Logic.GameSession;
+import Logic.GamePaneImage;
 import Screen.BuildingScreen.ShopItem;
-import Logic.GamePane;
 import Character.Otaku;
 import Screen.BuildingScreen.Normal;
 import Screen.BuildingScreen.Shopable;
@@ -88,8 +87,8 @@ public class MallPopup implements Shopable, Normal {
          * Applies the selected mall item to the player.
          */
         @Override
-        public void execute(GamePane gamePane) {
-            BasePlayer player = gamePane.getPlayer();
+        public void execute(GamePaneImage gamePane) {
+            BasePlayer player = gamePane.getPlayerImage();
             if (player.getMoney() >= price) {
                 if (this.isUnique) {
                     if (!soldOut) {
@@ -109,8 +108,8 @@ public class MallPopup implements Shopable, Normal {
     /**
      * Opens the mall popup window and allows the player to buy an item.
      */
-    public static void show(GamePane gamePane) {
-        BasePlayer p = gamePane.getPlayer();
+    public static void show(GamePaneImage gamePane) {
+        BasePlayer p = gamePane.getPlayerImage();
         MallPopup popup = new MallPopup();
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);

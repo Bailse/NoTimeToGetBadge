@@ -23,7 +23,7 @@ import Character.BasePlayer;
 /**
  * this class this for setup game logic and map logic
  */
-public class GamePane extends Pane {
+public class GamePaneImage extends Pane {
 
     private MapCreate MapCreate;
     private final int TILE_SIZE = 40;
@@ -66,7 +66,7 @@ public class GamePane extends Pane {
     /**
      * constructor class to initialize playerPosition , player Image , map Image , map Location , map Logic
      */
-    public GamePane() {
+    public GamePaneImage() {
 
         setImgLeft();
         setImgDown();
@@ -126,21 +126,13 @@ public class GamePane extends Pane {
      *
      */
 
-    public GamePane(String avatarPath){
+    public GamePaneImage(String avatarPath){
         this();
         if(avatarPath != null){
             playerImage.setImage(imgDown);
         }
     }
 
-    /**
-     * get currentBuilding to get type of building
-     *
-     */
-
-    public Building getCurrentBuilding() {
-        return bmap[playerRow][playerCol];
-    }
 
     /**
      * Draw map and set logic to each TILE
@@ -388,6 +380,66 @@ public class GamePane extends Pane {
         return isMoving;
     }
 
+
+    /**
+     * add item to player
+     */
+    public void addItem(String itemName) {
+
+        if (getPlayerImage() == null) return;
+
+        if (itemName.equals("Whey Protein")) {
+            getPlayerImage().getItemManager().addItem(new Item.WheyProtein());
+        }
+        else if(itemName.equals("CAR")){
+            getPlayerImage().getItemManager().addItem(new Item.Vehicle());
+        }
+
+        if (onStatusChange != null) onStatusChange.run();
+
+    }
+    /**
+     * update item on status bar that change to active or upgrade (education thing)
+     */
+    public void updateEducationItem(int level) {
+        BasePlayer p = GameSession.getPlayer();
+        if (p == null) return;
+
+        Item.BaseItem newBook;
+        // เลือกเล่มหนังสือตาม levelIndex (0-3)
+        switch (level) {
+            case 1:  newBook = new Item.Book2(); break;
+            case 2:  newBook = new Item.Book3(); break;
+            case 3:  newBook = new Item.Book4(); break;
+            default: newBook = new Item.Book1(); break;
+        }
+
+        p.getItemManager().addItem(newBook);
+
+        if (onStatusChange != null) onStatusChange.run();
+    }
+
+    /**
+     * update playerPosition
+     */
+
+    private void updatePlayerPosition() {
+        double offsetX = (TILE_SIZE - playerImage.getFitWidth()) / 2.0;
+        double offsetY = (TILE_SIZE - playerImage.getFitHeight()) / 2.0;
+
+        playerImage.setTranslateX(playerCol * TILE_SIZE + offsetX);
+        playerImage.setTranslateY(playerRow * TILE_SIZE + offsetY);
+    }
+
+    /**
+     * get currentBuilding to get type of building
+     *
+     */
+
+    public Building getCurrentBuilding() {
+        return bmap[playerRow][playerCol];
+    }
+
     /**
      * set player imageDown from gameSession
      */
@@ -455,56 +507,6 @@ public class GamePane extends Pane {
     public BasePlayer getPlayerImage() {
         return GameSession.getPlayer();
     }
-    /**
-     * add item to player
-     */
-    public void addItem(String itemName) {
-
-        if (getPlayerImage() == null) return;
-
-        if (itemName.equals("Whey Protein")) {
-            getPlayerImage().getItemManager().addItem(new Item.WheyProtein());
-        }
-        else if(itemName.equals("CAR")){
-            getPlayerImage().getItemManager().addItem(new Item.Vehicle());
-        }
-
-        if (onStatusChange != null) onStatusChange.run();
-
-    }
-    /**
-     * update item on status bar that change to active or upgrade (education thing)
-     */
-    public void updateEducationItem(int level) {
-        BasePlayer p = GameSession.getPlayer();
-        if (p == null) return;
-
-        Item.BaseItem newBook;
-        // เลือกเล่มหนังสือตาม levelIndex (0-3)
-        switch (level) {
-            case 1:  newBook = new Item.Book2(); break;
-            case 2:  newBook = new Item.Book3(); break;
-            case 3:  newBook = new Item.Book4(); break;
-            default: newBook = new Item.Book1(); break;
-        }
-
-        p.getItemManager().addItem(newBook);
-
-        if (onStatusChange != null) onStatusChange.run();
-    }
-
-    /**
-     * update playerPosition
-     */
-
-    private void updatePlayerPosition() {
-        double offsetX = (TILE_SIZE - playerImage.getFitWidth()) / 2.0;
-        double offsetY = (TILE_SIZE - playerImage.getFitHeight()) / 2.0;
-
-        playerImage.setTranslateX(playerCol * TILE_SIZE + offsetX);
-        playerImage.setTranslateY(playerRow * TILE_SIZE + offsetY);
-    }
-    
 
 
 }
