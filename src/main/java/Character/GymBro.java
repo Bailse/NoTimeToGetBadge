@@ -25,7 +25,7 @@ public class GymBro extends  BasePlayer{
                 2,
                 50
         );
-        setImagePath("/Avatar/Gymbro/GymBroPic.png");
+        setImagePath("/Avatar/Gymbro/GymbroPic.png");
         setImgUp(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Avatar/Gymbro/Gymbro_up.png"))));
         setImgDown(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Avatar/Gymbro/Gymbro_down.png"))));
         setImgRight(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Avatar/Gymbro/Gymbro_right.png"))));

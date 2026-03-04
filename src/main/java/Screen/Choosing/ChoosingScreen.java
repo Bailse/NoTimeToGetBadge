@@ -28,7 +28,7 @@ import Character.*;
 public class ChoosingScreen extends BorderPane {
 
     private final String[] avatarPaths = new String[]{
-            "/Avatar/Gymbro/GymBroPic.png",
+            "/Avatar/Gymbro/GymbroPic.png",
             "/Avatar/Nerd/NerdPic.png",
             "/Avatar/Otaku/OtakuPic.png",
             "/Avatar/Normal/NormalPic.png"
